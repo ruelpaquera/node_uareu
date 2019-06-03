@@ -112,4 +112,3 @@ void Enrollment(DPFPDD_DEV hReader, int dpi){
 		}
 	}
 }
-
