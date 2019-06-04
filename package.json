@@ -11,6 +11,10 @@
   "keywords": [
     "uareu fingerprint"
   ],
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
   "author": "Rongky P. Rongcales, Ruel Paquera Jr.",
   "license": "ISC",
   "dependencies": {
