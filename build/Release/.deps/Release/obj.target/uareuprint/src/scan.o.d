@@ -2,18 +2,16 @@ cmd_Release/obj.target/uareuprint/src/scan.o := g++ '-DNODE_GYP_MODULE_NAME=uare
 Release/obj.target/uareuprint/src/scan.o: ../src/scan.cpp \
  /home/ruel/.node-gyp/8.16.0/include/node/zlib.h \
  /home/ruel/.node-gyp/8.16.0/include/node/zconf.h ../src/helpers.h \
- ../Include/dpfpdd.h ../Include/dpfj.h ../Include/dpfj_compression.h \
- ../Include/dpfj_quality.h /home/ruel/.node-gyp/8.16.0/include/node/v8.h \
+ ../Include/dpfj.h ../Include/dpfpdd.h \
+ /home/ruel/.node-gyp/8.16.0/include/node/v8.h \
  /home/ruel/.node-gyp/8.16.0/include/node/v8-version.h \
  /home/ruel/.node-gyp/8.16.0/include/node/v8config.h
 ../src/scan.cpp:
 /home/ruel/.node-gyp/8.16.0/include/node/zlib.h:
 /home/ruel/.node-gyp/8.16.0/include/node/zconf.h:
 ../src/helpers.h:
-../Include/dpfpdd.h:
 ../Include/dpfj.h:
-../Include/dpfj_compression.h:
-../Include/dpfj_quality.h:
+../Include/dpfpdd.h:
 /home/ruel/.node-gyp/8.16.0/include/node/v8.h:
 /home/ruel/.node-gyp/8.16.0/include/node/v8-version.h:
 /home/ruel/.node-gyp/8.16.0/include/node/v8config.h:

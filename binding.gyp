@@ -1,7 +1,7 @@
 {
     "targets": [{
         "target_name": "uareuprint",
-		"sources": [ "src/fingerprint.cpp","src/scan.cpp" ],
+		"sources": [ "src/fingerprint.cpp" , "src/scan.cpp" , "src/selection.cpp" ],
         "include_dirs": [
             "<!(node -e \"require('nan')\")",
             "<!(pkg-config --cflags zlib)",

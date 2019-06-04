@@ -1,7 +1,7 @@
 {
-  "name": "uareu",
+  "name": "node_uareu",
   "version": "1.0.0",
-  "description": "Node for uareu biometric modules. fuck you ruel",
+  "description": " U.are.U biometric for Node modules. fuck you ruel",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

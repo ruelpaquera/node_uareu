@@ -99,7 +99,8 @@ INCS_Release := \
 
 OBJS := \
 	$(obj).target/$(TARGET)/src/fingerprint.o \
-	$(obj).target/$(TARGET)/src/scan.o
+	$(obj).target/$(TARGET)/src/scan.o \
+	$(obj).target/$(TARGET)/src/selection.o
 
 # Add to the list of files we specially track dependencies for.
 all_deps += $(OBJS)

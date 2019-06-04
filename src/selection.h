@@ -1,13 +1,3 @@
-/* 
- * Copyright (C) 2011, Digital Persona, Inc.
- *
- * This file is a part of sample code for the UareU SDK 2.x.
- */
+#include <nan.h>
 
-#pragma once
-
-#include <dpfpdd.h>
-
-#include <stddef.h>
-
-DPFPDD_DEV SelectAndOpenReader(char* szReader, size_t nReaderLen,int *pDPI);
+Nan::NAN_METHOD_RETURN_TYPE selectfpd(Nan::NAN_METHOD_ARGS_TYPE info);
