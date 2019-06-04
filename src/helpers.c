@@ -160,20 +160,20 @@ int CaptureFinger(DPFPDD_DEV hReader, int bStream){
 
 		if(0 == bStream){
 			//capture fingerprint
-			printf("Put your finger on the reader, or press Ctrl-C to cancel...\r\n");
+			//printf("Put your finger on the reader, or press Ctrl-C to cancel...\r\n");
 			result = dpfpdd_capture(hReader, &cparam, -1, &cresult, &nImageSize, pImage);
 			if(DPFPDD_SUCCESS != result){
-				print_error("dpfpdd_capture()", result);
+				//print_error("dpfpdd_capture()", result);
 			}
 			else{
 				if(cresult.success){
-					//captured
-					printf("    fingerprint captured\n");
-					printf("    width: %d, height: %d \n\n", cresult.info.width, cresult.info.height);
+					//captured 
+					// printf("    fingerprint captured\n");
+					// printf("    width: %d, height: %d \n\n", cresult.info.width, cresult.info.height);
 				}
 				else if(DPFPDD_QUALITY_CANCELED == cresult.quality){
 					//capture canceled
-					printf("    fingerprint capture canceled\n");
+					// printf("    fingerprint capture canceled\n");
 					result = EINTR;
 				}
 				else{
