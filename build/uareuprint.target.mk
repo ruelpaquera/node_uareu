@@ -99,7 +99,7 @@ INCS_Release := \
 
 OBJS := \
 	$(obj).target/$(TARGET)/src/fingerprint.o \
-	$(obj).target/$(TARGET)/src/scan.o \
+	$(obj).target/$(TARGET)/src/identify.o \
 	$(obj).target/$(TARGET)/src/selection.o
 
 # Add to the list of files we specially track dependencies for.
@@ -137,7 +137,7 @@ LDFLAGS_Release := \
 	-m64
 
 LIBS := \
-	-lz \
+	 \
 	-LInclude/dpfpdd.h \
 	-LInclude/dpfj.h \
 	-LInclude/dpfj_quality.h \

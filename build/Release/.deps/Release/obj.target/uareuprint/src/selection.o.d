@@ -29,7 +29,8 @@ Release/obj.target/uareuprint/src/selection.o: ../src/selection.cpp \
  ../node_modules/nan/nan_private.h \
  ../node_modules/nan/nan_typedarray_contents.h \
  ../node_modules/nan/nan_json.h ../src/selection.h ../src/helpers.h \
- ../Include/dpfj.h ../Include/dpfpdd.h
+ ../Include/dpfpdd.h ../Include/dpfj.h ../Include/dpfj_compression.h \
+ ../Include/dpfj_quality.h
 ../src/selection.cpp:
 ../src/fingerprint.h:
 ../node_modules/nan/nan.h:
@@ -64,5 +65,7 @@ Release/obj.target/uareuprint/src/selection.o: ../src/selection.cpp \
 ../node_modules/nan/nan_json.h:
 ../src/selection.h:
 ../src/helpers.h:
-../Include/dpfj.h:
 ../Include/dpfpdd.h:
+../Include/dpfj.h:
+../Include/dpfj_compression.h:
+../Include/dpfj_quality.h:

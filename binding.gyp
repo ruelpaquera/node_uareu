@@ -1,10 +1,10 @@
 {
     "targets": [{
         "target_name": "uareuprint",
-		"sources": [ "src/fingerprint.cpp" , "src/scan.cpp" , "src/selection.cpp" ],
+		"sources": [ "src/fingerprint.cpp" , "src/identify.cpp" , "src/selection.cpp" ],
         "include_dirs": [
             "<!(node -e \"require('nan')\")",
-            "<!(pkg-config --cflags zlib)",
+            "<!(node -e \"require('zlib')\")",   
             "-L/usr/lib", 
             "Include",
             "-LInclude/dpfpdd.h",
@@ -13,7 +13,7 @@
             "-LInclude/dpfj_compression.h" 
         ],
         "libraries": [
-			"<!(pkg-config --libs-only-l zlib)",
+            "<!(node -e \"require('zlib')\")", 
             "-LInclude/dpfpdd.h",
             "-LInclude/dpfj.h",
             "-LInclude/dpfj_quality.h",
