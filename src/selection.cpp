@@ -21,7 +21,7 @@ DPFPDD_DEV GetReader(char* szReader, size_t nReaderLen, int *pDPI){
         while(NULL != pReaderInfo){
 			unsigned int i = 0;
 			for(i = 0; i < nReaderCnt; i++){
-				pReaderInfo[i].size = sizeof(DPFPDD_DEV_INFO);
+				pReaderInfo[i].size = sizeof(DPFPDD_DEV_INFO); 
 			}  
         }
     }
