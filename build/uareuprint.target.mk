@@ -44,6 +44,7 @@ INCS_Debug := \
 	-I/home/ruel/.node-gyp/8.16.0/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I$(srcdir)/. \
+	-I/usr/lib \
 	-I/opt/Crossmatch/urusdk-linux/Include
 
 DEFS_Release := \
@@ -85,12 +86,14 @@ INCS_Release := \
 	-I/home/ruel/.node-gyp/8.16.0/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I$(srcdir)/. \
+	-I/usr/lib \
 	-I/opt/Crossmatch/urusdk-linux/Include
 
 OBJS := \
-	$(obj).target/$(TARGET)/src/fingerprint.o \
+	$(obj).target/$(TARGET)/src/main.o \
 	$(obj).target/$(TARGET)/src/identify.o \
-	$(obj).target/$(TARGET)/src/selection.o
+	$(obj).target/$(TARGET)/src/selection.o \
+	$(obj).target/$(TARGET)/src/helpers.o
 
 # Add to the list of files we specially track dependencies for.
 all_deps += $(OBJS)
@@ -128,7 +131,8 @@ LDFLAGS_Release := \
 
 LIBS := \
 	 \
-	-L/opt/Crossmatch/urusdk-linux/Linux/lib
+	-L/opt/Crossmatch/urusdk-linux/Linux/lib \
+	/usr/lib/libdpfpdd.so
 
 $(obj).target/uareuprint.node: GYP_LDFLAGS := $(LDFLAGS_$(BUILDTYPE))
 $(obj).target/uareuprint.node: LIBS := $(LIBS)

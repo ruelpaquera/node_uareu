@@ -12,6 +12,8 @@
 #include <signal.h>
 #include <sys/time.h>
 
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // error handling
 
@@ -152,14 +154,14 @@ int CaptureFinger(const char* szFingerName, DPFPDD_DEV hReader, int dpi, DPFJ_FM
 				}
 				else{
 					//create template
-					long mseconds;
-					struct timeval tv1, tv2;
-					gettimeofday(&tv1, NULL);
+					long mseconds = 0;
+					//struct timeval tv1, tv2;
+					//gettimeofday(&tv1, NULL);
 
 					result = dpfj_create_fmd_from_fid(DPFJ_FID_ISO_19794_4_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
 
-					gettimeofday(&tv2, NULL);
-					mseconds = (tv2.tv_sec - tv1.tv_sec) * 1000 + (tv2.tv_usec - tv1.tv_usec) / 1000; //time of operation in milliseconds
+					//gettimeofday(&tv2, NULL);
+					//mseconds = (tv2.tv_sec - tv1.tv_sec) * 1000 + (tv2.tv_usec - tv1.tv_usec) / 1000; //time of operation in milliseconds
 
 					if(DPFJ_SUCCESS == result){
 						*ppFt = pFeatures;

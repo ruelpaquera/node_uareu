@@ -4,9 +4,10 @@
   "description": " U.are.U biometric for Node modules. fuck you ruel",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node ./test/test.js",
     "reinstall": "node-gyp build",
-    "install": "node-gyp rebuild"
+    "install": "node-gyp rebuild",
+    "retest": "node-gyp rebuild npm run test"
   },
   "keywords": [
     "uareu fingerprint"

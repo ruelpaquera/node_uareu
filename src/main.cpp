@@ -1,35 +1,30 @@
-#include "fingerprint.h"
+#include "main.h"
 #include "helpers.h"
 #include "identify.h"
 #include "selection.h"
-
-
-#include <dpfpdd.h>
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <errno.h>
-#include <string.h>
-#include <signal.h>
-#include <locale.h>
  
 int initalized = -1;
-
 
 void initModules(){
     sigset_t sigmask;
 	sigfillset(&sigmask);
 	pthread_sigmask(SIG_BLOCK, &sigmask, NULL);
-	
 	setlocale(LC_ALL, "");
     initalized  = dpfpdd_init();
+    printf("\ninitalized %d" ,initalized);
     return;
 }
 
 NAN_METHOD(init)
 {
     initModules();
-
+    while(!initalized){
+        printf("\nseek fp %d" ,initalized);
+        if(initalized == 0){
+            reader();
+            break;
+        }
+    }
     info.GetReturnValue().Set(initalized == 0);
     return;
 }
