@@ -5,7 +5,9 @@
     "default_configuration": "Release",
     "defines": [],
     "include_dirs": [],
-    "libraries": []
+    "libraries": [],
+    "msbuild_toolset": "v141",
+    "msvs_windows_target_platform_version": "10.0.17763.0"
   },
   "variables": {
     "asan": 0,
@@ -69,6 +71,7 @@
     "want_separate_host_toolset": 0,
     "nodedir": "C:\\Users\\tisay\\.node-gyp\\10.13.0",
     "standalone_static_library": 1,
+    "msbuild_path": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\BuildTools\\MSBuild\\15.0\\Bin\\MSBuild.exe",
     "access": "",
     "allow_same_version": "",
     "also": "",

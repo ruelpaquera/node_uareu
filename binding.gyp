@@ -4,7 +4,7 @@
 		"sources": [ "src/fingerprint.cpp" , "src/scan.cpp" , "src/selection.cpp" ],
         "include_dirs": [
             "<!(node -e \"require('nan')\")",
-            "<!(pkg-config --cflags zlib)",
+            "<!(node -e \"require('zlib')\")", 
             "-L/usr/lib", 
             "Include",
             "-LInclude/dpfpdd.h",
@@ -12,8 +12,7 @@
             "-LInclude/dpfj_quality.h",
             "-LInclude/dpfj_compression.h" 
         ],
-        "libraries": [
-			"<!(pkg-config --libs-only-l zlib)",
+        "libraries": [ 
             "-LInclude/dpfpdd.h",
             "-LInclude/dpfj.h",
             "-LInclude/dpfj_quality.h",
