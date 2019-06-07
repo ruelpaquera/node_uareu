@@ -1,15 +1,8 @@
-#include <iomanip>
-#include <sstream>
-#include <zlib.h>
-#include <vector>
-
 #include "fingerprint.h"
 #include "helpers.h"
 #include "identify.h"
 #include "selection.h"
-// #include "verification.h"
-// #include "identification.h"
-// #include "enrollment.h"
+
 
 #include <dpfpdd.h>
 
@@ -19,15 +12,24 @@
 #include <string.h>
 #include <signal.h>
 #include <locale.h>
-
-using namespace v8;
-using namespace std;
-using v8::FunctionTemplate;
-
+ 
 int initalized = -1;
+
+
+void initModules(){
+    sigset_t sigmask;
+	sigfillset(&sigmask);
+	pthread_sigmask(SIG_BLOCK, &sigmask, NULL);
+	
+	setlocale(LC_ALL, "");
+    initalized  = dpfpdd_init();
+    return;
+}
 
 NAN_METHOD(init)
 {
+    initModules();
+
     info.GetReturnValue().Set(initalized == 0);
     return;
 }

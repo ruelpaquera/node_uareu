@@ -44,12 +44,7 @@ INCS_Debug := \
 	-I/home/ruel/.node-gyp/8.16.0/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I$(srcdir)/. \
-	-I$(srcdir)/-L/usr/lib \
-	-I$(srcdir)/Include \
-	-I$(srcdir)/-LInclude/dpfpdd.h \
-	-I$(srcdir)/-LInclude/dpfj.h \
-	-I$(srcdir)/-LInclude/dpfj_quality.h \
-	-I$(srcdir)/-LInclude/dpfj_compression.h
+	-I/opt/Crossmatch/urusdk-linux/Include
 
 DEFS_Release := \
 	'-DNODE_GYP_MODULE_NAME=uareuprint' \
@@ -90,12 +85,7 @@ INCS_Release := \
 	-I/home/ruel/.node-gyp/8.16.0/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I$(srcdir)/. \
-	-I$(srcdir)/-L/usr/lib \
-	-I$(srcdir)/Include \
-	-I$(srcdir)/-LInclude/dpfpdd.h \
-	-I$(srcdir)/-LInclude/dpfj.h \
-	-I$(srcdir)/-LInclude/dpfj_quality.h \
-	-I$(srcdir)/-LInclude/dpfj_compression.h
+	-I/opt/Crossmatch/urusdk-linux/Include
 
 OBJS := \
 	$(obj).target/$(TARGET)/src/fingerprint.o \
@@ -138,10 +128,7 @@ LDFLAGS_Release := \
 
 LIBS := \
 	 \
-	-LInclude/dpfpdd.h \
-	-LInclude/dpfj.h \
-	-LInclude/dpfj_quality.h \
-	-LInclude/dpfj_compression.h
+	-L/opt/Crossmatch/urusdk-linux/Linux/lib
 
 $(obj).target/uareuprint.node: GYP_LDFLAGS := $(LDFLAGS_$(BUILDTYPE))
 $(obj).target/uareuprint.node: LIBS := $(LIBS)

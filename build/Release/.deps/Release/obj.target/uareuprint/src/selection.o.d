@@ -1,4 +1,4 @@
-cmd_Release/obj.target/uareuprint/src/selection.o := g++ '-DNODE_GYP_MODULE_NAME=uareuprint' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DBUILDING_NODE_EXTENSION' -I/home/ruel/.node-gyp/8.16.0/include/node -I/home/ruel/.node-gyp/8.16.0/src -I/home/ruel/.node-gyp/8.16.0/deps/openssl/config -I/home/ruel/.node-gyp/8.16.0/deps/openssl/openssl/include -I/home/ruel/.node-gyp/8.16.0/deps/uv/include -I/home/ruel/.node-gyp/8.16.0/deps/zlib -I/home/ruel/.node-gyp/8.16.0/deps/v8/include -I../node_modules/nan -I../. -I../-L/usr/lib -I../Include -I../-LInclude/dpfpdd.h -I../-LInclude/dpfj.h -I../-LInclude/dpfj_quality.h -I../-LInclude/dpfj_compression.h  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++0x -MMD -MF ./Release/.deps/Release/obj.target/uareuprint/src/selection.o.d.raw   -c -o Release/obj.target/uareuprint/src/selection.o ../src/selection.cpp
+cmd_Release/obj.target/uareuprint/src/selection.o := g++ '-DNODE_GYP_MODULE_NAME=uareuprint' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DBUILDING_NODE_EXTENSION' -I/home/ruel/.node-gyp/8.16.0/include/node -I/home/ruel/.node-gyp/8.16.0/src -I/home/ruel/.node-gyp/8.16.0/deps/openssl/config -I/home/ruel/.node-gyp/8.16.0/deps/openssl/openssl/include -I/home/ruel/.node-gyp/8.16.0/deps/uv/include -I/home/ruel/.node-gyp/8.16.0/deps/zlib -I/home/ruel/.node-gyp/8.16.0/deps/v8/include -I../node_modules/nan -I../. -I/opt/Crossmatch/urusdk-linux/Include  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++0x -MMD -MF ./Release/.deps/Release/obj.target/uareuprint/src/selection.o.d.raw   -c -o Release/obj.target/uareuprint/src/selection.o ../src/selection.cpp
 Release/obj.target/uareuprint/src/selection.o: ../src/selection.cpp \
  ../src/fingerprint.h ../node_modules/nan/nan.h \
  /home/ruel/.node-gyp/8.16.0/include/node/node_version.h \
@@ -28,9 +28,11 @@ Release/obj.target/uareuprint/src/selection.o: ../src/selection.cpp \
  ../node_modules/nan/nan_weak.h ../node_modules/nan/nan_object_wrap.h \
  ../node_modules/nan/nan_private.h \
  ../node_modules/nan/nan_typedarray_contents.h \
- ../node_modules/nan/nan_json.h ../src/selection.h ../src/helpers.h \
- ../Include/dpfpdd.h ../Include/dpfj.h ../Include/dpfj_compression.h \
- ../Include/dpfj_quality.h
+ ../node_modules/nan/nan_json.h \
+ /opt/Crossmatch/urusdk-linux/Include/dpfpdd.h ../src/selection.h \
+ ../src/helpers.h /opt/Crossmatch/urusdk-linux/Include/dpfj.h \
+ /opt/Crossmatch/urusdk-linux/Include/dpfj_compression.h \
+ /opt/Crossmatch/urusdk-linux/Include/dpfj_quality.h
 ../src/selection.cpp:
 ../src/fingerprint.h:
 ../node_modules/nan/nan.h:
@@ -63,9 +65,9 @@ Release/obj.target/uareuprint/src/selection.o: ../src/selection.cpp \
 ../node_modules/nan/nan_private.h:
 ../node_modules/nan/nan_typedarray_contents.h:
 ../node_modules/nan/nan_json.h:
+/opt/Crossmatch/urusdk-linux/Include/dpfpdd.h:
 ../src/selection.h:
 ../src/helpers.h:
-../Include/dpfpdd.h:
-../Include/dpfj.h:
-../Include/dpfj_compression.h:
-../Include/dpfj_quality.h:
+/opt/Crossmatch/urusdk-linux/Include/dpfj.h:
+/opt/Crossmatch/urusdk-linux/Include/dpfj_compression.h:
+/opt/Crossmatch/urusdk-linux/Include/dpfj_quality.h:

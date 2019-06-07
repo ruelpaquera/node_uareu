@@ -32,7 +32,6 @@ DPFPDD_DEV GetReader(char* szReader, size_t nReaderLen, int *pDPI){
 NAN_METHOD(selectfpd) {
 
 
-    
 
-    info.GetReturnValue().Set(initalized == 0);
+    info.GetReturnValue().Set(Nan::New("This is a thing.").ToLocalChecked());
 }
