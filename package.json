@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "node ./test/test.js",
-    "reinstall": "node-gyp build",
-    "install": "node-gyp rebuild",
+    "reinstall": "node-gyp rebuild",
+    "install": "node-gyp build",
     "retest": "node-gyp rebuild npm run test"
   },
   "keywords": [

@@ -87,9 +87,9 @@ DPFPDD_DEV GetReader(char* szReader, size_t nReaderLen, int *pDPI){
 			break;
 		}
 		else printf("\n\nNo readers available\n");
-    }
+    } 
 
-	return;
+	//return nChoice;
 }
 
 void reader(){
@@ -100,7 +100,7 @@ void reader(){
 		snprintf(szItem, sizeof(szItem), "Select new reader (selected: %s)", szReader);
 		printf("\nSelect new reader (selected: %s)", szReader); 
 	}
-	return hReader;
+	//return true;
 }
 
 NAN_METHOD(selectfpd) {

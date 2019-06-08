@@ -12,6 +12,7 @@
             "<!(node -e \"require('zlib')\")", 
             "-L/opt/Crossmatch/urusdk-linux/Linux/lib", 
             "/usr/lib/libdpfpdd.so",
+            "/usr/lib/libdpfj.so",
         ],
         "variables": {
             "node_version": '<!(node --version | sed -e "s/^v\([0-9]*\\.[0-9]*\).*$/\\1/")',

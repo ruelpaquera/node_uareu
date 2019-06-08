@@ -38,13 +38,13 @@ CFLAGS_CC_Debug := \
 	-std=gnu++1y
 
 INCS_Debug := \
-	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/include/node \
-	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/src \
-	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/openssl/config \
-	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/openssl/openssl/include \
-	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/uv/include \
-	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/zlib \
-	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/v8/include \
+	-I/home/ruel/.node-gyp/12.4.0/include/node \
+	-I/home/ruel/.node-gyp/12.4.0/src \
+	-I/home/ruel/.node-gyp/12.4.0/deps/openssl/config \
+	-I/home/ruel/.node-gyp/12.4.0/deps/openssl/openssl/include \
+	-I/home/ruel/.node-gyp/12.4.0/deps/uv/include \
+	-I/home/ruel/.node-gyp/12.4.0/deps/zlib \
+	-I/home/ruel/.node-gyp/12.4.0/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I$(srcdir)/. \
 	-I/usr/lib \
@@ -83,13 +83,13 @@ CFLAGS_CC_Release := \
 	-std=gnu++1y
 
 INCS_Release := \
-	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/include/node \
-	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/src \
-	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/openssl/config \
-	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/openssl/openssl/include \
-	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/uv/include \
-	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/zlib \
-	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/v8/include \
+	-I/home/ruel/.node-gyp/12.4.0/include/node \
+	-I/home/ruel/.node-gyp/12.4.0/src \
+	-I/home/ruel/.node-gyp/12.4.0/deps/openssl/config \
+	-I/home/ruel/.node-gyp/12.4.0/deps/openssl/openssl/include \
+	-I/home/ruel/.node-gyp/12.4.0/deps/uv/include \
+	-I/home/ruel/.node-gyp/12.4.0/deps/zlib \
+	-I/home/ruel/.node-gyp/12.4.0/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I$(srcdir)/. \
 	-I/usr/lib \
@@ -138,7 +138,8 @@ LDFLAGS_Release := \
 LIBS := \
 	 \
 	-L/opt/Crossmatch/urusdk-linux/Linux/lib \
-	/usr/lib/libdpfpdd.so
+	/usr/lib/libdpfpdd.so \
+	/usr/lib/libdpfj.so
 
 $(obj).target/uareuprint.node: GYP_LDFLAGS := $(LDFLAGS_$(BUILDTYPE))
 $(obj).target/uareuprint.node: LIBS := $(LIBS)
