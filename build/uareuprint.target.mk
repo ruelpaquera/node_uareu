@@ -7,8 +7,11 @@ DEFS_Debug := \
 	'-DUSING_UV_SHARED=1' \
 	'-DUSING_V8_SHARED=1' \
 	'-DV8_DEPRECATION_WARNINGS=1' \
+	'-DV8_DEPRECATION_WARNINGS' \
+	'-DV8_IMMINENT_DEPRECATION_WARNINGS' \
 	'-D_LARGEFILE_SOURCE' \
 	'-D_FILE_OFFSET_BITS=64' \
+	'-DOPENSSL_THREADS' \
 	'-DBUILDING_NODE_EXTENSION' \
 	'-DDEBUG' \
 	'-D_DEBUG' \
@@ -32,16 +35,16 @@ CFLAGS_C_Debug :=
 CFLAGS_CC_Debug := \
 	-fno-rtti \
 	-fno-exceptions \
-	-std=gnu++0x
+	-std=gnu++1y
 
 INCS_Debug := \
-	-I/home/ruel/.node-gyp/8.16.0/include/node \
-	-I/home/ruel/.node-gyp/8.16.0/src \
-	-I/home/ruel/.node-gyp/8.16.0/deps/openssl/config \
-	-I/home/ruel/.node-gyp/8.16.0/deps/openssl/openssl/include \
-	-I/home/ruel/.node-gyp/8.16.0/deps/uv/include \
-	-I/home/ruel/.node-gyp/8.16.0/deps/zlib \
-	-I/home/ruel/.node-gyp/8.16.0/deps/v8/include \
+	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/include/node \
+	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/src \
+	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/openssl/config \
+	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/openssl/openssl/include \
+	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/uv/include \
+	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/zlib \
+	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I$(srcdir)/. \
 	-I/usr/lib \
@@ -52,8 +55,11 @@ DEFS_Release := \
 	'-DUSING_UV_SHARED=1' \
 	'-DUSING_V8_SHARED=1' \
 	'-DV8_DEPRECATION_WARNINGS=1' \
+	'-DV8_DEPRECATION_WARNINGS' \
+	'-DV8_IMMINENT_DEPRECATION_WARNINGS' \
 	'-D_LARGEFILE_SOURCE' \
 	'-D_FILE_OFFSET_BITS=64' \
+	'-DOPENSSL_THREADS' \
 	'-DBUILDING_NODE_EXTENSION'
 
 # Flags passed to all source files.
@@ -74,16 +80,16 @@ CFLAGS_C_Release :=
 CFLAGS_CC_Release := \
 	-fno-rtti \
 	-fno-exceptions \
-	-std=gnu++0x
+	-std=gnu++1y
 
 INCS_Release := \
-	-I/home/ruel/.node-gyp/8.16.0/include/node \
-	-I/home/ruel/.node-gyp/8.16.0/src \
-	-I/home/ruel/.node-gyp/8.16.0/deps/openssl/config \
-	-I/home/ruel/.node-gyp/8.16.0/deps/openssl/openssl/include \
-	-I/home/ruel/.node-gyp/8.16.0/deps/uv/include \
-	-I/home/ruel/.node-gyp/8.16.0/deps/zlib \
-	-I/home/ruel/.node-gyp/8.16.0/deps/v8/include \
+	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/include/node \
+	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/src \
+	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/openssl/config \
+	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/openssl/openssl/include \
+	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/uv/include \
+	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/zlib \
+	-I/usr/lib/node_modules/node_uareu/.node-gyp/12.4.0/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I$(srcdir)/. \
 	-I/usr/lib \
