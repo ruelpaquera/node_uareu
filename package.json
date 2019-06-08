@@ -4,9 +4,10 @@
   "description": " U.are.U biometric for Node modules. fuck you ruel",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "reinstall": "node-gyp build",
-    "install": "node-gyp rebuild"
+    "test": "node ./test/test.js",
+    "reinstall": "node-gyp rebuild",
+    "install": "node-gyp build",
+    "retest": "node-gyp rebuild npm run test"
   },
   "keywords": [
     "uareu fingerprint"
@@ -25,6 +26,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:ruelpaquera/node_uareu.git"
+    "url": "git://github.com/ruelpaquera/node_uareu.git#commit-ish"
   }
 }

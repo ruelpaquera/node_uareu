@@ -1,22 +1,21 @@
 {
     "targets": [{
         "target_name": "uareuprint",
-		"sources": [ "src/fingerprint.cpp" , "src/scan.cpp" , "src/selection.cpp" ],
+		"sources": [ "src/main.cpp" , "src/identify.cpp" , "src/selection.cpp" , "src/helpers.cpp" ],
         "include_dirs": [
             "<!(node -e \"require('nan')\")",
             "<!(node -e \"require('zlib')\")", 
-            "-L/usr/lib", 
-            "Include",
-            "-LInclude/dpfpdd.h",
-            "-LInclude/dpfj.h",
-            "-LInclude/dpfj_quality.h",
-            "-LInclude/dpfj_compression.h" 
+            "-IInclude",
+            "./lib",
+            "/opt/Crossmatch/urusdk-linux/Include"
         ],
-        "libraries": [ 
-            "-LInclude/dpfpdd.h",
-            "-LInclude/dpfj.h",
-            "-LInclude/dpfj_quality.h",
-            "-LInclude/dpfj_compression.h"
+        "libraries": [
+            "<!(node -e \"require('zlib')\")", 
+            "-L/opt/Crossmatch/urusdk-linux/Linux/lib", 
+            "-L/Include/dpfpdd.h",
+            "-L/lib/libdpfpdd.so",
+            "-L/lib/libdpfpdd.so",
+            "-L/lib/libdpfj.so",
         ],
         "variables": {
             "node_version": '<!(node --version | sed -e "s/^v\([0-9]*\\.[0-9]*\).*$/\\1/")',
