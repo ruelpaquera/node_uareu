@@ -9,31 +9,31 @@
             "/lib",
         ],
         "conditions": [
-            ["OS in \"linux\"",{
+            ["OS in \"linux\"",{                
+                "include_dirs": [
+                    "<!(node -e \"require('nan')\")",
+                    "<!(node -e \"require('zlib')\")", 
+                    "./Include",
+                    "/usr/lib",
+                    "/opt/Crossmatch/urusdk-linux/Include"
+                ],
                 "libraries": [
                 "<!(node -e \"require('zlib')\")", 
                 "-L/opt/Crossmatch/urusdk-linux/Linux/lib", 
                 "/usr/lib/libdpfpdd.so",
-                ],
-                "include_dirs": [
-                    "<!(node -e \"require('nan')\")",
-                    "<!(node -e \"require('zlib')\")", 
-                    "/Include",
-                    "/lib",
-                    "/opt/Crossmatch/urusdk-linux/Include"
                 ]
             }],
             ["OS in \"win\"",{                
+                "include_dirs": [
+                    "<!(node -e \"require('nan')\")",
+                    "<!(node -e \"require('zlib')\")", 
+                    "./Include",
+                    "./lib"
+                ],         
                 "libraries": [
                     "<!(node -e \"require('zlib')\")",  
                     "-l/Include",
                     "-l/lib"
-                ],
-                "include_dirs": [
-                    "<!(node -e \"require('nan')\")",
-                    "<!(node -e \"require('zlib')\")", 
-                    "/Include",
-                    "/lib"
                 ]
             }]
         ],
