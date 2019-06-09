@@ -10,6 +10,11 @@
 
 int initalized = -1;
 
+
+DPFPDD_DEV _hReader = NULL; //handle of the selected reader
+int _dpi = 0;
+char _szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader
+
 void initModules(){
     sigset_t sigmask;
 	sigfillset(&sigmask);
@@ -32,6 +37,11 @@ NAN_METHOD(init)
     }
     info.GetReturnValue().Set(initalized == 0);
     return;
+}
+
+NAN_METHOD(startScan)
+{
+    Identification(_hReader,_dpi);
 }
 
 NAN_MODULE_INIT(module_init){

@@ -49,7 +49,7 @@ DPFPDD_DEV GetReader(char* szReader, size_t nReaderLen, int *pDPI){
 				continue;
 			}
 
-			printf("\nloop nested while");
+			// printf("\nloop nested while");
 			nReaderCnt = nNewReaderCnt;
 			break;
         }
@@ -65,7 +65,7 @@ DPFPDD_DEV GetReader(char* szReader, size_t nReaderLen, int *pDPI){
 				}
 			}
 
-			printf("  %s\n", pReaderInfo[i].name);
+			// printf("  %s\n", pReaderInfo[i].name);
 			printf("\n");
 			printf("Selected reader:  %s\n", pReaderInfo[nChoice].name);
 			printf("Vendor name:      %s\n", pReaderInfo[nChoice].descr.vendor_name);
@@ -80,7 +80,7 @@ DPFPDD_DEV GetReader(char* szReader, size_t nReaderLen, int *pDPI){
 			int result = dpfpdd_open(pReaderInfo[nChoice].name, &hReader);
 			if(DPFPDD_SUCCESS == result){
 				strncpy(szReader, pReaderInfo[nChoice].name, nReaderLen);
-				printf("\n %s is open \n", pReaderInfo[i].name);
+				// printf("\n %s is open \n", pReaderInfo[i].name);
 				
 				unsigned int nCapsSize = sizeof(DPFPDD_DEV_CAPS);
 
@@ -146,15 +146,13 @@ DPFPDD_DEV GetReader(char* szReader, size_t nReaderLen, int *pDPI){
 	return hReader;
 }
 
-void reader(){
-	hReader = NULL;
+void reader(){ 
 	hReader = GetReader(szReader, sizeof(szReader),&dpi);
 	if(NULL != hReader){
 		char szItem[MAX_DEVICE_NAME_LENGTH + 20]; 
-		snprintf(szItem, sizeof(szItem), "Select new reader (selected: %s)", szReader);
-		printf("\nSelect new reader (selected: %s)", szReader); 
+		snprintf(szItem, sizeof(szItem), "Select new reader (selected: %s)\n", szReader);
+		printf("\nSelected reader (selected: %s)\n", szReader); 
 	}
-	//return true;
 }
 
 NAN_METHOD(selectfpd) {
