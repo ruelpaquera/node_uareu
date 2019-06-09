@@ -2,13 +2,6 @@
     "targets": [{
         "target_name": "uareuprint",
 		"sources": [ "src/main.cpp" , "src/identify.cpp" , "src/selection.cpp" , "src/helpers.cpp" ],
-        "include_dirs": [
-            "<!(node -e \"require('nan')\")",
-            "<!(node -e \"require('zlib')\")", 
-            "<(module_root_dir)/Include",
-            "<(module_root_dir)/lib",
-            "/opt/Crossmatch/urusdk-linux/Include"
-        ],
         "conditions": [
             ["OS=='linux'",{
                 "libraries": [
@@ -16,13 +9,26 @@
                 "-L/opt/Crossmatch/urusdk-linux/Linux/lib", 
                 "/usr/lib/libdpfpdd.so",
                 ],
+                "include_dirs": [
+                    "<!(node -e \"require('nan')\")",
+                    "<!(node -e \"require('zlib')\")", 
+                    "<(module_root_dir)/Include",
+                    "<(module_root_dir)/lib",
+                    "/opt/Crossmatch/urusdk-linux/Include"
+                ],
             }],
             ["OS=='win'",{                
                 "libraries": [
                     "<!(node -e \"require('zlib')\")",  
                     "-l/Include",
                     "-l/lib", 
-                ]
+                ],
+                "include_dirs": [
+                    "<!(node -e \"require('nan')\")",
+                    "<!(node -e \"require('zlib')\")", 
+                    "<(module_root_dir)/Include",
+                    "<(module_root_dir)/lib"
+                ],
             }]
         ],
         "variables": {
