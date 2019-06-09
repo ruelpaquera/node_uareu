@@ -5,17 +5,25 @@
         "include_dirs": [
             "<!(node -e \"require('nan')\")",
             "<!(node -e \"require('zlib')\")", 
-            "-IInclude",
-            "./lib",
+            "<(module_root_dir)/Include",
+            "<(module_root_dir)/lib",
             "/opt/Crossmatch/urusdk-linux/Include"
         ],
-        "libraries": [
-            "<!(node -e \"require('zlib')\")", 
-            "-L/opt/Crossmatch/urusdk-linux/Linux/lib", 
-            "-L/Include/dpfpdd.h",
-            "-L/lib/libdpfpdd.so",
-            "-L/lib/libdpfpdd.so",
-            "-L/lib/libdpfj.so",
+        "conditions": [
+            ["OS=='linux'",{
+                "libraries": [
+                "<!(node -e \"require('zlib')\")", 
+                "-L/opt/Crossmatch/urusdk-linux/Linux/lib", 
+                "/usr/lib/libdpfpdd.so",
+                ],
+            }],
+            ["OS=='win'",{                
+                "libraries": [
+                    "<!(node -e \"require('zlib')\")",  
+                    "-l/Include",
+                    "-l/lib", 
+                ]
+            }]
         ],
         "variables": {
             "node_version": '<!(node --version | sed -e "s/^v\([0-9]*\\.[0-9]*\).*$/\\1/")',
