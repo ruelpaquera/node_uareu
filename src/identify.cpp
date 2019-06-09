@@ -4,6 +4,7 @@
 #include "identify.h"
 
 #include <unistd.h>
+//#include <io.h>
 
 using namespace v8;
 using v8::FunctionTemplate;
@@ -110,27 +111,31 @@ void Identification(DPFPDD_DEV hReaders, int dpi){
  
 
 NAN_METHOD(startScan) {
-    // int returns;
-    IDENTIFY_DATA *pdata;
-    pdata = new IDENTIFY_DATA;
-    DPFPDD_DEV hReaders = NULL; 
-    printf("\ncall startScan\n info length %d\n",info.Length());
+
+
+
+	
+//     // int returns;
+//     IDENTIFY_DATA *pdata;
+//     pdata = new IDENTIFY_DATA;
+//     DPFPDD_DEV hReaders = NULL; 
+//     printf("\ncall startScan\n info length %d\n",info.Length());
  
-    // if(!pdata)
-    //     goto error;
+//     // if(!pdata)
+//     //     goto error;
     
-    pdata->pImage = NULL;
-    pdata->pFmd = 0;
-    pdata->nFmdSize = 0;
+//     pdata->pImage = NULL;
+//     pdata->pFmd = 0;
+//     pdata->nFmdSize = 0;
 
-    Identification(hReaders,0);
-    // uv_async_init(uv_default_loop(), &pdata->async, identify_progress_cb);
-    // pdata->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
-    // Identification(hReader,dpi);
+//     Identification(hReaders,0);
+//     // uv_async_init(uv_default_loop(), &pdata->async, identify_progress_cb);
+//     // pdata->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
+//     // Identification(hReader,dpi);
 
-//     returns = true;
-// error:
-//     info.GetReturnValue().Set(Nan::New(returns));
-//     printf("\nerror return \n");
-//     return;
+// //     returns = true;
+// // error:
+// //     info.GetReturnValue().Set(Nan::New(returns));
+// //     printf("\nerror return \n");
+// //     return;
 }

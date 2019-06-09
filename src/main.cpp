@@ -3,6 +3,11 @@
 #include "identify.h"
 #include "selection.h"
  
+#include <dpfpdd.h>
+#include <dpfj.h>
+#include <dpfj_compression.h>
+#include <dpfj_quality.h>
+
 int initalized = -1;
 
 void initModules(){

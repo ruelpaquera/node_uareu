@@ -12,7 +12,8 @@
 #include <signal.h>
 #include <sys/time.h>
 
-
+#include <dpfpdd.h>
+#include <dpfj.h>
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // error handling
@@ -220,5 +221,3 @@ int CaptureFinger(const char* szFingerName, DPFPDD_DEV hReader, int dpi, DPFJ_FM
 	if(NULL != pImage) free(pImage);
 	return result;
 }
-
-

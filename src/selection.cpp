@@ -1,20 +1,20 @@
-// #include "fingerprint.h"
+#include "main.h"
 #include "helpers.h"
 #include "selection.h"  
 
-// #include <dpfpdd.h>
+#include <dpfpdd.h>
 
-// #include <stdlib.h>
-// #include <stdio.h>
-// #include <errno.h>
-// #include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
 
 DPFPDD_DEV hReader = NULL; //handle of the selected reader
 int dpi = 0;
 char szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader
 
 DPFPDD_DEV GetReader(char* szReader, size_t nReaderLen, int *pDPI){
-	// DPFPDD_DEV hReader = NULL;
+	DPFPDD_DEV hReader = NULL;
 	strncpy(szReader, "", nReaderLen);
 	int bStop = 0;
 	int nChoice = 0;
@@ -61,7 +61,7 @@ DPFPDD_DEV GetReader(char* szReader, size_t nReaderLen, int *pDPI){
 				if(std::to_string(pReaderInfo[i].id.product_id) == "000a" && std::to_string(pReaderInfo[i].id.vendor_id) == "05ba" ){
 					nChoice = i;
 					printf(" loop   %s\n", pReaderInfo[i].name);
-					// break;
+					break;
 				}
 			}
 
@@ -81,15 +81,69 @@ DPFPDD_DEV GetReader(char* szReader, size_t nReaderLen, int *pDPI){
 			if(DPFPDD_SUCCESS == result){
 				strncpy(szReader, pReaderInfo[nChoice].name, nReaderLen);
 				printf("\n %s is open \n", pReaderInfo[i].name);
+				
+				unsigned int nCapsSize = sizeof(DPFPDD_DEV_CAPS);
+
+					while(1){
+						DPFPDD_DEV_CAPS* pCaps = (DPFPDD_DEV_CAPS*)malloc(nCapsSize);
+						if(NULL == pCaps){
+							print_error("malloc()", ENOMEM);
+							break;
+						}
+						pCaps->size = nCapsSize;
+						result = dpfpdd_get_device_capabilities(hReader, pCaps);
+						
+						if(DPFPDD_SUCCESS != result && DPFPDD_E_MORE_DATA != result){
+							print_error("dpfpdd_get_device_capabilities()", result);
+							free(pCaps);
+							break;
+						}
+						if(DPFPDD_E_MORE_DATA == result){
+							nCapsSize = pCaps->size;
+							free(pCaps);
+							continue;
+						}
+						//capabilities acquired, print them out
+						printf("\n");
+						printf("can capture image:       	%d\n", pCaps->can_capture_image);
+						printf("can stream image:        	%d\n", pCaps->can_stream_image);
+						printf("can extract features:    	%d\n", pCaps->can_extract_features);
+						printf("can match:               	%d\n", pCaps->can_match);
+						printf("can identify:             	%d\n", pCaps->can_identify);
+						printf("has fingerprint storage: 	%d\n", pCaps->has_fp_storage);
+						printf("indicator type:        0x%08x\n", pCaps->indicator_type);
+						printf("has power management:    	%d\n", pCaps->has_pwr_mgmt);
+						printf("has calibration:         	%d\n", pCaps->has_calibration);
+						printf("PIV compliant:           	%d\n", pCaps->piv_compliant);
+						unsigned int i = 0;
+						for(i = 0; i < pCaps->resolution_cnt; i++){
+							printf("resolution:              	%d dpi\n", pCaps->resolutions[i]);
+						}
+						*pDPI = pCaps->resolutions[0];
+						free(pCaps);
+						break;
+					}
+
+
 			}
 			else
 				printf("\n %s can't open \n", pReaderInfo[i].name);
 			break;
 		}
 		else printf("\n\nNo readers available\n");
-    } 
 
-	//return nChoice;
+		unsigned int i = 0;
+		for(i = 0; i < nReaderCnt; i++){
+			char szBuffer[1024];
+			snprintf(szBuffer, sizeof(szBuffer), "Select %s", pReaderInfo[i].name);
+			//if(0 == result) result = Menu_AddItem(pMenu, i, szBuffer);
+		}
+		
+		if(NULL != pReaderInfo) free(pReaderInfo);
+		pReaderInfo = NULL;
+		nReaderCnt = 0;
+    }
+	return hReader;
 }
 
 void reader(){
