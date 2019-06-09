@@ -48,7 +48,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\tisay\.node-gyp\10.13.0\include\node;C:\Users\tisay\.node-gyp\10.13.0\src;C:\Users\tisay\.node-gyp\10.13.0\deps\openssl\config;C:\Users\tisay\.node-gyp\10.13.0\deps\openssl\openssl\include;C:\Users\tisay\.node-gyp\10.13.0\deps\uv\include;C:\Users\tisay\.node-gyp\10.13.0\deps\zlib;C:\Users\tisay\.node-gyp\10.13.0\deps\v8\include;..\node_modules\nan;.;C:\meteor\node_uareu\Include;C:\meteor\node_uareu\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\tisay\.node-gyp\10.13.0\include\node;C:\Users\tisay\.node-gyp\10.13.0\src;C:\Users\tisay\.node-gyp\10.13.0\deps\openssl\config;C:\Users\tisay\.node-gyp\10.13.0\deps\openssl\openssl\include;C:\Users\tisay\.node-gyp\10.13.0\deps\uv\include;C:\Users\tisay\.node-gyp\10.13.0\deps\zlib;C:\Users\tisay\.node-gyp\10.13.0\deps\v8\include;..\node_modules\nan;.;..\Include;..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -84,13 +84,13 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>C:\Users\tisay\.node-gyp\10.13.0\include\node;C:\Users\tisay\.node-gyp\10.13.0\src;C:\Users\tisay\.node-gyp\10.13.0\deps\openssl\config;C:\Users\tisay\.node-gyp\10.13.0\deps\openssl\openssl\include;C:\Users\tisay\.node-gyp\10.13.0\deps\uv\include;C:\Users\tisay\.node-gyp\10.13.0\deps\zlib;C:\Users\tisay\.node-gyp\10.13.0\deps\v8\include;..\node_modules\nan;.;C:\meteor\node_uareu\Include;C:\meteor\node_uareu\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\tisay\.node-gyp\10.13.0\include\node;C:\Users\tisay\.node-gyp\10.13.0\src;C:\Users\tisay\.node-gyp\10.13.0\deps\openssl\config;C:\Users\tisay\.node-gyp\10.13.0\deps\openssl\openssl\include;C:\Users\tisay\.node-gyp\10.13.0\deps\uv\include;C:\Users\tisay\.node-gyp\10.13.0\deps\zlib;C:\Users\tisay\.node-gyp\10.13.0\deps\v8\include;..\node_modules\nan;.;..\Include;..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=uareuprint;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;BUILDING_NODE_EXTENSION;DEBUG;_DEBUG;V8_ENABLE_CHECKS;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\tisay\.node-gyp\10.13.0\include\node;C:\Users\tisay\.node-gyp\10.13.0\src;C:\Users\tisay\.node-gyp\10.13.0\deps\openssl\config;C:\Users\tisay\.node-gyp\10.13.0\deps\openssl\openssl\include;C:\Users\tisay\.node-gyp\10.13.0\deps\uv\include;C:\Users\tisay\.node-gyp\10.13.0\deps\zlib;C:\Users\tisay\.node-gyp\10.13.0\deps\v8\include;..\node_modules\nan;.;C:\meteor\node_uareu\Include;C:\meteor\node_uareu\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\tisay\.node-gyp\10.13.0\include\node;C:\Users\tisay\.node-gyp\10.13.0\src;C:\Users\tisay\.node-gyp\10.13.0\deps\openssl\config;C:\Users\tisay\.node-gyp\10.13.0\deps\openssl\openssl\include;C:\Users\tisay\.node-gyp\10.13.0\deps\uv\include;C:\Users\tisay\.node-gyp\10.13.0\deps\zlib;C:\Users\tisay\.node-gyp\10.13.0\deps\v8\include;..\node_modules\nan;.;..\Include;..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <CompileAsWinRT>false</CompileAsWinRT>
@@ -135,7 +135,7 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>C:\Users\tisay\.node-gyp\10.13.0\include\node;C:\Users\tisay\.node-gyp\10.13.0\src;C:\Users\tisay\.node-gyp\10.13.0\deps\openssl\config;C:\Users\tisay\.node-gyp\10.13.0\deps\openssl\openssl\include;C:\Users\tisay\.node-gyp\10.13.0\deps\uv\include;C:\Users\tisay\.node-gyp\10.13.0\deps\zlib;C:\Users\tisay\.node-gyp\10.13.0\deps\v8\include;..\node_modules\nan;.;C:\meteor\node_uareu\Include;C:\meteor\node_uareu\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\tisay\.node-gyp\10.13.0\include\node;C:\Users\tisay\.node-gyp\10.13.0\src;C:\Users\tisay\.node-gyp\10.13.0\deps\openssl\config;C:\Users\tisay\.node-gyp\10.13.0\deps\openssl\openssl\include;C:\Users\tisay\.node-gyp\10.13.0\deps\uv\include;C:\Users\tisay\.node-gyp\10.13.0\deps\zlib;C:\Users\tisay\.node-gyp\10.13.0\deps\v8\include;..\node_modules\nan;.;..\Include;..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=uareuprint;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;BUILDING_NODE_EXTENSION;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>

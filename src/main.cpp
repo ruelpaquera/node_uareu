@@ -6,10 +6,10 @@
 int initalized = -1;
 
 void initModules(){
-    sigset_t sigmask;
-	sigfillset(&sigmask);
-	pthread_sigmask(SIG_BLOCK, &sigmask, NULL);
-	setlocale(LC_ALL, "");
+    // sigset_t sigmask;
+	// sigfillset(&sigmask);
+	// pthread_sigmask(SIG_BLOCK, &sigmask, NULL);
+	// setlocale(LC_ALL, "");
     initalized  = dpfpdd_init();
     printf("\ninitalized %d" ,initalized);
     return;
