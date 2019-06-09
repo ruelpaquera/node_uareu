@@ -5,8 +5,8 @@
         "include_dirs": [
             "<!(node -e \"require('nan')\")",
             "<!(node -e \"require('zlib')\")", 
-            "<(module_root_dir)/Include",
-            "<(module_root_dir)/lib",
+            "/Include",
+            "/lib",
         ],
         "conditions": [
             ["OS in \"linux\"",{
@@ -18,8 +18,8 @@
                 "include_dirs": [
                     "<!(node -e \"require('nan')\")",
                     "<!(node -e \"require('zlib')\")", 
-                    "<(module_root_dir)/Include",
-                    "<(module_root_dir)/lib",
+                    "/Include",
+                    "/lib",
                     "/opt/Crossmatch/urusdk-linux/Include"
                 ]
             }],
@@ -32,8 +32,8 @@
                 "include_dirs": [
                     "<!(node -e \"require('nan')\")",
                     "<!(node -e \"require('zlib')\")", 
-                    "<(module_root_dir)/Include",
-                    "<(module_root_dir)/lib"
+                    "/Include",
+                    "/lib"
                 ]
             }]
         ],
