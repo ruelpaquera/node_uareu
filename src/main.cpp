@@ -1,4 +1,5 @@
 #include "main.h"
+
 #include "helpers.h"
 #include "identify.h"
 #include "selection.h"
@@ -27,6 +28,9 @@ static DPFPDD_DEV _hReader = NULL; //handle of the selected reader
 static int _dpi = 0;
 char _szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader
 
+using namespace v8;
+using v8::FunctionTemplate;
+
 NAN_METHOD(init)
 {
     sigset_t sigmask;
@@ -38,19 +42,20 @@ NAN_METHOD(init)
     info.GetReturnValue().Set(initalized == 0);
     return;
 }
-NAN_METHOD(getDevice)
-{
-    reader();
-}
 NAN_METHOD(startScan)
-{
-    // Identification(_hReader,_dpi);
+{ 
+    int val = Nan::To<v8::Number>(info[0]).ToLocalChecked()->Value();
+    uv_async_t async;
+    Nan::Persistent<Function> callback;
+
+    callback.Reset(v8::Local<v8::Function>::Cast(info[2]));
+    uv_async_init(uv_default_loop(), &async, report_verify_start);
+    // info.GetReturnValue().Set(val); 
 }
 
 NAN_MODULE_INIT(module_init){
     NAN_EXPORT(target, init);
-    NAN_EXPORT(target, startScan);
-    NAN_EXPORT(target, getDevice);
+    NAN_EXPORT(target, startScan); 
 }
 
 NODE_MODULE(fingerprint, module_init)
