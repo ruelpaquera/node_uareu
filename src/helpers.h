@@ -11,10 +11,6 @@
 #include <dpfj_compression.h>
 #include <dpfj_quality.h>
 
-// DPFPDD_DEV hReader = NULL; //handle of the selected reader
-// int dpi = 0;
-// char szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader
-
 //error handling
 void print_error(const char* szFunctionName, int nError);
 

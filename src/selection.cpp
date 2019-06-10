@@ -1,6 +1,7 @@
 #include "main.h"
 #include "helpers.h"
 #include "selection.h"  
+#include "identify.h"  
 
 #include <dpfpdd.h>
 
@@ -152,10 +153,6 @@ void reader(){
 		char szItem[MAX_DEVICE_NAME_LENGTH + 20]; 
 		snprintf(szItem, sizeof(szItem), "Select new reader (selected: %s)\n", szReader);
 		printf("\nSelected reader (selected: %s)\n", szReader); 
+		Identification(hReader,dpi);
 	}
-}
-
-NAN_METHOD(selectfpd) {
-	reader();
-    info.GetReturnValue().Set(Nan::New(true));
 }

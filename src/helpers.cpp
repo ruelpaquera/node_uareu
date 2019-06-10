@@ -4,16 +4,20 @@
  * This file is a part of sample code for the UareU SDK 2.x.
  */
 
+
+#include <dpfpdd.h>
+#include <dpfj.h>
+#include <dpfj_compression.h>
+#include <dpfj_quality.h>
+
 #include "helpers.h" 
+
 
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <signal.h>
-#include <sys/time.h>
-
-#include <dpfpdd.h>
-#include <dpfj.h>
+#include <sys/time.h> 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // error handling
@@ -23,30 +27,30 @@ void print_error(const char* szFunctionName, int nError){
 	if(_DP_FACILITY == (nError >> 16)){
 		char* szError = NULL;
 		switch(nError){
-		case DPFPDD_E_NOT_IMPLEMENTED: szError = "API call is not implemented."; break;
-		case DPFPDD_E_FAILURE: szError = "Unspecified failure."; break;
-		case DPFPDD_E_NO_DATA: szError = "No data is available."; break;
-		case DPFPDD_E_MORE_DATA: szError = "The memory allocated by the application is not big enough for the data which is expected."; break;
-		case DPFPDD_E_INVALID_PARAMETER: szError = "One or more parameters passed to the API call are invalid."; break;
-		case DPFPDD_E_INVALID_DEVICE: szError = "Reader handle is not valid."; break;
-		case DPFPDD_E_DEVICE_BUSY: szError = "The API call cannot be completed because another call is in progress."; break;
-		case DPFPDD_E_DEVICE_FAILURE: szError = "The reader is not working properly."; break;
-		case DPFJ_E_INVALID_FID: szError = "FID is invalid."; break;
-		case DPFJ_E_TOO_SMALL_AREA: szError = "Image is too small."; break;
-		case DPFJ_E_INVALID_FMD: szError = "FMD is invalid."; break;
-		case DPFJ_E_ENROLLMENT_IN_PROGRESS: szError = "Enrollment operation is in progress."; break;
-		case DPFJ_E_ENROLLMENT_NOT_STARTED: szError = "Enrollment operation has not begun."; break;
-		case DPFJ_E_ENROLLMENT_NOT_READY: szError = "Not enough in the pool of FMDs to create enrollment FMD."; break;
-		case DPFJ_E_ENROLLMENT_INVALID_SET: szError = "Unable to create enrollment FMD with the collected set of FMDs."; break;
-		case DPFJ_E_COMPRESSION_IN_PROGRESS: szError = "Compression or decompression operation is in progress"; break;
-		case DPFJ_E_COMPRESSION_NOT_STARTED: szError = "Compression or decompression operation was not started."; break;
-		case DPFJ_E_COMPRESSION_INVALID_WSQ_PARAMETER: szError = "One or more parameters passed for WSQ compression are invalid."; break;
-		case DPFJ_E_COMPRESSION_WSQ_FAILURE: szError = "Unspecified error during WSQ compression or decompression."; break;
-		case DPFJ_E_COMPRESSION_WSQ_LIB_NOT_FOUND: szError = "Library for WSQ compression is not found or not built-in."; break;
-		case DPFJ_E_QUALITY_NO_IMAGE: szError = "Image is invalid or absent."; break;
-		case DPFJ_E_QUALITY_TOO_FEW_MINUTIA: szError = "Too few minutia detected in the fingerprint image."; break;
-		case DPFJ_E_QUALITY_FAILURE: szError = "Unspecified error during execution."; break;
-		case DPFJ_E_QUALITY_LIB_NOT_FOUND: szError = "Library for image quality is not found or not built-in."; break;
+		case DPFPDD_E_NOT_IMPLEMENTED: szError = const_cast<char*>("API call is not implemented."); break;
+		case DPFPDD_E_FAILURE: szError = const_cast<char*>("Unspecified failure."); break;
+		case DPFPDD_E_NO_DATA: szError = const_cast<char*>("No data is available."); break;
+		case DPFPDD_E_MORE_DATA: szError = const_cast<char*>("The memory allocated by the application is not big enough for the data which is expected."); break;
+		case DPFPDD_E_INVALID_PARAMETER: szError = const_cast<char*>("One or more parameters passed to the API call are invalid."); break;
+		case DPFPDD_E_INVALID_DEVICE: szError = const_cast<char*>("Reader handle is not valid."); break;
+		case DPFPDD_E_DEVICE_BUSY: szError = const_cast<char*>("The API call cannot be completed because another call is in progress."); break;
+		case DPFPDD_E_DEVICE_FAILURE: szError = const_cast<char*>("The reader is not working properly."); break;
+		case DPFJ_E_INVALID_FID: szError = const_cast<char*>("FID is invalid."); break;
+		case DPFJ_E_TOO_SMALL_AREA: szError = const_cast<char*>("Image is too small."); break;
+		case DPFJ_E_INVALID_FMD: szError = const_cast<char*>("FMD is invalid."); break;
+		case DPFJ_E_ENROLLMENT_IN_PROGRESS: szError = const_cast<char*>("Enrollment operation is in progress."); break;
+		case DPFJ_E_ENROLLMENT_NOT_STARTED: szError = const_cast<char*>("Enrollment operation has not begun."); break;
+		case DPFJ_E_ENROLLMENT_NOT_READY: szError = const_cast<char*>("Not enough in the pool of FMDs to create enrollment FMD."); break;
+		case DPFJ_E_ENROLLMENT_INVALID_SET: szError = const_cast<char*>("Unable to create enrollment FMD with the collected set of FMDs."); break;
+		case DPFJ_E_COMPRESSION_IN_PROGRESS: szError = const_cast<char*>("Compression or decompression operation is in progress"); break;
+		case DPFJ_E_COMPRESSION_NOT_STARTED: szError = const_cast<char*>("Compression or decompression operation was not started."); break;
+		case DPFJ_E_COMPRESSION_INVALID_WSQ_PARAMETER: szError = const_cast<char*>("One or more parameters passed for WSQ compression are invalid."); break;
+		case DPFJ_E_COMPRESSION_WSQ_FAILURE: szError = const_cast<char*>("Unspecified error during WSQ compression or decompression."); break;
+		case DPFJ_E_COMPRESSION_WSQ_LIB_NOT_FOUND: szError = const_cast<char*>("Library for WSQ compression is not found or not built-in."); break;
+		case DPFJ_E_QUALITY_NO_IMAGE: szError = const_cast<char*>("Image is invalid or absent."); break;
+		case DPFJ_E_QUALITY_TOO_FEW_MINUTIA: szError = const_cast<char*>("Too few minutia detected in the fingerprint image."); break;
+		case DPFJ_E_QUALITY_FAILURE: szError = const_cast<char*>("Unspecified error during execution."); break;
+		case DPFJ_E_QUALITY_LIB_NOT_FOUND: szError = const_cast<char*>("Library for image quality is not found or not built-in."); break;
 		}
 		sprintf(sz, "%s returned DP error: 0x%x \n%s", szFunctionName, (0xffff & nError), szError);
 	}
@@ -96,7 +100,7 @@ int CaptureFinger(const char* szFingerName, DPFPDD_DEV hReader, int dpi, DPFJ_FM
 		return ENOMEM;
 	}
 		
-	//set signal handler
+	//set signal handler 
 	g_hReader = hReader;
 	struct sigaction new_action, old_action;
 	new_action.sa_handler = &signal_handler;

@@ -1,22 +1,19 @@
 {
     "targets": [{
         "target_name": "uareuprint",
-		"sources": [ "src/main.cpp" , "src/identify.cpp" , "src/selection.cpp" ],
+		"sources": [ "src/main.cpp" , "src/identify.cpp" , "src/selection.cpp" , "src/helpers.cpp" ],
         "conditions": [
             ["OS in \"linux\"",{                
                 "include_dirs": [
                     "<!(node -e \"require('nan')\")",
                     "<!(node -e \"require('zlib')\")", 
-                    "./Include",
-                    "/usr/lib",
-                    "/lib",
                     "/opt/Crossmatch/urusdk-linux/Include"
                 ],
                 "libraries": [
-                "<!(node -e \"require('zlib')\")", 
-                "-L/opt/Crossmatch/urusdk-linux/Linux/lib", 
-                "/usr/lib/libdpfpdd.so",
-                "/usr/lib/libdpfj.so",
+                "<!(node -e \"require('zlib')\")",  
+                    "/usr/lib/libdpfpdd.so",
+                    "/usr/lib/libdpfj.so",
+                    "/usr/lib/libtfm.so",
                 ]
             }], 
             ["OS in \"win\"",{                

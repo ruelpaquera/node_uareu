@@ -6,17 +6,17 @@
 #include <unistd.h>
 //#include <io.h>
 
-using namespace v8;
-using v8::FunctionTemplate;
+// using namespace v8;
+// using v8::FunctionTemplate;
 
-typedef struct __IDENTIFY_DATA__ {
-    uv_async_t async;
-    Nan::Persistent<Function> callback; 
-    int result;
-    unsigned char *pImage;
-    unsigned char *pFmd; 
-	unsigned int nFmdSize = 0;
-} IDENTIFY_DATA;
+// typedef struct __IDENTIFY_DATA__ {
+//     uv_async_t async;
+//     Nan::Persistent<Function> callback; 
+//     int result;
+//     unsigned char *pImage;
+//     unsigned char *pFmd; 
+// 	unsigned int nFmdSize = 0;
+// } IDENTIFY_DATA;
 
 
 void Identification(DPFPDD_DEV hReaders, int dpi){ 
@@ -40,13 +40,11 @@ void Identification(DPFPDD_DEV hReaders, int dpi){
 
     int result = dpfpdd_led_config(hReaders, DPFPDD_LED_ACCEPT | DPFPDD_LED_REJECT, DPFPDD_LED_CLIENT, NULL);
 	if(DPFPDD_SUCCESS != result && DPFPDD_E_NOT_IMPLEMENTED != result){
-		// print_error("dpfpdd_led_config()", result);
+		//print_error("dpfpdd_led_config()", result);
 	}
 	int bStop = 0;
     while(!bStop){
-        printf("capture fingers\n\n");
-
-        		//capture fingers
+        //capture fingers
 		for(i = 0; i < nFingerCnt; i++){
             printf("capture fingers loop \n\n");
 			if(0 == CaptureFinger(vFingerName[i], hReaders, dpi, DPFJ_FMD_ANSI_378_2004, &vFmd[i], &vFmdSize[i])) continue;			
@@ -92,14 +90,14 @@ void Identification(DPFPDD_DEV hReaders, int dpi){
 				else{
 					//turn red LED on for 1 sec
 					dpfpdd_led_ctrl(hReaders, DPFPDD_LED_REJECT, DPFPDD_LED_CMD_ON);
-					usleep(1);
+					usleep(1000);
 					dpfpdd_led_ctrl(hReaders, DPFPDD_LED_REJECT, DPFPDD_LED_CMD_OFF);
 
 					//print out the results
 					printf("Fingerprint was not identified.\n\n\n");
 				}
 			}
-			else print_error("dpfj_identify()", result);
+			//else print_error("dpfj_identify()", result);
         }
 		//release memory
 		for(i = 0; i < nFingerCnt; i++){
