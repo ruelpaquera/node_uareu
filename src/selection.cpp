@@ -1,7 +1,7 @@
 #include "main.h"
 #include "helpers.h"
 #include "selection.h"  
-#include "identify.h"  
+// #include "identify.h"  
 
 #include <dpfpdd.h>
 
@@ -147,12 +147,17 @@ DPFPDD_DEV GetReader(char* szReader, size_t nReaderLen, int *pDPI){
 	return hReader;
 }
 
-void reader(){ 
-	hReader = GetReader(szReader, sizeof(szReader),&dpi);
-	if(NULL != hReader){
-		char szItem[MAX_DEVICE_NAME_LENGTH + 20]; 
-		snprintf(szItem, sizeof(szItem), "Select new reader (selected: %s)\n", szReader);
-		printf("\nSelected reader (selected: %s)\n", szReader); 
-		Identification(hReader,dpi);
-	}
-}
+// void reader(){ 
+// 	hReader = GetReader(szReader, sizeof(szReader),&dpi);
+// 	if(NULL != hReader){
+// 		char szItem[MAX_DEVICE_NAME_LENGTH + 20]; 
+// 		snprintf(szItem, sizeof(szItem), "Select new reader (selected: %s)\n", szReader);
+// 		printf("\nSelected reader (selected: %s)\n", szReader); 
+// 		// Identification(hReader,dpi);
+// 	}
+// }
+// NAN_METHOD(openDevice)
+// {
+//     // info.GetReturnValue().Set(Nan::New<Function>(hReader));
+//     // return;
+// }

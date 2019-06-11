@@ -1,5 +1,3 @@
-// #include "fingerprint.h"
-// #include "selection.h"  
 #include "helpers.h"
 #include "identify.h"
 
@@ -17,7 +15,6 @@
 //     unsigned char *pFmd; 
 // 	unsigned int nFmdSize = 0;
 // } IDENTIFY_DATA;
-
 
 void Identification(DPFPDD_DEV hReaders, int dpi){ 
 	const int nFingerCnt = 5;
@@ -107,30 +104,3 @@ void Identification(DPFPDD_DEV hReaders, int dpi){
 		}
     }
 }
- 
-
-// NAN_METHOD(startScan) {
-// //     // int returns;
-// //     IDENTIFY_DATA *pdata;
-// //     pdata = new IDENTIFY_DATA;
-// //     DPFPDD_DEV hReaders = NULL; 
-// //     printf("\ncall startScan\n info length %d\n",info.Length());
- 
-// //     // if(!pdata)
-// //     //     goto error;
-    
-// //     pdata->pImage = NULL;
-// //     pdata->pFmd = 0;
-// //     pdata->nFmdSize = 0;
-
-// //     Identification(hReaders,0);
-// //     // uv_async_init(uv_default_loop(), &pdata->async, identify_progress_cb);
-// //     // pdata->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
-// //     // Identification(hReader,dpi);
-
-// // //     returns = true;
-// // // error:
-// // //     info.GetReturnValue().Set(Nan::New(returns));
-// // //     printf("\nerror return \n");
-// // //     return;
-// }
