@@ -1,7 +1,7 @@
 {
     "targets": [{
         "target_name": "uareuprint",
-		"sources": [ "src/main.cpp" , "src/identify.cpp" , "src/selection.cpp" , "src/helpers.cpp" ],
+		"sources": [ "src/main.cpp" , "src/identify.cpp" , "src/selection.cpp" , "src/helpers.cpp" , "src/enrollment.cpp" ],
         "conditions": [
             ["OS in \"linux\"",{                
                 "include_dirs": [

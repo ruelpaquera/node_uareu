@@ -104,3 +104,4 @@ void Identification(DPFPDD_DEV hReaders, int dpi){
 		}
     }
 }
+

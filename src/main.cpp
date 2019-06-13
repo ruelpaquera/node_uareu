@@ -3,6 +3,7 @@
 #include "helpers.h"
 #include "identify.h"
 #include "selection.h"
+#include "enrollment.h"
  
 #include <dpfpdd.h>
 #include <dpfj.h>
@@ -17,13 +18,15 @@
 #include <signal.h>
 #include <locale.h>
 
+#include <unistd.h>
+
 #define MAX_MENU_STRING_LEN 120
 
 #define MENU_TYPE_BACK 0x1
 #define MENU_TYPE_EXIT 0x2
 
 int initalized = -1;
-
+int loops = 0;
 using namespace v8;
 using v8::FunctionTemplate;
 
@@ -40,81 +43,99 @@ NAN_METHOD(init)
 }
 
 
-typedef struct __VERIFY_START__ {
-    uv_async_t async;
-    Nan::Persistent<Function> callback;
-    int result;
-    struct fp_print_data *fpdata;
-} VERIFY_START;
+// typedef struct __VERIFY_START__ {
+//     uv_async_t async;
+//     Nan::Persistent<Function> callback;
+//     int result;
+//     DPFPDD_CAPTURE_PARAM *fpdata;
+// } VERIFY_START;
 
-#define container_of(ptr, type, member) ({			\
-	const typeof( ((type *)0)->member ) *__mptr = (ptr);	\
-	(type *)( (char *)__mptr - offsetof(type,member) );})
+// #define container_of(ptr, type, member) ({			\
+// 	const typeof( ((type *)0)->member ) *__mptr = (ptr);	\
+// 	(type *)( (char *)__mptr - offsetof(type,member) );})
 
-void enroll_after(uv_handle_t* handle)
-{
-    VERIFY_START *enrollData = container_of((uv_async_t *)handle, VERIFY_START, async);
+// void enroll_after(uv_handle_t* handle)
+// {
+//     VERIFY_START *data = container_of((uv_async_t *)handle, VERIFY_START, async);
 
-    if(!enrollData)
-        return;
+//     if(!data)
+//         return;
 
-    // if(enrollData->fingerprint_data)
-    //     free(enrollData->fingerprint_data);
+//     if(data->fpdata)
+//         free(data->fpdata);
 
-    // enrollData->fingerprint_data = NULL;
-    // enrollData->fingerprint_img = NULL;
-    // enrollData->fingerprint_size = 0;
-    delete enrollData;
-}
-#ifndef OLD_UV_RUN_SIGNATURE
-void report_verify_start(uv_async_t *handle)
-#else
-void report_verify_start(uv_async_t *handle, int status)
-#endif
-{
-    VERIFY_START *enrollData = container_of(handle, VERIFY_START, async);
-    Nan::HandleScope scope;
-    Nan::Callback callback(Nan::New<Function>(enrollData->callback));
-    Nan::AsyncResource asyncResource("enrollProgress");
-    Local<Value> argv[3];
-    argv[0] = Nan::New(13);
-    argv[1] = Nan::Null();
+//     data->fpdata = NULL;
+//     data->result = 0;
+//     // enrollData->fingerprint_size = 0;
+//     delete data;
+// }
+// #ifndef OLD_UV_RUN_SIGNATURE
+// void report_verify_start(uv_async_t *handle)
+// #else
+// void report_verify_start(uv_async_t *handle, int status)
+// #endif
+// {
+//     printf("report_verify_start");
+//     VERIFY_START *data = container_of(handle, VERIFY_START, async);
+//      Nan::HandleScope scope;
+//     if(!data)
+//         return;
+ 
+//     Nan::Callback callback(Nan::New<Function>(data->callback));
+//     Nan::AsyncResource asyncResource("verifyProgress");
+//     Local<Value> argv[3];
+//     argv[0] = Nan::New(data->result);
+//     argv[1] = Nan::Null();
 
-    printf("aw");
-
-    argv[1] = Nan::New("fingerprintimg.c_str()").ToLocalChecked();
+//     argv[1] = Nan::New("fingerprintimg.c_str()").ToLocalChecked();
     
-    callback.Call(3, argv, &asyncResource);
-    uv_close((uv_handle_t*)&enrollData->async,enroll_after);
-}
-static void verify_start(void *edata)
-{
-    VERIFY_START *data = (VERIFY_START*)edata;
-}
-NAN_METHOD(startScan)
-{ 
-    bool ret = false;
-    VERIFY_START *data;
-    data = new VERIFY_START;
-
-    int val = Nan::To<v8::Number>(info[0]).ToLocalChecked()->Value();
-    Nan::Persistent<Function> callback;
-
-    data->callback.Reset(v8::Local<v8::Function>::Cast(info[2]));
-    uv_async_init(uv_default_loop(), &data->async, report_verify_start);
+//     callback.Call(2, argv, &asyncResource);
+//     //if(data->result == 1769107579){
+//         if (loops == 5){
+//             printf("report_verify_start");
+//             uv_close((uv_handle_t*)&data->async,enroll_after);
+//         } else {
+//             printf("report_verify_start else");
+//         }
+//     //}
+// }
+// static void verify_start_cb(void *edata)
+// {
+//     VERIFY_START *data = (VERIFY_START*)edata;
 
 
-    // info.GetReturnValue().Set(val); 
-    ret = true;
-error:
-    info.GetReturnValue().Set(Nan::New(ret));
-    return;
-}
+//     printf("\ncallback called %d \n",data->result);
+//     // data->result = data->result; 
+//     uv_async_send(&data->async);  
+
+// }
+// NAN_METHOD(startScan)
+// { 
+//     int result = 0;
+//     bool ret = false;
+//     VERIFY_START *data;
+
+//     data = new VERIFY_START;
+
+//     int val = Nan::To<v8::Number>(info[0]).ToLocalChecked()->Value(); 
+//     if(!data)
+//         goto error;
+    
+//     uv_async_init(uv_default_loop(), &data->async, report_verify_start);
+//     data->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
+
+//         data->result++;
+//         verify_start_cb((void*)data);
+ 
+//     ret = true;
+// error:
+//     info.GetReturnValue().Set(Nan::New(ret));
+//     return;
+// }
 
 NAN_MODULE_INIT(module_init){
     NAN_EXPORT(target, init);
-    NAN_EXPORT(target, startScan);
-    // NAN_EXPORT(target, openDevice); 
+    NAN_EXPORT(target, startEnroll);
 }
 
 NODE_MODULE(fingerprint, module_init)

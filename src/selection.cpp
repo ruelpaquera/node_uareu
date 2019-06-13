@@ -10,9 +10,9 @@
 #include <errno.h>
 #include <string.h>
 
-DPFPDD_DEV hReader = NULL; //handle of the selected reader
-int dpi = 0;
-char szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader
+// DPFPDD_DEV hReader = NULL; //handle of the selected reader
+// int dpi = 0;
+// char szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader
 
 DPFPDD_DEV GetReader(char* szReader, size_t nReaderLen, int *pDPI){
 	DPFPDD_DEV hReader = NULL;
