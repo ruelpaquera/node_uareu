@@ -78,12 +78,12 @@ int CaptureFinger(const char* szFingerName, DPFPDD_DEV hReader, int dpi, DPFJ_FM
 	*pFtSize = 0;
 
 	//prepare capture parameters and result
-	DPFPDD_CAPTURE_PARAM cparam = {0};
+	DPFPDD_CAPTURE_PARAM cparam;
 	cparam.size = sizeof(cparam);
 	cparam.image_fmt = DPFPDD_IMG_FMT_ISOIEC19794;
 	cparam.image_proc = DPFPDD_IMG_PROC_NONE;
 	cparam.image_res = dpi;
-	DPFPDD_CAPTURE_RESULT cresult = {0};
+	DPFPDD_CAPTURE_RESULT cresult;
 	cresult.size = sizeof(cresult);
 	cresult.info.size = sizeof(cresult.info);
 	//get size of the image
