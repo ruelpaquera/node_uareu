@@ -1,13 +1,13 @@
 #include "helpers.h"
 #include "capture.h"
-// #include "enrollment.h"
+#include "enrollment.h"
 // #include "identify.h"
 // #include "enrollment.h"
 
 #include <unistd.h>
 
 
-int fingerCapture(DPFPDD_DEV hReaders, int dpi,void(*func)(void *,int *,unsigned char *,unsigned char *,unsigned int *),void *FPdata){ 
+int fingerCapture(DPFPDD_DEV hReaders, int dpi,int stat,void *func,ENROLLFP_DATA FPdata){ 
 	const int nFingerCnt = 5;
 	unsigned char* vFmd[nFingerCnt];
 	unsigned int vFmdSize[nFingerCnt];

@@ -17,6 +17,7 @@
 #include <locale.h>
 #include <sys/time.h>
 
+
 DPFPDD_DEV hReader = NULL; //handle of the selected reader
 int dpi = 0;
 char szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader
@@ -38,9 +39,9 @@ char szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader
 //     Nan::Persistent<Function> callback;
 // } ENROLLFP_STOP;
 
-// #define container_of(ptr, type, member) ({			\
+/*/ #define container_of(ptr, type, member) ({			\
 // 	const typeof( ((type *)0)->member ) *__mptr = (ptr);	\
-// 	(type *)( (char *)__mptr - offsetof(type,member) );})
+// 	(type *)( (char *)__mptr - offsetof(type,member) );}) */
 
 
 
@@ -89,6 +90,7 @@ void report_enrollfp_start(uv_async_t *handle, int status)
     //     printf("report_enrollfp_start else");
     // } 
 }
+// void fpEnroll_start_cb(void *edata,int result,unsigned char *pImage,unsigned char *pFmd,unsigned int nFmdSize);
 static void fpEnroll_start_cb(void *edata,int result,unsigned char *pImage,unsigned char *pFmd,unsigned int nFmdSize)
 {
     ENROLLFP_DATA *fpdata = (ENROLLFP_DATA*)edata;
@@ -98,19 +100,18 @@ static void fpEnroll_start_cb(void *edata,int result,unsigned char *pImage,unsig
 
     printf("\ncallback called %d \n",fpdata->result);    
 
-    fpdata->pImage = pImage;
-    fpdata->pFmd = pFmd;
-    fpdata->nFmdSize = nFmdSize;
+    // fpdata->pImage = pImage;
+    // fpdata->pFmd = pFmd;
+    // fpdata->nFmdSize = nFmdSize;
 
-    uv_async_send(&fpdata->async);  
+    // uv_async_send(&fpdata->async);  
 
 }
 
 
-
 NAN_METHOD(startEnroll)
 {
-    int result = 0;
+    int result = 0; 
     bool ret = false;
     ENROLLFP_DATA *FPdata;
 
@@ -118,19 +119,52 @@ NAN_METHOD(startEnroll)
     if(!FPdata)
         goto error;
     hReader = GetReader(szReader, sizeof(szReader),&dpi);
-    if(NULL != hReader){
-        // char szItem[MAX_DEVICE_NAME_LENGTH + 20]; 
+    if(NULL != hReader){ 
         uv_async_init(uv_default_loop(), &FPdata->async, report_enrollfp_start);
         FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[0]));
-	    char* vFingerName[5];    
-        vFingerName[0] = const_cast<char*>("your thumb");
-        vFingerName[1] = const_cast<char*>("your index finger");
-        vFingerName[2] = const_cast<char*>("your middle finger");
-        vFingerName[3] = const_cast<char*>("your ring finger");
-        vFingerName[4] = const_cast<char*>("any finger");    
+ 
+        result = fingerCapture(hReader,dpi,fpEnroll_start_cb,(void*)FPdata);
 
-        fingerCapture(hReader,dpi,&fpEnroll_start_cb);
 
+    } else {
+        goto error;
+    }
+
+    ret = true;
+error:
+    info.GetReturnValue().Set(Nan::New(ret));
+    return;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // printf(" putang ina %d ",result_);
+        // if(result_ == 1){
+        //     fpEnroll_start_cb((void*)FPdata);
+        // }
         // void * context_unused = NULL;
 
         // DPFPDD_CAPTURE_PARAM cparam;
@@ -158,19 +192,6 @@ NAN_METHOD(startEnroll)
         //     return;
         // }
    
-        // fpEnroll_start_cb((void*)FPdata);
+        // 
 		// Identification(hReader,dpi);
 		// CaptureFinger("any finger", hReader, dpi, DPFJ_FMD_ANSI_378_2004, &pFmd, &nFmdSize))
-
-
-    } else {
-        goto error;
-    }
-
-    ret = true;
-error:
-    info.GetReturnValue().Set(Nan::New(ret));
-    return;
-}
-
-
