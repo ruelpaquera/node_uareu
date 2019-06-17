@@ -6,8 +6,8 @@
 
 #include <unistd.h>
 
-
-int fingerCapture(DPFPDD_DEV hReaders, int dpi,void(*func)(void *,int *,unsigned char *,unsigned char *,unsigned int *),void *FPdata){ 
+//,void(*func)(void *,int *,unsigned char *,unsigned char *,unsigned int *),void *FPdata
+int fingerCapture(DPFPDD_DEV hReaders, int dpi,void(*func)(void *,int ,unsigned char *,unsigned char *,unsigned int ),void *FPdata){ 
 	const int nFingerCnt = 5;
 	unsigned char* vFmd[nFingerCnt];
 	unsigned int vFmdSize[nFingerCnt];
@@ -34,9 +34,9 @@ int fingerCapture(DPFPDD_DEV hReaders, int dpi,void(*func)(void *,int *,unsigned
             printf("capture fingers loop \n\n");
 			if(0 == CaptureFinger(vFingerName[i], hReaders, dpi, DPFJ_FMD_ANSI_378_2004, &vFmd[i], &vFmdSize[i])) continue;			
 			bStop = 1; 
+            // func(FPdata,bStop,NULL,vFmd[i],vFmdSize[i]));
 			break;
 		}
-
             printf("done capture fingers loop \n\n");
         if(!bStop){
         	long mseconds = 0;

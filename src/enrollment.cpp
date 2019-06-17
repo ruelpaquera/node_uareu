@@ -100,11 +100,11 @@ static void fpEnroll_start_cb(void *edata,int result,unsigned char *pImage,unsig
 
     printf("\ncallback called %d \n",fpdata->result);    
 
-    // fpdata->pImage = pImage;
-    // fpdata->pFmd = pFmd;
-    // fpdata->nFmdSize = nFmdSize;
+    fpdata->pImage = pImage;
+    fpdata->pFmd = pFmd;
+    fpdata->nFmdSize = nFmdSize;
 
-    // uv_async_send(&fpdata->async);  
+    uv_async_send(&fpdata->async);  
 
 }
 
@@ -123,7 +123,9 @@ NAN_METHOD(startEnroll)
         uv_async_init(uv_default_loop(), &FPdata->async, report_enrollfp_start);
         FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[0]));
  
-        result = fingerCapture(hReader,dpi,fpEnroll_start_cb,(void*)FPdata);
+        result = fingerCapture(hReader,dpi,fpEnroll_start_cb,FPdata);
+
+        //,fpEnroll_start_cb,(void*)FPdata
 
 
     } else {
