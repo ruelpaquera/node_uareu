@@ -1,13 +1,13 @@
 #include "helpers.h"
 #include "capture.h"
-#include "enrollment.h"
+// #include "enrollment.h"
 // #include "identify.h"
 // #include "enrollment.h"
 
 #include <unistd.h>
 
-
-int fingerCapture(DPFPDD_DEV hReaders, int dpi,int stat,void *func,ENROLLFP_DATA FPdata){ 
+//,void(*func)(void *,int *,unsigned char *,unsigned char *,unsigned int *),void *FPdata
+int fingerCapture(DPFPDD_DEV hReaders, int dpi,fpEnroll_start_cb_ func,void *FPdata){ 
 	const int nFingerCnt = 5;
 	unsigned char* vFmd[nFingerCnt];
 	unsigned int vFmdSize[nFingerCnt];
@@ -32,12 +32,18 @@ int fingerCapture(DPFPDD_DEV hReaders, int dpi,int stat,void *func,ENROLLFP_DATA
         //capture fingers
 		for(i = 0; i < nFingerCnt; i++){
             printf("capture fingers loop \n\n");
-			if(0 == CaptureFinger(vFingerName[i], hReaders, dpi, DPFJ_FMD_ANSI_378_2004, &vFmd[i], &vFmdSize[i])) continue;			
+			if(0 == CaptureFinger(vFingerName[i], hReaders, dpi, DPFJ_FMD_ANSI_378_2004, &vFmd[i], &vFmdSize[i])){
+				printf(" ohyeah");
+				func(FPdata,123,NULL,vFmd[i],vFmdSize[i]);
+				continue;	
+			}
 			bStop = 1; 
+			printf(" break \n\n");
 			break;
 		}
 
-            printf("done capture fingers loop \n\n");
+
+	
         if(!bStop){
         	long mseconds = 0;
 			//struct timeval tv1, tv2;
@@ -51,6 +57,7 @@ int fingerCapture(DPFPDD_DEV hReaders, int dpi,int stat,void *func,ENROLLFP_DATA
 			int result = dpfj_identify(DPFJ_FMD_ANSI_378_2004, vFmd[nFingerCnt - 1], vFmdSize[nFingerCnt - 1], 0,
 				DPFJ_FMD_ANSI_378_2004, nFingerCnt - 1, vFmd, vFmdSize, falsepositive_rate, &nCandidateCnt, vCandidates);
 
+            
 			// gettimeofday(&tv2, NULL);
 			// mseconds = (tv2.tv_sec - tv1.tv_sec) * 1000 + (tv2.tv_usec - tv1.tv_usec) / 1000; //time of operation in milliseconds
 
@@ -84,6 +91,8 @@ int fingerCapture(DPFPDD_DEV hReaders, int dpi,int stat,void *func,ENROLLFP_DATA
 			}
 			//else print_error("dpfj_identify()", result);
         }
+		
+
 
 		//release memory
 		for(i = 0; i < nFingerCnt; i++){

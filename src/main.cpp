@@ -41,6 +41,18 @@ NAN_METHOD(init)
     info.GetReturnValue().Set(initalized == 0);
     return;
 }
+NAN_METHOD(getReader)
+{
+    // hReader = GetReader(szReader, sizeof(szReader),&dpi);   
+    // info.GetReturnValue().Set(initalized == 0);
+}
+NAN_MODULE_INIT(module_init){
+    NAN_EXPORT(target, init);
+    NAN_EXPORT(target, startEnroll);
+    NAN_EXPORT(target, getReader);
+}
+
+NODE_MODULE(fingerprint, module_init)
 
 
 // typedef struct __VERIFY_START__ {
@@ -132,10 +144,3 @@ NAN_METHOD(init)
 //     info.GetReturnValue().Set(Nan::New(ret));
 //     return;
 // }
-
-NAN_MODULE_INIT(module_init){
-    NAN_EXPORT(target, init);
-    NAN_EXPORT(target, startEnroll);
-}
-
-NODE_MODULE(fingerprint, module_init)

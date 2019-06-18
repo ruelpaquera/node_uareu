@@ -1,7 +1,7 @@
 #include "enrollment.h"
 
 #include "helpers.h"
-#include "selection.h"
+// #include "selection.h"
 #include "capture.h"
  
 #include <dpfpdd.h>
@@ -18,10 +18,10 @@
 #include <sys/time.h>
 
 
-DPFPDD_DEV hReader = NULL; //handle of the selected reader
-int dpi = 0;
-char szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader
-
+// static DPFPDD_DEV hReader = NULL; //handle of the selected reader
+// int dpi = 0;
+// char szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader
+int max_finger = 2;
 // using namespace v8;
 // using v8::FunctionTemplate;
 
@@ -66,7 +66,7 @@ void report_enrollfp_start(uv_async_t *handle)
 void report_enrollfp_start(uv_async_t *handle, int status)
 #endif
 {
-    printf("report_enrollfp_start");
+    printf("report_enrollfp_start1");
     ENROLLFP_DATA *FPdata = container_of(handle, ENROLLFP_DATA, async);
     Nan::HandleScope scope;
     
@@ -78,27 +78,31 @@ void report_enrollfp_start(uv_async_t *handle, int status)
     Local<Value> argv[3];
     argv[0] = Nan::New(FPdata->result);
     argv[1] = Nan::Null();
+    argv[2] = Nan::Null();
 
-    argv[1] = Nan::New("fingerprintimg.c_str()").ToLocalChecked();
+    argv[1] = Nan::New("11").ToLocalChecked();
+    argv[2] = Nan::New("22").ToLocalChecked();
     
-    callback.Call(2, argv, &asyncResource); 
+    callback.Call(3, argv, &asyncResource); 
 
-    // if (loops == 5){
-        printf("report_enrollfp_start");
+    if (FPdata->result == 2){
+        printf("report_enrollfp_start 2 complete");
         uv_close((uv_handle_t*)&FPdata->async,enrollfp_after);
-    // } else {
-    //     printf("report_enrollfp_start else");
-    // } 
+    } else {
+        printf("report_enrollfp_start 2 process");
+    } 
 }
-// void fpEnroll_start_cb(void *edata,int result,unsigned char *pImage,unsigned char *pFmd,unsigned int nFmdSize);
+// static void fpEnroll_start_cb(void *edata,int result,unsigned char *pImage,unsigned char *pFmd,unsigned int nFmdSize);
 static void fpEnroll_start_cb(void *edata,int result,unsigned char *pImage,unsigned char *pFmd,unsigned int nFmdSize)
 {
     ENROLLFP_DATA *fpdata = (ENROLLFP_DATA*)edata;
 
-    if(!fpdata)
+    if(!fpdata && fpdata->pFmd == NULL)
         return;
 
-    printf("\ncallback called %d \n",fpdata->result);    
+    printf("\ncallback return %d",fpdata->result); 
+    printf("\ncallback return %d",result); 
+    // printf("\ncallback return %u",pFmd);    
 
     fpdata->pImage = pImage;
     fpdata->pFmd = pFmd;
@@ -106,52 +110,57 @@ static void fpEnroll_start_cb(void *edata,int result,unsigned char *pImage,unsig
 
     uv_async_send(&fpdata->async);  
 
+    if(NULL != pImage) free(pImage);
+    if(NULL != pFmd) free(pFmd);
 }
 
 
 NAN_METHOD(startEnroll)
 {
     int result = 0; 
+    int finger = 0;
     bool ret = false;
     ENROLLFP_DATA *FPdata;
 
     FPdata = new ENROLLFP_DATA;
+    
     if(!FPdata)
         goto error;
-    hReader = GetReader(szReader, sizeof(szReader),&dpi);
-    if(NULL != hReader){ 
+
+    // hReader = GetReader(szReader, sizeof(szReader),&dpi);
+    // if(NULL == hReader) goto error;
+
+        FPdata->pImage = NULL;
+        FPdata->pFmd = NULL;
+        FPdata->nFmdSize = 0;
+
+
         uv_async_init(uv_default_loop(), &FPdata->async, report_enrollfp_start);
         FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[0]));
- 
-        result = fingerCapture(hReader,dpi,fpEnroll_start_cb,FPdata);
+        //while(finger < max_finger){
+            //hReader,dpi,
+            result = fingerCapture(&finger,fpEnroll_start_cb,(void*)FPdata);
+            printf("\nresult %d",result);
+            printf("\nfinger %d\n",finger);
 
+            // fpEnroll_start_cb((void*)FPdata,finger,FPdata->pImage,FPdata->pFmd,FPdata->nFmdSize);
+           
+            // hReader = GetReader(szReader, sizeof(szReader),&dpi);
+        //if(finger < max_finger)
+           
+            // finger++;
+        //}
+
+        // if(finger < 5) goto error;
+        // fpEnroll_start_cb((void*)FPdata,result,FPdata->pImage,FPdata->pFmd,FPdata->nFmdSize);
         //,fpEnroll_start_cb,(void*)FPdata
 
-
-    } else {
-        goto error;
-    }
 
     ret = true;
 error:
     info.GetReturnValue().Set(Nan::New(ret));
     return;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

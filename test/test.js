@@ -1,6 +1,7 @@
 var uareuprint = require("../index");
 
-var inits = uareuprint.init(); 
+var inits = uareuprint.init();
+// let hReader =
 console.log("init : ",inits);
 if(inits){ 
     // uareuprint.startScan(12,function(data,data2,data3){
@@ -10,8 +11,8 @@ if(inits){
     //     console.log(data3);
     // });
     uareuprint.startEnroll(function(status,fimage,fmd){
-        console.log("\ntest status startEnroll %d \n",status);
-        console.log("\ntest fimage startEnroll %d \n",fimage);
+        console.log("\ntest status startEnroll %d",status);
+        console.log("\ntest fimage startEnroll %d",fimage);
         console.log("\ntest fmd startEnroll %d \n",fmd);
     });
 }

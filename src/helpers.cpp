@@ -89,6 +89,7 @@ int CaptureFinger(const char* szFingerName, DPFPDD_DEV hReader, int dpi, DPFJ_FM
 	//get size of the image
 	unsigned int nOrigImageSize = 0;
 	result = dpfpdd_capture(hReader, &cparam, 0, &cresult, &nOrigImageSize, NULL);
+	printf("\ndpfpdd_capture first %d\n",result);
 	if(DPFPDD_E_MORE_DATA != result){
 		print_error("dpfpdd_capture()", result);
 		return result;
@@ -142,6 +143,7 @@ int CaptureFinger(const char* szFingerName, DPFPDD_DEV hReader, int dpi, DPFJ_FM
 		//capture fingerprint
 		printf("Put %s on the reader, or press Ctrl-C to cancel...\r\n", szFingerName);
 		result = dpfpdd_capture(hReader, &cparam, -1, &cresult, &nImageSize, pImage);
+		printf("\ndpfpdd_capture second %d \n",result);
 		if(DPFPDD_SUCCESS != result){
 			print_error("dpfpdd_capture()", result);
 		}
