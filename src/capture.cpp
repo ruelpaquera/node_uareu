@@ -15,13 +15,15 @@ int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata){
 	if(hReaders == NULL) 
 		hReaders = GetReader(szReader, sizeof(szReader),&dpi);
 
-	// ENROLLFP_DATA *fpdata = (ENROLLFP_DATA*)FPdata; 
+	ENROLLFP_DATA *fpdata = (ENROLLFP_DATA*)FPdata; 
 	// const int nFingerCnt = 5;
 	unsigned char* vFmd;
 	unsigned int vFmdSize;
+	unsigned char* ppImage;
 	// char* vFingerName;    
     int i = *finger; 
 		vFmd = NULL;
+		ppImage = NULL;
 		vFmdSize = 0; 
 
     int result = dpfpdd_led_config(hReaders, DPFPDD_LED_ACCEPT | DPFPDD_LED_REJECT, DPFPDD_LED_CLIENT, NULL);
@@ -31,22 +33,23 @@ int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata){
 	int bStop = 0;
     while(!bStop){
         //capture fingers
-		// fpdata->pFmd = vFmd;
-		// fpdata->nFmdSize = vFmdSize;
-		bStop = CaptureFinger(const_cast<char*>("your thumb"), hReaders, dpi, DPFJ_FMD_ANSI_378_2004, &vFmd, &vFmdSize);
- 		printf("\nfingerCapture %d",bStop);
-		printf("\nfingerCapture finger %d",i);
- 
+		bStop = CaptureFinger(const_cast<char*>("your thumb"), hReaders, dpi, DPFJ_FMD_ANSI_378_2004, &vFmd, &vFmdSize,&ppImage);
+ 		// printf("\nfingerCapture %d",bStop);
+		// printf("\nfingerCapture finger %d",i); 
 		// printf("\nfingerCapture pdata->result %d",fpdata->result);
 
+		fpdata->pFmd = vFmd;
+		fpdata->nFmdSize = vFmdSize;
+		fpdata->pImage = ppImage;
+
 		//if(bStop == 0){
-			// func(fpdata,123,NULL,vFmd,vFmdSize); 
+			func(fpdata,123,NULL,vFmd,vFmdSize); 
 			vFmd = NULL;
 			vFmdSize = 0;
 			i++;
 			*finger = i; 
 			// fingerCapture(finger,func,FPdata);
-			break;
+			// break;
 		//}
     }
 	return bStop;

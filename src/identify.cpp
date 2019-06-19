@@ -44,7 +44,7 @@ void Identification(DPFPDD_DEV hReaders, int dpi){
         //capture fingers
 		for(i = 0; i < nFingerCnt; i++){
             printf("capture fingers loop \n\n");
-			if(0 == CaptureFinger(vFingerName[i], hReaders, dpi, DPFJ_FMD_ANSI_378_2004, &vFmd[i], &vFmdSize[i])) continue;			
+			if(0 == CaptureFinger(vFingerName[i], hReaders, dpi, DPFJ_FMD_ANSI_378_2004, &vFmd[i], &vFmdSize[i],NULL)) continue;			
 			bStop = 1;
 			break;
 		}

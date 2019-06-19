@@ -72,7 +72,7 @@ void signal_handler(int nSignal) {
 	}
 }
 
-int CaptureFinger(const char* szFingerName, DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize){
+int CaptureFinger(const char* szFingerName, DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage){
 	int result = 0;
 	*ppFt = NULL;
 	*pFtSize = 0;
@@ -151,7 +151,7 @@ int CaptureFinger(const char* szFingerName, DPFPDD_DEV hReader, int dpi, DPFJ_FM
 			if(cresult.success){
 				//captured
 				printf("    fingerprint captured,\n");
-
+				*ppImage = pImage;
 				//get max size for the feature template
 				unsigned int nFeaturesSize = MAX_FMD_SIZE;
 				unsigned char* pFeatures = (unsigned char*)malloc(nFeaturesSize);

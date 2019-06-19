@@ -10,8 +10,8 @@ if(inits){
     //     console.log(data3);
     // });
     uareuprint.startEnroll(function(status,fimage,fmd){
-        console.log("\ntest status startEnroll %d",status);
-        console.log("\ntest fimage startEnroll %d",fimage);
-        console.log("\ntest fmd startEnroll %d \n",fmd);
+        console.log("\n\ntest status startEnroll %d",status);
+        console.log("\ntest fimage startEnroll %s",fimage);
+        console.log("\ntest fmd startEnroll %s \n",fmd);
     });
 }
