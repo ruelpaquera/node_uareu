@@ -14,26 +14,26 @@
 using namespace v8;
 using v8::FunctionTemplate;
 
-typedef struct __ENROLLFP_DATA__ {
-    uv_async_t async;
-    Nan::Persistent<Function> callback; 
-    int result; // noting = 0, process = 1, complete = 2 
-    int finger = 0;
-    unsigned char *pImage;
-    unsigned char *pFmd; 
-	unsigned int nFmdSize = 0;
-} ENROLLFP_DATA;
+// typedef struct __ENROLLFP_DATA__ {
+//     uv_async_t async;
+//     Nan::Persistent<Function> callback; 
+//     int result; // noting = 0, process = 1, complete = 2 
+//     int finger = 0;
+//     unsigned char *pImage;
+//     unsigned char *pFmd; 
+// 	unsigned int nFmdSize = 0;
+// } ENROLLFP_DATA;
 
-typedef struct __ENROLLFP_STOP__ {
-    uv_async_t async;
-    Nan::Persistent<Function> callback;
-} ENROLLFP_STOP;
+// typedef struct __ENROLLFP_STOP__ {
+//     uv_async_t async;
+//     Nan::Persistent<Function> callback;
+// } ENROLLFP_STOP;
 
 // DPFPDD_DEV hReader = NULL; //handle of the selected reader
 // int dpi = 0;
 // char szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader
 
-typedef void (*fpEnroll_start_cb_)(void *,int ,unsigned char *,unsigned char *,unsigned int );
+typedef void (*fpEnroll_start_cb_)(void *edata,int result,unsigned char *pImage,unsigned char *pFmd,unsigned int nFmdSize);
  
 
 #define container_of(ptr, type, member) ({			\

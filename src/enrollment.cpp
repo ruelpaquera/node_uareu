@@ -17,32 +17,29 @@
 #include <locale.h>
 #include <sys/time.h>
 
+#include <unistd.h>
 
+using namespace v8;
+using v8::FunctionTemplate;
 // static DPFPDD_DEV hReader = NULL; //handle of the selected reader
 // int dpi = 0;
 // char szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader
-int max_finger = 2;
-// using namespace v8;
-// using v8::FunctionTemplate;
+int max_finger = 3; 
 
-// typedef struct __ENROLLFP_DATA__ {
-//     uv_async_t async;
-//     Nan::Persistent<Function> callback; 
-//     int result;
-//     unsigned char *pImage;
-//     unsigned char *pFmd; 
-// 	unsigned int nFmdSize = 0;
-// } ENROLLFP_DATA;
+typedef struct __ENROLLFP_DATA__ {
+    uv_async_t async;
+    Nan::Persistent<Function> callback; 
+    int result; // noting = 0, process = 1, complete = 2 
+    int finger = 0;
+    unsigned char *pImage;
+    unsigned char *pFmd; 
+	unsigned int nFmdSize = 0;
+} ENROLLFP_DATA;
 
-// typedef struct __ENROLLFP_STOP__ {
-//     uv_async_t async;
-//     Nan::Persistent<Function> callback;
-// } ENROLLFP_STOP;
-
-/*/ #define container_of(ptr, type, member) ({			\
-// 	const typeof( ((type *)0)->member ) *__mptr = (ptr);	\
-// 	(type *)( (char *)__mptr - offsetof(type,member) );}) */
-
+typedef struct __ENROLLFP_STOP__ {
+    uv_async_t async;
+    Nan::Persistent<Function> callback;
+} ENROLLFP_STOP;
 
 
 void enrollfp_after(uv_handle_t* handle)
@@ -61,12 +58,12 @@ void enrollfp_after(uv_handle_t* handle)
     delete FPdata;
 }
 #ifndef OLD_UV_RUN_SIGNATURE
-void report_enrollfp_start(uv_async_t *handle)
+void report_enrollfp_progress(uv_async_t *handle)
 #else
-void report_enrollfp_start(uv_async_t *handle, int status)
+void report_enrollfp_progress(uv_async_t *handle, int status)
 #endif
 {
-    printf("report_enrollfp_start1");
+    printf("\nreport_enrollfp_start1\n");
     ENROLLFP_DATA *FPdata = container_of(handle, ENROLLFP_DATA, async);
     Nan::HandleScope scope;
     
@@ -74,7 +71,7 @@ void report_enrollfp_start(uv_async_t *handle, int status)
         return;
  
     Nan::Callback callback(Nan::New<Function>(FPdata->callback));
-    Nan::AsyncResource asyncResource("verifyProgress");
+    Nan::AsyncResource asyncResource("enrollfpProgress");
     Local<Value> argv[3];
     argv[0] = Nan::New(FPdata->result);
     argv[1] = Nan::Null();
@@ -85,40 +82,39 @@ void report_enrollfp_start(uv_async_t *handle, int status)
     
     callback.Call(3, argv, &asyncResource); 
 
-    if (FPdata->result == 2){
-        printf("report_enrollfp_start 2 complete");
+    // if (FPdata->result == 2){
+        printf("\nreport_enrollfp_start 2 complete\n");
         uv_close((uv_handle_t*)&FPdata->async,enrollfp_after);
-    } else {
-        printf("report_enrollfp_start 2 process");
-    } 
+    // } else {
+    //     printf("report_enrollfp_start 2 process");
+    // } 
 }
 // static void fpEnroll_start_cb(void *edata,int result,unsigned char *pImage,unsigned char *pFmd,unsigned int nFmdSize);
-static void fpEnroll_start_cb(void *edata,int result,unsigned char *pImage,unsigned char *pFmd,unsigned int nFmdSize)
+static void fpEnroll_start_cb(void *edata)//,int result,unsigned char *pImage,unsigned char *pFmd,unsigned int nFmdSize)
 {
-    ENROLLFP_DATA *fpdata = (ENROLLFP_DATA*)edata;
+    ENROLLFP_DATA *fpdata = (ENROLLFP_DATA*)edata; 
+    // if(!fpdata && fpdata->pFmd == NULL)
+    //     return;
 
-    if(!fpdata && fpdata->pFmd == NULL)
-        return;
-
+    // uv_async_send(&fpdata->async); 
     printf("\ncallback return %d",fpdata->result); 
-    printf("\ncallback return %d",result); 
-    // printf("\ncallback return %u",pFmd);    
+    printf("\ncallback return %s",fpdata->pFmd); 
+    printf("\ncallback return %d",fpdata->nFmdSize);    
 
-    fpdata->pImage = pImage;
-    fpdata->pFmd = pFmd;
-    fpdata->nFmdSize = nFmdSize;
+    // fpdata->pImage = pImage;
+    // fpdata->pFmd = pFmd;
+    // fpdata->nFmdSize = nFmdSize;
 
-    uv_async_send(&fpdata->async);  
-
-    if(NULL != pImage) free(pImage);
-    if(NULL != pFmd) free(pFmd);
+    uv_async_send(&fpdata->async);
+    // if(NULL != pImage) free(pImage);
+    // if(NULL != pFmd) free(pFmd);
 }
 
 
 NAN_METHOD(startEnroll)
 {
-    int result = 0; 
-    int finger = 0;
+    // int result = 0; 
+    // int finger = 0;
     bool ret = false;
     ENROLLFP_DATA *FPdata;
 
@@ -133,28 +129,46 @@ NAN_METHOD(startEnroll)
         FPdata->pImage = NULL;
         FPdata->pFmd = NULL;
         FPdata->nFmdSize = 0;
+        FPdata->result = -1;
 
-
-        uv_async_init(uv_default_loop(), &FPdata->async, report_enrollfp_start);
+        while(1){
+        uv_async_init(uv_default_loop(), &FPdata->async, report_enrollfp_progress);
         FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[0]));
-        //while(finger < max_finger){
+        // while(finger < max_finger){
+        
             //hReader,dpi,
-            result = fingerCapture(&finger,fpEnroll_start_cb,(void*)FPdata);
-            printf("\nresult %d",result);
-            printf("\nfinger %d\n",finger);
-
+            // result = fingerCapture(&finger,fpEnroll_start_cb,(void*)FPdata);
+            // printf("\nresult %d",result);
+            // printf("\nfinger %d\n",finger);
+            // FPdata->result++;
             // fpEnroll_start_cb((void*)FPdata,finger,FPdata->pImage,FPdata->pFmd,FPdata->nFmdSize);
-           
-            // hReader = GetReader(szReader, sizeof(szReader),&dpi);
+            
+            fpEnroll_start_cb((void*)FPdata);
+            usleep(1000000);
+            // Nan::Callback callback(Nan::New<Function>(FPdata->callback));
+            // Nan::AsyncResource asyncResource("verifyProgress");
+            // Local<Value> argv[3];
+            // argv[0] = Nan::New(FPdata->result);
+            // argv[1] = Nan::Null();
+            // argv[2] = Nan::Null();
+
+            // argv[1] = Nan::New("11").ToLocalChecked();
+            // argv[2] = Nan::New("22").ToLocalChecked();
+            
+            // callback.Call(3, argv, &asyncResource); 
+            
+            // return;
+            // uv_async_send(&FPdata->async);
+            // ret = true;
+            // hReader = GetReader(szReader, sizeof(szReader),&dpi); 
         //if(finger < max_finger)
            
             // finger++;
-        //}
+        }
 
         // if(finger < 5) goto error;
         // fpEnroll_start_cb((void*)FPdata,result,FPdata->pImage,FPdata->pFmd,FPdata->nFmdSize);
         //,fpEnroll_start_cb,(void*)FPdata
-
 
     ret = true;
 error:

@@ -1,8 +1,7 @@
 var uareuprint = require("../index");
 
 var inits = uareuprint.init();
-// let hReader =
-console.log("init : ",inits);
+// let hReader = 
 if(inits){ 
     // uareuprint.startScan(12,function(data,data2,data3){
     //     console.log("\nstartScan data\n");

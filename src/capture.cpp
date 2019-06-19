@@ -15,7 +15,7 @@ int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata){
 	if(hReaders == NULL) 
 		hReaders = GetReader(szReader, sizeof(szReader),&dpi);
 
-	ENROLLFP_DATA *fpdata = (ENROLLFP_DATA*)FPdata; 
+	// ENROLLFP_DATA *fpdata = (ENROLLFP_DATA*)FPdata; 
 	// const int nFingerCnt = 5;
 	unsigned char* vFmd;
 	unsigned int vFmdSize;
@@ -31,24 +31,23 @@ int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata){
 	int bStop = 0;
     while(!bStop){
         //capture fingers
+		// fpdata->pFmd = vFmd;
+		// fpdata->nFmdSize = vFmdSize;
 		bStop = CaptureFinger(const_cast<char*>("your thumb"), hReaders, dpi, DPFJ_FMD_ANSI_378_2004, &vFmd, &vFmdSize);
  		printf("\nfingerCapture %d",bStop);
 		printf("\nfingerCapture finger %d",i);
-		// if(3 == i){
-		// 	fpdata->result = 1;
-		// 	break;
-		// } 
-		printf("\nfingerCapture pdata->result %d",fpdata->result);
+ 
+		// printf("\nfingerCapture pdata->result %d",fpdata->result);
 
-		if(bStop == 0){
+		//if(bStop == 0){
+			// func(fpdata,123,NULL,vFmd,vFmdSize); 
 			vFmd = NULL;
 			vFmdSize = 0;
 			i++;
 			*finger = i; 
-			func(fpdata,123,NULL,vFmd,vFmdSize); 
 			// fingerCapture(finger,func,FPdata);
-			// break;
-		}
+			break;
+		//}
     }
 	return bStop;
 }
