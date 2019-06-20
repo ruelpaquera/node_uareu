@@ -147,14 +147,13 @@ int CaptureFinger(const char* szFingerName, DPFPDD_DEV hReader, int dpi, DPFJ_FM
 		printf("loop Put %s on the reader, or press Ctrl-C to cancel...\r\n", szFingerName);
 		result = dpfpdd_capture(hReader, &cparam, -1, &cresult, &nImageSize, pImage);
 		printf("\ndpfpdd_capture second %d \n",result);
-
-		// snprintf(pImage, sizeof(pImage), "Select %s", pImage);
+ 
 		printf("\ncresult %d \n",cresult.success);
 		if(DPFPDD_SUCCESS != result){
 			print_error("dpfpdd_capture()", result);
 		}
 		else{
-			// printf("\ncresult.success %d \n",cresult.success);
+			printf("\ncresult.success %d \n",cresult.success);
 			if(cresult.success){
 				//captured
 
