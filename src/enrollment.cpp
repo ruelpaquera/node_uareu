@@ -15,6 +15,7 @@
 #include <signal.h>
 #include <locale.h>
 #include <sys/time.h>
+#include "base64.h"
 
 using namespace v8;
 using v8::FunctionTemplate; 

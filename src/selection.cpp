@@ -56,27 +56,27 @@ DPFPDD_DEV GetReader(char* szReader, size_t nReaderLen, int *pDPI){
         }
 		
 		if(0 != nReaderCnt){
-			printf("\n\nAvailable readers:\n");
+			// printf("\n\nAvailable readers:\n");
 			unsigned int i = 0;
 			for(i = 0; i < nReaderCnt; i++){
 				if(std::to_string(pReaderInfo[i].id.product_id) == "000a" && std::to_string(pReaderInfo[i].id.vendor_id) == "05ba" ){
 					nChoice = i;
-					printf(" loop   %s\n", pReaderInfo[i].name);
+					// printf(" loop   %s\n", pReaderInfo[i].name);
 					break;
 				}
 			}
 
 			// printf("  %s\n", pReaderInfo[i].name);
-			printf("\n");
-			printf("Selected reader:  %s\n", pReaderInfo[nChoice].name);
-			printf("Vendor name:      %s\n", pReaderInfo[nChoice].descr.vendor_name);
-			printf("Product name:     %s\n", pReaderInfo[nChoice].descr.product_name);
-			printf("Serial number:    %s\n", pReaderInfo[nChoice].descr.serial_num);
-			printf("USB VID:          %04x\n", pReaderInfo[nChoice].id.vendor_id);
-			printf("USB PID:          %04x\n", pReaderInfo[nChoice].id.product_id);
-			printf("USB BCD revision: %04x\n", pReaderInfo[nChoice].ver.bcd_rev);
-			printf("HW version:       %d.%d.%d\n", pReaderInfo[nChoice].ver.hw_ver.major, pReaderInfo[nChoice].ver.hw_ver.minor, pReaderInfo[nChoice].ver.hw_ver.maintenance);
-			printf("FW version:       %d.%d.%d\n", pReaderInfo[nChoice].ver.fw_ver.major, pReaderInfo[nChoice].ver.fw_ver.minor, pReaderInfo[nChoice].ver.fw_ver.maintenance);
+			// printf("\n");
+			// printf("Selected reader:  %s\n", pReaderInfo[nChoice].name);
+			// printf("Vendor name:      %s\n", pReaderInfo[nChoice].descr.vendor_name);
+			// printf("Product name:     %s\n", pReaderInfo[nChoice].descr.product_name);
+			// printf("Serial number:    %s\n", pReaderInfo[nChoice].descr.serial_num);
+			// printf("USB VID:          %04x\n", pReaderInfo[nChoice].id.vendor_id);
+			// printf("USB PID:          %04x\n", pReaderInfo[nChoice].id.product_id);
+			// printf("USB BCD revision: %04x\n", pReaderInfo[nChoice].ver.bcd_rev);
+			// printf("HW version:       %d.%d.%d\n", pReaderInfo[nChoice].ver.hw_ver.major, pReaderInfo[nChoice].ver.hw_ver.minor, pReaderInfo[nChoice].ver.hw_ver.maintenance);
+			// printf("FW version:       %d.%d.%d\n", pReaderInfo[nChoice].ver.fw_ver.major, pReaderInfo[nChoice].ver.fw_ver.minor, pReaderInfo[nChoice].ver.fw_ver.maintenance);
 			
 			int result = dpfpdd_open(pReaderInfo[nChoice].name, &hReader);
 			if(DPFPDD_SUCCESS == result){
@@ -105,20 +105,20 @@ DPFPDD_DEV GetReader(char* szReader, size_t nReaderLen, int *pDPI){
 							continue;
 						}
 						//capabilities acquired, print them out
-						printf("\n");
-						printf("can capture image:       	%d\n", pCaps->can_capture_image);
-						printf("can stream image:        	%d\n", pCaps->can_stream_image);
-						printf("can extract features:    	%d\n", pCaps->can_extract_features);
-						printf("can match:               	%d\n", pCaps->can_match);
-						printf("can identify:             	%d\n", pCaps->can_identify);
-						printf("has fingerprint storage: 	%d\n", pCaps->has_fp_storage);
-						printf("indicator type:        0x%08x\n", pCaps->indicator_type);
-						printf("has power management:    	%d\n", pCaps->has_pwr_mgmt);
-						printf("has calibration:         	%d\n", pCaps->has_calibration);
-						printf("PIV compliant:           	%d\n", pCaps->piv_compliant);
+						// printf("\n");
+						// printf("can capture image:       	%d\n", pCaps->can_capture_image);
+						// printf("can stream image:        	%d\n", pCaps->can_stream_image);
+						// printf("can extract features:    	%d\n", pCaps->can_extract_features);
+						// printf("can match:               	%d\n", pCaps->can_match);
+						// printf("can identify:             	%d\n", pCaps->can_identify);
+						// printf("has fingerprint storage: 	%d\n", pCaps->has_fp_storage);
+						// printf("indicator type:        0x%08x\n", pCaps->indicator_type);
+						// printf("has power management:    	%d\n", pCaps->has_pwr_mgmt);
+						// printf("has calibration:         	%d\n", pCaps->has_calibration);
+						// printf("PIV compliant:           	%d\n", pCaps->piv_compliant);
 						unsigned int i = 0;
 						for(i = 0; i < pCaps->resolution_cnt; i++){
-							printf("resolution:              	%d dpi\n", pCaps->resolutions[i]);
+							// printf("resolution:              	%d dpi\n", pCaps->resolutions[i]);
 						}
 						*pDPI = pCaps->resolutions[0];
 						free(pCaps);

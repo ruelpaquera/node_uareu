@@ -11,6 +11,7 @@
 #include <dpfj_quality.h>
 
 #include "helpers.h" 
+#include "base64.h" 
 
 
 #include <stdio.h>
@@ -89,12 +90,14 @@ int CaptureFinger(const char* szFingerName, DPFPDD_DEV hReader, int dpi, DPFJ_FM
 	//get size of the image
 	unsigned int nOrigImageSize = 0;
 	result = dpfpdd_capture(hReader, &cparam, 0, &cresult, &nOrigImageSize, NULL);
+ 
 	printf("\ndpfpdd_capture first %d\n",result);
 	if(DPFPDD_E_MORE_DATA != result){
 		print_error("dpfpdd_capture()", result);
 		return result;
 	}
-
+ 	
+	printf("\nOrigImageSize %d\n",nOrigImageSize);
 	unsigned char* pImage = (unsigned char*)malloc(nOrigImageSize);
 	if(NULL == pImage){
 		print_error("malloc()", ENOMEM);
@@ -140,23 +143,33 @@ int CaptureFinger(const char* szFingerName, DPFPDD_DEV hReader, int dpi, DPFJ_FM
 		}
 		if(!is_ready) break;
 
-		//capture fingerprint
-		printf("Put %s on the reader, or press Ctrl-C to cancel...\r\n", szFingerName);
+		//capture fingerprint 
+		printf("loop Put %s on the reader, or press Ctrl-C to cancel...\r\n", szFingerName);
 		result = dpfpdd_capture(hReader, &cparam, -1, &cresult, &nImageSize, pImage);
 		printf("\ndpfpdd_capture second %d \n",result);
+
+		// snprintf(pImage, sizeof(pImage), "Select %s", pImage);
+		printf("\ncresult %d \n",cresult.success);
 		if(DPFPDD_SUCCESS != result){
 			print_error("dpfpdd_capture()", result);
 		}
 		else{
+			// printf("\ncresult.success %d \n",cresult.success);
 			if(cresult.success){
 				//captured
-				printf("    fingerprint captured,\n");
-				*ppImage = pImage;
+
+				// printf("\nbase64_encode %s \n",base64_encode(pImage,nImageSize));
+
+				// printf("\npImage %s \n",pImage);
+
+				printf("fingerprint captured,\n");
+				// *ppImage = pImage;
 				//get max size for the feature template
 				unsigned int nFeaturesSize = MAX_FMD_SIZE;
 				unsigned char* pFeatures = (unsigned char*)malloc(nFeaturesSize);
 				if(NULL == pFeatures){
 					print_error("malloc()", ENOMEM);
+					printf("print_error(malloc(), ENOMEM);");
 					result = ENOMEM;
 				}
 				else{
@@ -166,14 +179,16 @@ int CaptureFinger(const char* szFingerName, DPFPDD_DEV hReader, int dpi, DPFJ_FM
 					//gettimeofday(&tv1, NULL);
 
 					result = dpfj_create_fmd_from_fid(DPFJ_FID_ISO_19794_4_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
-
+					printf("\ndpfj_create_fmd_from_fid result %d",result);
 					//gettimeofday(&tv2, NULL);
 					//mseconds = (tv2.tv_sec - tv1.tv_sec) * 1000 + (tv2.tv_usec - tv1.tv_usec) / 1000; //time of operation in milliseconds
 
 					if(DPFJ_SUCCESS == result){
 						*ppFt = pFeatures;
 						*pFtSize = nFeaturesSize;
-						printf("    features extracted (%ldms).\n\n", mseconds);
+						printf("\npFeatures %s",pFeatures);
+						printf("\nFeaturesSize %d\n",nFeaturesSize);
+						printf("features extracted (%ldms).\n\n", mseconds);
 					}
 					else{
 						print_error("dpfj_create_fmd_from_fid()", result);
