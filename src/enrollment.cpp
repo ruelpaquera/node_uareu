@@ -57,8 +57,16 @@ static void fpEnroll_start_cb(void *edata)
     argv[1] = Nan::Null();
     argv[2] = Nan::Null();
 
-    argv[1] = Nan::New(fpdata->pImage);
-    argv[2] = Nan::New(fpdata->pFmd);
+
+    std::string pImage = (char *)fpdata->pImage;
+    std::string pFmd = (char *)fpdata->pFmd;
+        // argv[3] = Nan::New(fingerprintimg.c_str()).ToLocalChecked();
+    // std::string pImage = "fpdata->pImage";
+    // std::string pFmd = "fpdata->pFmd";
+
+
+    argv[1] = Nan::New(pImage.c_str()).ToLocalChecked();
+    argv[2] = Nan::New(pFmd.c_str()).ToLocalChecked();
 
     callback.Call(3, argv, &asyncResource); 
 
@@ -68,8 +76,7 @@ static void fpEnroll_start_cb(void *edata)
 
 NAN_METHOD(startEnroll)
 {
-    // int result = 0; 
-    int finger = 0;
+    int finger = 1;
     bool ret = false;
     ENROLLFP_DATA *FPdata;
 
@@ -84,7 +91,7 @@ NAN_METHOD(startEnroll)
          
         FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[0]));
  
-        fingerCapture(&finger,5,fpEnroll_start_cb,(void*)FPdata);
+        fingerCapture(&finger,fpEnroll_start_cb,(void*)FPdata);
         
 
     ret = true;
