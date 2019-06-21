@@ -32,8 +32,8 @@ typedef struct __ENROLLFP_STOP__ {
 // DPFPDD_DEV hReader = NULL; //handle of the selected reader
 // int dpi = 0;
 // char szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader
-
-typedef void (*fpEnroll_start_cb_)(void *edata,int result,unsigned char *pImage,unsigned char *pFmd,unsigned int nFmdSize);
+// int result,unsigned char *pImage,unsigned char *pFmd,unsigned int nFmdSize
+typedef void (*fpEnroll_start_cb_)(void *edata);
  
 
 #define container_of(ptr, type, member) ({			\
@@ -44,4 +44,5 @@ typedef void (*fpEnroll_start_cb_)(void *edata,int result,unsigned char *pImage,
 void print_error(const char* szFunctionName, int nError);
 
 //returns 0 if captured, otherwise an error code
-int CaptureFinger(const char* szFingerName, DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage);
+int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage);
+//const char* szFingerName, 

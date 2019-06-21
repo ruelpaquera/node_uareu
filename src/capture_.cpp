@@ -34,7 +34,7 @@ int fingerCapture(DPFPDD_DEV hReaders, int dpi,fpEnroll_start_cb_ func,void *FPd
             printf("capture fingers loop \n\n");
 			if(0 == CaptureFinger(vFingerName[i], hReaders, dpi, DPFJ_FMD_ANSI_378_2004, &vFmd[i], &vFmdSize[i])){
 				printf(" ohyeah");
-				func(FPdata,123,NULL,vFmd[i],vFmdSize[i]);
+				// func(FPdata,123,NULL,vFmd[i],vFmdSize[i]);
 				continue;	
 			}
 			bStop = 1; 

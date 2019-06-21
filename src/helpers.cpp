@@ -73,10 +73,11 @@ void signal_handler(int nSignal) {
 	}
 }
 
-int CaptureFinger(const char* szFingerName, DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage){
+int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage){
 	int result = 0;
 	*ppFt = NULL;
 	*pFtSize = 0;
+	const char* szFingerName = "any";
 
 	//prepare capture parameters and result
 	DPFPDD_CAPTURE_PARAM cparam;
@@ -147,19 +148,12 @@ int CaptureFinger(const char* szFingerName, DPFPDD_DEV hReader, int dpi, DPFJ_FM
 		printf("loop Put %s on the reader, or press Ctrl-C to cancel...\r\n", szFingerName);
 		result = dpfpdd_capture(hReader, &cparam, -1, &cresult, &nImageSize, pImage);
 		printf("\ndpfpdd_capture second %d \n",result);
- 
-		printf("\ncresult %d \n",cresult.success);
+		*ppImage=pImage;  
 		if(DPFPDD_SUCCESS != result){
 			print_error("dpfpdd_capture()", result);
 		}
-		else{
-			printf("\ncresult.success %d \n",cresult.success);
-			if(cresult.success){
-				//captured
-
-				// printf("\nbase64_encode %s \n",base64_encode(pImage,nImageSize));
-
-				// printf("\npImage %s \n",pImage);
+		else{ 
+			if(cresult.success){ 
 
 				printf("fingerprint captured,\n");
 				// *ppImage = pImage;
@@ -167,8 +161,7 @@ int CaptureFinger(const char* szFingerName, DPFPDD_DEV hReader, int dpi, DPFJ_FM
 				unsigned int nFeaturesSize = MAX_FMD_SIZE;
 				unsigned char* pFeatures = (unsigned char*)malloc(nFeaturesSize);
 				if(NULL == pFeatures){
-					print_error("malloc()", ENOMEM);
-					printf("print_error(malloc(), ENOMEM);");
+					print_error("malloc()", ENOMEM); 
 					result = ENOMEM;
 				}
 				else{

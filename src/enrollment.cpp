@@ -38,19 +38,14 @@ void enrollfp_after(uv_handle_t* handle)
     FPdata->nFmdSize = 0; 
     delete FPdata;
 }
-
-static void fpEnroll_start_cb(void *edata,int result,unsigned char *pImage,unsigned char *pFmd,unsigned int nFmdSize)
+//,int result,unsigned char *pImage,unsigned char *pFmd,unsigned int nFmdSize
+static void fpEnroll_start_cb(void *edata)
 {
     ENROLLFP_DATA *fpdata = (ENROLLFP_DATA*)edata; 
 
     if(!fpdata && fpdata->pFmd == NULL)
         return;
  
-    fpdata->pImage = pImage;
-    fpdata->pFmd = pFmd;
-    fpdata->nFmdSize = nFmdSize; 
-    fpdata->result = result;
-
     printf("\ncallback return %s",fpdata->pImage); 
     printf("\ncallback return %s",fpdata->pFmd); 
     printf("\ncallback return %d",fpdata->nFmdSize);  
@@ -62,13 +57,13 @@ static void fpEnroll_start_cb(void *edata,int result,unsigned char *pImage,unsig
     argv[1] = Nan::Null();
     argv[2] = Nan::Null();
 
-    argv[1] = Nan::New(pImage);
-    argv[2] = Nan::New(pFmd);
+    argv[1] = Nan::New(fpdata->pImage);
+    argv[2] = Nan::New(fpdata->pFmd);
 
     callback.Call(3, argv, &asyncResource); 
 
-    if(NULL != pImage) free(pImage);
-    if(NULL != pFmd) free(pFmd);
+    // if(NULL != pImage) free(pImage);
+    // if(NULL != pFmd) free(pFmd);
 }
 
 NAN_METHOD(startEnroll)
@@ -89,7 +84,7 @@ NAN_METHOD(startEnroll)
          
         FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[0]));
  
-        fingerCapture(&finger,fpEnroll_start_cb,(void*)FPdata);
+        fingerCapture(&finger,5,fpEnroll_start_cb,(void*)FPdata);
         
 
     ret = true;
