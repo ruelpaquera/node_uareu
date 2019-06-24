@@ -144,7 +144,13 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 		printf("loop Put %s on the reader, or press Ctrl-C to cancel...\r\n", szFingerName);
 		result = dpfpdd_capture(hReader, &cparam, -1, &cresult, &nImageSize, pImage);
 		printf("\ndpfpdd_capture second %d \n",result);
-		
+		unsigned char fid;
+		unsigned int fid_size;
+		int fid_convert_status;
+		fid_convert_status = dpfj_dp_fid_convert(pImage,nImageSize,DPFJ_FID_ISO_19794_4_2005,dpi,0,&fid,&fid_size);
+		printf("\nfid_convert_status %d",fid_convert_status);
+		printf("\nDPFJ_SUCCESS %d",DPFJ_SUCCESS);
+		printf("\nDPFJ_E_FAILURE %d",DPFJ_E_FAILURE);
 		if(DPFPDD_SUCCESS != result){
 			print_error("dpfpdd_capture()", result);
 		}
@@ -167,7 +173,9 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 					//struct timeval tv1, tv2;
 					//gettimeofday(&tv1, NULL);
 
+
 					result = dpfj_create_fmd_from_fid(DPFJ_FID_ISO_19794_4_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
+					
 					// printf("\ndpfj_create_fmd_from_fid result %d",result);
 					// printf("\ndpfj_create_fmd_from_fid DPFJ_SUCCESS %d",DPFJ_SUCCESS);
 					//gettimeofday(&tv2, NULL);
@@ -176,7 +184,7 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 					if(DPFJ_SUCCESS == result){
 						*ppFt = pFeatures;
 						*pFtSize = nFeaturesSize;
-						*ppImage=pImage;  
+						*ppImage = pImage;  
 						// printf("\npFeatures %s",pFeatures);
 						// printf("\nFeaturesSize %d\n",nFeaturesSize);
 						// printf("features extracted (%ldms).\n\n", mseconds);
