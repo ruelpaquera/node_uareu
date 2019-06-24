@@ -91,14 +91,10 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 	//get size of the image
 	unsigned int nOrigImageSize = 0;
 	result = dpfpdd_capture(hReader, &cparam, 0, &cresult, &nOrigImageSize, NULL);
- 
-	printf("\ndpfpdd_capture first %d\n",result);
 	if(DPFPDD_E_MORE_DATA != result){
 		print_error("dpfpdd_capture()", result);
 		return result;
 	}
- 	
-	printf("\nOrigImageSize %d\n",nOrigImageSize);
 	unsigned char* pImage = (unsigned char*)malloc(nOrigImageSize);
 	if(NULL == pImage){
 		print_error("malloc()", ENOMEM);
@@ -120,6 +116,7 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 	pthread_sigmask(SIG_UNBLOCK, &new_sigmask, &old_sigmask);
 	
 	while(1){
+		printf("\nnOrigImageSize %d \n",nOrigImageSize);
 		//wait until ready
 		int is_ready = 0;
 		unsigned int nImageSize = nOrigImageSize;
@@ -143,18 +140,17 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 			}
 		}
 		if(!is_ready) break;
-
 		//capture fingerprint 
 		printf("loop Put %s on the reader, or press Ctrl-C to cancel...\r\n", szFingerName);
 		result = dpfpdd_capture(hReader, &cparam, -1, &cresult, &nImageSize, pImage);
 		printf("\ndpfpdd_capture second %d \n",result);
-		*ppImage=pImage;  
+		
 		if(DPFPDD_SUCCESS != result){
 			print_error("dpfpdd_capture()", result);
 		}
 		else{ 
 			if(cresult.success){ 
-
+                
 				printf("fingerprint captured,\n");
 				// *ppImage = pImage;
 				//get max size for the feature template
@@ -165,22 +161,25 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 					result = ENOMEM;
 				}
 				else{
+
 					//create template
-					long mseconds = 0;
+					// long mseconds = 0;
 					//struct timeval tv1, tv2;
 					//gettimeofday(&tv1, NULL);
 
 					result = dpfj_create_fmd_from_fid(DPFJ_FID_ISO_19794_4_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
-					printf("\ndpfj_create_fmd_from_fid result %d",result);
+					// printf("\ndpfj_create_fmd_from_fid result %d",result);
+					// printf("\ndpfj_create_fmd_from_fid DPFJ_SUCCESS %d",DPFJ_SUCCESS);
 					//gettimeofday(&tv2, NULL);
 					//mseconds = (tv2.tv_sec - tv1.tv_sec) * 1000 + (tv2.tv_usec - tv1.tv_usec) / 1000; //time of operation in milliseconds
 
 					if(DPFJ_SUCCESS == result){
 						*ppFt = pFeatures;
 						*pFtSize = nFeaturesSize;
-						printf("\npFeatures %s",pFeatures);
-						printf("\nFeaturesSize %d\n",nFeaturesSize);
-						printf("features extracted (%ldms).\n\n", mseconds);
+						*ppImage=pImage;  
+						// printf("\npFeatures %s",pFeatures);
+						// printf("\nFeaturesSize %d\n",nFeaturesSize);
+						// printf("features extracted (%ldms).\n\n", mseconds);
 					}
 					else{
 						print_error("dpfj_create_fmd_from_fid()", result);

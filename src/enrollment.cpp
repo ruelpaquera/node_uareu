@@ -72,11 +72,12 @@ static void fpEnroll_start_cb(void *edata)
 
     // if(NULL != pImage) free(pImage);
     // if(NULL != pFmd) free(pFmd);
+    printf("\n-----------------------------------------------------"); 
 }
 
 NAN_METHOD(startEnroll)
 {
-    int finger = 1;
+    int finger = 4;
     bool ret = false;
     ENROLLFP_DATA *FPdata;
 
@@ -84,6 +85,7 @@ NAN_METHOD(startEnroll)
     
     if(!FPdata) goto error;
 
+        printf("\n-----------------------------------------------------"); 
         FPdata->pImage = NULL;
         FPdata->pFmd = NULL;
         FPdata->nFmdSize = 0;

@@ -51,6 +51,7 @@ int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata){
 				break;
 			}
 			if(!bStop){
+
 				// printf("\n ppImage %s",ppImage);
 				// printf("\n Fmd %s",vFmd);  
 				
@@ -58,7 +59,12 @@ int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata){
 				fpdata->nFmdSize = vFmdSize;
 				fpdata->pImage = ppImage;
 				fpdata->finger = i;
+
 				func(fpdata);
+				dpfpdd_led_ctrl(hReaders, DPFPDD_LED_ACCEPT, DPFPDD_LED_CMD_ON);
+				sleep(2);
+				dpfpdd_led_ctrl(hReaders, DPFPDD_LED_ACCEPT, DPFPDD_LED_CMD_OFF);
+
 				if(NULL != vFmd) free(vFmd);
 				// if(NULL != ppImage) free(ppImage);
 				ppImage = NULL;
@@ -66,16 +72,6 @@ int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata){
 				vFmdSize = 0; 
 				i++;
 			}
- 
-			// // for(int i = 0; i < nFingerCnt; i++){
-			// 	if(NULL != vFmd) free(vFmd);
-			// 	// if(NULL != ppImage[i]) free(ppImage[i]);
-			// 	ppImage = NULL;
-			// 	vFmd = NULL;
-			// 	vFmdSize = 0; 
-			// 	i++;
-			// // }
     }
-	dpfpdd_close(hReaders);
 	return bStop;
 }
