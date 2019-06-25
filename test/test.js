@@ -9,9 +9,9 @@ if(inits){
     //     console.log(data2);
     //     console.log(data3);
     // });
-    uareuprint.startEnroll(function(status,fimage,fmd){
-        console.log("\n\ntest status startEnroll %d",status);
-        console.log("\ntest fimage startEnroll %s",fimage);
-        console.log("\ntest fmd startEnroll %s \n",fmd);
+    uareuprint.startEnroll(function(status,fimage,fid){
+        console.log("\n\ntest status startEnroll ",status);
+        console.log("\ntest fimage startEnroll ",fimage);
+        console.log("\ntest fmd startEnroll",fid);
     });
 }

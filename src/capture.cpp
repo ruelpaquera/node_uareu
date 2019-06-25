@@ -44,35 +44,36 @@ int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata){
 		print_error("dpfpdd_led_config()", result);
 	}
 	int bStop = 0;
-    while(!bStop){ // DPFJ_FMD_ISO_19794_2_2005 DPFJ_FMD_ANSI_378_2004
-			bStop = CaptureFinger(hReaders, dpi, DPFJ_FMD_ANSI_378_2004, &vFmd, &vFmdSize,&ppImage);
-			if(i == nFingerCnt || bStop){
-				bStop = 1;
-				break;
-			}
-			if(!bStop){
+	while(!bStop){   
+		bStop = CaptureFinger(hReaders, dpi, DPFJ_FMD_ANSI_378_2004, &vFmd, &vFmdSize,&ppImage);
+		if(i == nFingerCnt || bStop){
+			bStop = 1;
+			break;
+		}
+		if(!bStop){
 
-				// printf("\n ppImage %s",ppImage);
-				// printf("\n Fmd %s",vFmd);  
-				
-				fpdata->pFmd = vFmd;
-				fpdata->nFmdSize = vFmdSize;
-				fpdata->pImage = ppImage;
-				fpdata->finger = i;
+			// printf("\n ppImage %s",ppImage);
+			// printf("\n Fmd %s",vFmd);  
+			
+			fpdata->pFmd = vFmd;
+			fpdata->nFmdSize = vFmdSize;
+			fpdata->pImage = ppImage;
+			fpdata->finger = i;
 
-				func(fpdata);
-				dpfpdd_led_ctrl(hReaders, DPFPDD_LED_ACCEPT, DPFPDD_LED_CMD_ON);
-				sleep(1);
-				dpfpdd_led_ctrl(hReaders, DPFPDD_LED_ACCEPT, DPFPDD_LED_CMD_OFF);
+			func(fpdata);
+			
+			dpfpdd_led_ctrl(hReaders, DPFPDD_LED_ACCEPT, DPFPDD_LED_CMD_ON);
+			// sleep(1);
+			dpfpdd_led_ctrl(hReaders, DPFPDD_LED_ACCEPT, DPFPDD_LED_CMD_OFF);
 
-				if(NULL != vFmd) free(vFmd);
-				// if(NULL != ppImage) free(ppImage);
-				ppImage = NULL;
-				vFmd = NULL;
-				vFmdSize = 0; 
-				i++;
-			}
-    }
+			if(NULL != vFmd) free(vFmd);
+			// if(NULL != ppImage) free(ppImage);
+			ppImage = NULL;
+			vFmd = NULL;
+			vFmdSize = 0; 
+			i++;
+		}
+	}
 
 	dpfpdd_close(hReaders);
 	return bStop;

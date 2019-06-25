@@ -46,8 +46,8 @@ static void fpEnroll_start_cb(void *edata)
     if(!fpdata && fpdata->pFmd == NULL)
         return;
  
-    printf("\ncallback return %s",fpdata->pImage); 
-    printf("\ncallback return %s",fpdata->pFmd); 
+    // printf("\ncallback return %s",fpdata->pImage); 
+    // printf("\ncallback return %s",fpdata->pFmd); 
     printf("\ncallback return %d",fpdata->nFmdSize);  
 
     Nan::Callback callback(Nan::New<Function>(fpdata->callback));
@@ -58,9 +58,11 @@ static void fpEnroll_start_cb(void *edata)
     argv[2] = Nan::Null();
 
 
+    
+    // std::string pImage =  Nan::NewBuffer((unsigned char*)fpdata->pImage, fpdata->pFmd);
     std::string pImage = (char *)fpdata->pImage;
     std::string pFmd = (char *)fpdata->pFmd;
-        // argv[3] = Nan::New(fingerprintimg.c_str()).ToLocalChecked();
+    // argv[3] = Nan::New(fingerprintimg.c_str()).ToLocalChecked();
     // std::string pImage = "fpdata->pImage";
     // std::string pFmd = "fpdata->pFmd";
 

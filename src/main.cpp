@@ -32,10 +32,10 @@ using v8::FunctionTemplate;
 
 NAN_METHOD(init)
 {
-    sigset_t sigmask;
-	sigfillset(&sigmask);
-	pthread_sigmask(SIG_BLOCK, &sigmask, NULL);
-	setlocale(LC_ALL, "");
+    // sigset_t sigmask;
+	// sigfillset(&sigmask);
+	// pthread_sigmask(SIG_BLOCK, &sigmask, NULL);
+	// setlocale(LC_ALL, "");
     initalized  = dpfpdd_init();
     if(DPFPDD_SUCCESS != initalized) print_error("dpfpdd_init()", initalized);
     info.GetReturnValue().Set(initalized == 0);
