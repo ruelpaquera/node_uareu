@@ -7,33 +7,16 @@
 
 #include <unistd.h>
 DPFPDD_DEV hReaders = NULL; //handle of the selected reader
-int dpi = 0;
+int dpi = 50;
 char szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader
 
 //,void(*func)(void *,int *,unsigned char *,unsigned char *,unsigned int *),void *FPdata
 int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata){ 
 	const int nFingerCnt = *finger;
 	unsigned char* vFmd;
-	unsigned int vFmdSize;
-	// char* vFingerName;
+	unsigned int vFmdSize; 
 	unsigned char* ppImage;
-	int i = 0;
-	// const int nFingerCnt = countFinger;
-	// unsigned char* vFmd[nFingerCnt];
-	// unsigned int vFmdSize[nFingerCnt];
-	// char* vFingerName[nFingerCnt];
-	// unsigned char* ppImage[nFingerCnt];
-	// int i = 0;
-	// for(i = 0; i < nFingerCnt; i++){
-	// 	vFmd[i] = NULL;
-	// 	vFmdSize[i] = 0;
-	// }
-
-	// vFingerName[0] = const_cast<char*>("thumb");
-	// vFingerName[1] = const_cast<char*>("index");
-	// vFingerName[2] = const_cast<char*>("middle");
-	// vFingerName[3] = const_cast<char*>("ring");
-	// vFingerName[4] = const_cast<char*>("any");  
+	int i = 0; 
 	if(hReaders == NULL) 
 		hReaders = GetReader(szReader, sizeof(szReader),&dpi);
 
@@ -51,9 +34,6 @@ int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata){
 			break;
 		}
 		if(!bStop){
-
-			// printf("\n ppImage %s",ppImage);
-			// printf("\n Fmd %s",vFmd);  
 			
 			fpdata->pFmd = vFmd;
 			fpdata->nFmdSize = vFmdSize;
@@ -61,7 +41,7 @@ int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata){
 			fpdata->finger = i;
 
 			func(fpdata);
-			
+
 			dpfpdd_led_ctrl(hReaders, DPFPDD_LED_ACCEPT, DPFPDD_LED_CMD_ON);
 			// sleep(1);
 			dpfpdd_led_ctrl(hReaders, DPFPDD_LED_ACCEPT, DPFPDD_LED_CMD_OFF);

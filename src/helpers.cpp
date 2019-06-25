@@ -82,8 +82,8 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 	//prepare capture parameters and result
 	DPFPDD_CAPTURE_PARAM cparam = {};
 	cparam.size = sizeof(cparam);
-	cparam.image_fmt = DPFPDD_IMG_FMT_ISOIEC19794;
-	cparam.image_proc = DPFPDD_IMG_PROC_NONE;
+	cparam.image_fmt = DPFPDD_IMG_FMT_ISOIEC19794; //DPFPDD_IMG_FMT_ISOIEC19794 DPFPDD_IMG_FMT_PIXEL_BUFFER
+	cparam.image_proc = DPFPDD_IMG_PROC_NONE; //DPFPDD_IMG_PROC_DEFAULT DPFPDD_IMG_PROC_NONE DPFPDD_IMG_PROC_PIV
 	cparam.image_res = dpi;
 	DPFPDD_CAPTURE_RESULT cresult = {};
 	cresult.size = sizeof(cresult);
@@ -103,6 +103,7 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 		
 	//set signal handler 
 	g_hReader = hReader;
+	
 	struct sigaction new_action, old_action;
 	new_action.sa_handler = &signal_handler;
 	sigemptyset(&new_action.sa_mask);
@@ -175,27 +176,26 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 				}
 				else{ 
 
-						*ppFt = pFeatures;
-						*pFtSize = nFeaturesSize;
-						*ppImage = pImage;  
-
-					result = dpfj_create_fmd_from_fid(DPFJ_FID_ISO_19794_4_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
+					*ppFt = pFeatures;
+					*pFtSize = nFeaturesSize;
+					*ppImage = pImage;  
+					// result = dpfj_create_fmd_from_fid(DPFJ_FID_ISO_19794_4_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
 					
-					if(DPFJ_SUCCESS == result){
+					// if(DPFJ_SUCCESS == result){
  
-						*ppFt = pFeatures;
-						*pFtSize = nFeaturesSize;
-						*ppImage = pImage;  
-						printf("\npFeatures %s",pFeatures);
-						printf("\nFeaturesSize %d\n",nFeaturesSize);
-						printf("\npImage %s\n",pImage);
-					// 	// printf("features extracted (%ldms).\n\n", mseconds);
-						break;
-					}
-					else{
-						print_error("dpfj_create_fmd_from_fid()", result);
-						free(pFeatures);
-					}
+					// 	*ppFt = pFeatures;
+					// 	*pFtSize = nFeaturesSize;
+					// 	*ppImage = pImage;  
+					// 	printf("\npFeatures %s",pFeatures);
+					// 	printf("\nFeaturesSize %d\n",nFeaturesSize);
+					// 	printf("\npImage %s\n",pImage);
+					// // 	// printf("features extracted (%ldms).\n\n", mseconds);
+					// 	break;
+					// }
+					// else{
+					// 	print_error("dpfj_create_fmd_from_fid()", result);
+					// 	free(pFeatures);
+					// }
 				}
 			}
 			else if(DPFPDD_QUALITY_CANCELED == cresult.quality){
@@ -234,10 +234,6 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 		break;
 	}
 		
-	if(NULL != pImage){
-		free(pImage);
-		printf("\npImage free\n");
-	}
 	//restore signal mask
 	pthread_sigmask(SIG_SETMASK, &old_sigmask, NULL);
 	
@@ -245,5 +241,9 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 	sigaction (SIGINT, &old_action, NULL);
 	g_hReader = NULL;
 
+	if(NULL != pImage){
+		free(pImage);
+		printf("\npImage free\n");
+	}
 	return result;
 }
