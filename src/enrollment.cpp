@@ -2,6 +2,7 @@
 
 #include "helpers.h"
 #include "capture.h"
+#include "base64.h"
  
 #include <dpfpdd.h>
 #include <dpfj.h>
@@ -15,7 +16,6 @@
 #include <signal.h>
 #include <locale.h>
 #include <sys/time.h>
-#include "base64.h"
 
 using namespace v8;
 using v8::FunctionTemplate; 
@@ -60,6 +60,8 @@ static void fpEnroll_start_cb(void *edata)
 
     
     // std::string pImage =  Nan::NewBuffer((unsigned char*)fpdata->pImage, fpdata->pFmd);
+    // std::string pImage = (char *)fpdata->pImage;
+    // std::string pFmd = (char *)fpdata->pFmd;
     std::string pImage = (char *)fpdata->pImage;
     std::string pFmd = (char *)fpdata->pFmd;
     // argv[3] = Nan::New(fingerprintimg.c_str()).ToLocalChecked();
@@ -74,12 +76,12 @@ static void fpEnroll_start_cb(void *edata)
 
     // if(NULL != pImage) free(pImage);
     // if(NULL != pFmd) free(pFmd);
-    printf("\n-----------------------------------------------------"); 
+    printf("\n-----------------------------------------------------\n"); 
 }
 
 NAN_METHOD(startEnroll)
 {
-    int finger = 4;
+    int finger = 3;
     bool ret = false;
     ENROLLFP_DATA *FPdata;
 
@@ -87,7 +89,7 @@ NAN_METHOD(startEnroll)
     
     if(!FPdata) goto error;
 
-        printf("\n-----------------------------------------------------"); 
+        printf("\n-----------------------------------------------------\n"); 
         FPdata->pImage = NULL;
         FPdata->pFmd = NULL;
         FPdata->nFmdSize = 0;
@@ -103,48 +105,3 @@ error:
     info.GetReturnValue().Set(Nan::New(ret));
     return;
 }
-
-
-
-
-
-
-
-
-
-
-
-        // printf(" putang ina %d ",result_);
-        // if(result_ == 1){
-        //     fpEnroll_start_cb((void*)FPdata);
-        // }
-        // void * context_unused = NULL;
-
-        // DPFPDD_CAPTURE_PARAM cparam;
-        // cparam.size = sizeof(cparam);
-        // cparam.image_fmt = DPFPDD_IMG_FMT_ISOIEC19794;
-        // cparam.image_proc = DPFPDD_IMG_PROC_NONE;
-        // cparam.image_res = dpi;
-	    // DPFPDD_CAPTURE_RESULT cresult;
-        // cresult.size = sizeof(cresult);
-        // cresult.info.size = sizeof(cresult.info);
-	    // unsigned int nOrigImageSize = 0;
-        /*
-        typedef struct __ENROLLFP_DATA__ {
-            uv_async_t async;
-            Nan::Persistent<Function> callback; 
-            int result;
-            unsigned char *pImage;
-            unsigned char *pFmd; 
-            unsigned int nFmdSize = 0;
-        } ENROLLFP_DATA;
-        */
-        // result = dpfpdd_capture(hReader,&cparam, -1,  &cresult,&nOrigImageSize, FPdata->pImage);
-        // if(DPFPDD_E_MORE_DATA != result){
-        //     print_error("dpfpdd_capture()", result);
-        //     return;
-        // }
-   
-        // 
-		// Identification(hReader,dpi);
-		// CaptureFinger("any finger", hReader, dpi, DPFJ_FMD_ANSI_378_2004, &pFmd, &nFmdSize))

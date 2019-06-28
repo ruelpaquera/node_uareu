@@ -14,6 +14,7 @@
                     "/usr/lib/libdpfpdd.so",
                     "/usr/lib/libdpfj.so",
                     "/usr/lib/libtfm.so",
+                    "./../lib/libWSQ_library64.so"
                 ]
             }], 
             ["OS in \"win\"",{                
