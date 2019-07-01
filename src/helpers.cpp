@@ -156,7 +156,7 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 		}
 		else{ 
 			if(cresult.success){ 
- 
+					
 				// printf("\nDPFPDD_QUALITY %d \n",cresult.quality);
 				// printf("\ncresult.score %d \n",cresult.score);
 				// printf("\ncresult.size %d \n",cresult.size);
@@ -165,6 +165,20 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 				// printf("\ncresult.info.res %d \n",cresult.info.res);
 				// printf("\ncresult.info.bpp %d \n",cresult.info.bpp);
 				// printf("\ncresult.info.size %d \n",cresult.info.size);
+
+				unsigned char pImage2;
+				unsigned int nImageSize2;
+				// pImage2 = NULL;
+				// int dpfidcon = dpfj_dp_fid_convert(pImage,nImageSize,DPFJ_FID_ANSI_381_2004,dpi,0,&pImage2,&nImageSize2);
+				// if(DPFJ_SUCCESS == dpfidcon){
+				// 	printf("dpfj_dp_fid_convert success");
+				// }else {
+				// 	printf("dpfj_dp_fid_convert Failed");
+				// }
+				
+				int rawcon = dpfj_raw_convert();
+
+				// printf("\ndpfj_get_processed_data pImage2 %s\n",pImage2);
 
 				// *ppImage = pImage;
 				//get max size for the feature template
@@ -178,14 +192,13 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 				else{ 
 					
 
+					// printf("\ndpfj_get_processed_data nImageSize2 %s\n",nImageSize2);
 					// printf("\ncresult.info.width %d \n",cresult.info.width);
 					// printf("\ncresult.info.height %d \n",cresult.info.height);
 					// printf("\ncresult.info.res %d \n",cresult.info.res);
 					// printf("\ncresult.info.bpp %d \n",cresult.info.bpp);
 					// printf("\ncresult.info.size %d \n",cresult.info.size);
 
-					unsigned  char pImage2;
-					unsigned int nImageSize2;
 					// int compress = dpfj_compress_raw(pImage, cresult.info.size, cresult.info.width, cresult.info.height, dpi, cresult.info.bpp,DPFJ_COMPRESSION_WSQ_NIST);
 					
 					// int setwsq = dpfj_set_wsq_size(nImageSize,100);
@@ -194,38 +207,39 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 					// }else if(setwsq == DPFJ_E_FAILURE){
 					// 	printf("\ndpfj_set_wsq_size fail\n");
 					// }
-					int scompress = dpfj_start_compression();
-					if(scompress == DPFJ_SUCCESS){
-						printf("compress start success");
-					}else if(scompress == DPFJ_E_COMPRESSION_IN_PROGRESS){
-						printf("compress start in progress");
-					}else {
-						printf("compress FAILURE");
-					}
-					int setbitrate = dpfj_set_wsq_bitrate(90,0);
-					if(setbitrate == DPFJ_SUCCESS){
-						printf("\ndpfj_set_wsq_bitrate success\n");
-					}else if(setbitrate == DPFJ_E_FAILURE){
-						printf("\ndpfj_set_wsq_bitrate fail\n");
-					}
-					int compress = dpfj_compress_fid(DPFJ_FID_ISO_19794_4_2005,pImage,nImageSize,DPFJ_COMPRESSION_WSQ_AWARE);
-					printf("\ndpfj_compress_fid compress %d \n",compress);
-					dpfj_get_processed_data(&pImage2,&nImageSize2);
+					// int scompress = dpfj_start_compression();
+					// if(scompress == DPFJ_SUCCESS){
+					// 	printf("compress start success");
+					// }else if(scompress == DPFJ_E_COMPRESSION_IN_PROGRESS){
+					// 	printf("compress start in progress");
+					// }else {
+					// 	printf("compress FAILURE");
+					// }
+					// int setbitrate = dpfj_set_wsq_bitrate(90,0);
+					// if(setbitrate == DPFJ_SUCCESS){
+					// 	printf("\ndpfj_set_wsq_bitrate success\n");
+					// }else if(setbitrate == DPFJ_E_FAILURE){
+					// 	printf("\ndpfj_set_wsq_bitrate fail\n");
+					// }
+					// int compress = dpfj_compress_fid(DPFJ_FID_ISO_19794_4_2005,pImage,nImageSize,DPFJ_COMPRESSION_WSQ_AWARE);
+					// printf("\ndpfj_compress_fid compress %d \n",compress);
+					// pImage2 = NULL;
+					// nImageSize = NULL;
+					// dpfj_get_processed_data(&pImage2,&nImageSize2);
 
-					printf("\ndpfj_get_processed_data pImage2 %s\n",pImage2);
-					// printf("\ndpfj_get_processed_data nImageSize2 %s\n",nImageSize2);
+					// printf("\ndpfj_get_processed_data pImage2 %s\n",pImage2);
+					// // printf("\ndpfj_get_processed_data nImageSize2 %s\n",nImageSize2);
 
-					int ecompress = dpfj_finish_compression();
-					if(ecompress == DPFJ_SUCCESS){
-						printf("\ncompress finish success\n");
-					}else{
-						printf("\ncompress in FAILURE\n");
-					}
-					
+					// int ecompress = dpfj_finish_compression();
+					// if(ecompress == DPFJ_SUCCESS){
+					// 	printf("\ncompress finish success\n");
+					// }else{
+					// 	printf("\ncompress in FAILURE\n");
+					// }
+
 					*ppImage = pImage;
 					printf("\npImage2 %s\n",pImage);// DPFJ_FID_ANSI_381_2004 DPFJ_FID_ISO_19794_4_2005
 					printf("\n2nImageSize %d\n",nImageSize);
-
 					// result = dpfj_create_fmd_from_fid(DPFJ_FID_ISO_19794_4_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
  					// if(DPFJ_SUCCESS == result){ 
 						*ppFt = pFeatures;

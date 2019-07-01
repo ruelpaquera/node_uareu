@@ -43,9 +43,9 @@ int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata){
 
 			func(fpdata);
 
-			dpfpdd_led_ctrl(hReaders, DPFPDD_LED_ACCEPT, DPFPDD_LED_CMD_ON); 
-			sleep(1);
-			dpfpdd_led_ctrl(hReaders, DPFPDD_LED_ACCEPT, DPFPDD_LED_CMD_OFF);
+			// dpfpdd_led_ctrl(hReaders, DPFPDD_LED_ACCEPT, DPFPDD_LED_CMD_ON); 
+			// sleep(1);
+			// dpfpdd_led_ctrl(hReaders, DPFPDD_LED_ACCEPT, DPFPDD_LED_CMD_OFF);
 
 			if(NULL != vFmd) free(vFmd);
 			// if(NULL != ppImage) free(ppImage);
