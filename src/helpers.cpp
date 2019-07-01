@@ -166,8 +166,10 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 				// printf("\ncresult.info.bpp %d \n",cresult.info.bpp);
 				// printf("\ncresult.info.size %d \n",cresult.info.size);
 
-				unsigned char pImage2;
-				unsigned int nImageSize2;
+				unsigned char* pImage2;
+				unsigned int* nImageSize2;
+
+				const unsigned char* pImage3; 
 				// pImage2 = NULL;
 				// int dpfidcon = dpfj_dp_fid_convert(pImage,nImageSize,DPFJ_FID_ANSI_381_2004,dpi,0,&pImage2,&nImageSize2);
 				// if(DPFJ_SUCCESS == dpfidcon){
@@ -176,8 +178,16 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 				// 	printf("dpfj_dp_fid_convert Failed");
 				// }
 				
-				int rawcon = dpfj_raw_convert();
-
+				int rawcon = dpfj_raw_convert(pImage3,cresult.info.size,cresult.info.width,cresult.info.height,dpi,DPFJ_POSITION_RTHUMB,108,DPFJ_FID_ANSI_381_2004,dpi,0,pImage,&nImageSize);
+				if(DPFJ_SUCCESS == rawcon){
+					printf("dpfj_raw_convert success");
+				}else {
+					printf("dpfj_raw_convert Failed");
+				}
+				printf("\npImage2 %s\n",pImage2);// DPFJ_FID_ANSI_381_2004 DPFJ_FID_ISO_19794_4_2005
+				printf("\nImageSize2 %d\n",nImageSize2);
+				printf("\npImage2 %s\n",pImage2);// DPFJ_FID_ANSI_381_2004 DPFJ_FID_ISO_19794_4_2005
+				printf("\nImageSize2 %d\n",nImageSize2);
 				// printf("\ndpfj_get_processed_data pImage2 %s\n",pImage2);
 
 				// *ppImage = pImage;
@@ -238,8 +248,8 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 					// }
 
 					*ppImage = pImage;
-					printf("\npImage2 %s\n",pImage);// DPFJ_FID_ANSI_381_2004 DPFJ_FID_ISO_19794_4_2005
-					printf("\n2nImageSize %d\n",nImageSize);
+					// printf("\npImage2 %s\n",pImage);// DPFJ_FID_ANSI_381_2004 DPFJ_FID_ISO_19794_4_2005
+					// printf("\n2nImageSize %d\n",nImageSize);
 					// result = dpfj_create_fmd_from_fid(DPFJ_FID_ISO_19794_4_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
  					// if(DPFJ_SUCCESS == result){ 
 						*ppFt = pFeatures;
