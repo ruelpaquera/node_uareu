@@ -81,7 +81,7 @@ static void fpEnroll_start_cb(void *edata)
 
 NAN_METHOD(startEnroll)
 {
-    int finger = 3;
+    int finger = 15;
     bool ret = false;
     ENROLLFP_DATA *FPdata;
 
