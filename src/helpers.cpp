@@ -97,7 +97,6 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 		print_error("dpfpdd_capture()", result);
 		return result;
 	}
-	//unsigned char* pImage = (unsigned char*)malloc(nOrigImageSize);
 	unsigned char* pImage = (unsigned char*)malloc(nOrigImageSize);
 	if(NULL == pImage){
 		print_error("malloc()", ENOMEM); 
@@ -149,9 +148,9 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 		printf("\n1pImage %*\n",pImage);
 		// printf("\n1nImageSize %d\n",nImageSize);
 		result = dpfpdd_capture(hReader, &cparam, -1, &cresult, &nImageSize, pImage); 
-		// for(int xx = 0;xx < nImageSize;xx++){
-		// 	printf("\n1pImage %x\n",pImage[xx]);
-		// }
+		for(int xx = 0;xx < nImageSize;xx++){
+			printf(" %x ",pImage[xx]);
+		}
  		printf("\n2pImage %*\n",pImage);
 		if(DPFPDD_SUCCESS != result){
 			print_error("dpfpdd_capture()", result);
@@ -172,7 +171,7 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 				unsigned int nFeaturesSize = MAX_FMD_SIZE;
 				unsigned char* pFeatures = (unsigned char*)malloc(nFeaturesSize);
 				// for(int xx = 0;xx < nFeaturesSize;xx++){
-				// 	printf("\npFeatures %x\n",pFeatures[xx]);
+				// 	printf(" %x ",pFeatures[xx]);
 				// }
 				printf("\nnFeaturesSize %d\n",nFeaturesSize);
 				if(NULL == pFeatures){

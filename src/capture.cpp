@@ -22,10 +22,6 @@ int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata){
 		
 	ENROLLFP_DATA *fpdata = (ENROLLFP_DATA*)FPdata; 
 
-  	// int result = dpfpdd_led_config(hReaders, DPFPDD_LED_ACCEPT | DPFPDD_LED_REJECT, DPFPDD_LED_CLIENT, NULL);
-	// if(DPFPDD_SUCCESS != result && DPFPDD_E_NOT_IMPLEMENTED != result){
-	// 	print_error("dpfpdd_led_config()", result);
-	// }
 	int bStop = 0;
 	while(!bStop){   
 		if(i == nFingerCnt){
