@@ -148,9 +148,9 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 		printf("\n1pImage %*\n",pImage);
 		// printf("\n1nImageSize %d\n",nImageSize);
 		result = dpfpdd_capture(hReader, &cparam, -1, &cresult, &nImageSize, pImage); 
-		for(int xx = 0;xx < nImageSize;xx++){
-			printf(" %x ",pImage[xx]);
-		}
+		// for(int xx = 0;xx < nImageSize;xx++){
+		// 	printf(" %x ",pImage[xx]);
+		// }
  		printf("\n2pImage %*\n",pImage);
 		if(DPFPDD_SUCCESS != result){
 			print_error("dpfpdd_capture()", result);

@@ -21,6 +21,19 @@ int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata){
 		hReaders = GetReader(szReader, sizeof(szReader),&dpi);
 		
 	ENROLLFP_DATA *fpdata = (ENROLLFP_DATA*)FPdata; 
+	int comstart = dpfj_start_compression();
+	if(comstart != DPFJ_SUCCESS){
+ 		print_error("dpfpdd_capture()", comstart);
+	}else{
+		printf("\nstarted compression\n");
+	}
+	int setwsq = dpfj_set_wsq_bitrate(4.19,100);
+	if(setwsq != DPFJ_SUCCESS){
+ 		print_error("dpfpdd_capture()", setwsq);
+	}else{
+		printf("\nsuccess dpfj_set_wsq_bitrate\n");
+	}
+	
 
 	int bStop = 0;
 	while(!bStop){   
@@ -37,8 +50,12 @@ int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata){
 			fpdata->pImage = ppImage;
 			fpdata->finger = i;
 
-
-
+			// int compressfid = dpfj_compress_fid(DPFJ_FID_ISO_19794_4_2005,ppImage,vFmdSize,DPFJ_COMPRESSION_WSQ_NIST);
+			// if(compressfid != DPFJ_SUCCESS){
+			// 	print_error("dpfj_compress_fid()", setwsq);
+			// }else{
+			// 	printf("\nsuccess dpfj_compress_fid\n");
+			// }
 
 		
 
