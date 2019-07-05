@@ -44,5 +44,5 @@ typedef void (*fpEnroll_start_cb_)(void *edata);
 void print_error(const char* szFunctionName, int nError);
 
 //returns 0 if captured, otherwise an error code
-int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage);
+int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage,unsigned int* _nOrigImageSize);
 //const char* szFingerName, 

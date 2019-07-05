@@ -81,7 +81,7 @@ static void fpEnroll_start_cb(void *edata)
 
 NAN_METHOD(startEnroll)
 {
-    int finger = 15;
+    int finger = 1;
     bool ret = false;
     ENROLLFP_DATA *FPdata;
 
@@ -94,8 +94,8 @@ NAN_METHOD(startEnroll)
         FPdata->pFmd = NULL;
         FPdata->nFmdSize = 0;
         FPdata->result = -1;
-         
-        FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[0]));
+        finger = Nan::To<v8::Number>(info[0]).ToLocalChecked()->Value();
+        FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
  
         fingerCapture(&finger,fpEnroll_start_cb,(void*)FPdata);
         

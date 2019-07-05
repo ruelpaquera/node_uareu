@@ -74,7 +74,7 @@ void signal_handler(int nSignal) {
 	}
 }
 
-int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage){
+int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage,unsigned int* _nOrigImageSize){
 	int result = 0; 
 	*ppFt = NULL;
 	*pFtSize = 0;
@@ -97,6 +97,7 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 		print_error("dpfpdd_capture()", result);
 		return result;
 	}
+	*_nOrigImageSize = nOrigImageSize;
 	unsigned char* pImage = (unsigned char*)malloc(nOrigImageSize);
 	if(NULL == pImage){
 		print_error("malloc()", ENOMEM); 
@@ -145,27 +146,43 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 
 		//capture fingerprint 
 		printf("\nloop Put %s on the reader, or press Ctrl-C to cancel...\r\n", szFingerName);
-		printf("\n1pImage %*\n",pImage);
+		printf("\n1pImage %p\n",pImage);
 		// printf("\n1nImageSize %d\n",nImageSize);
 		result = dpfpdd_capture(hReader, &cparam, -1, &cresult, &nImageSize, pImage); 
 		// for(int xx = 0;xx < nImageSize;xx++){
 		// 	printf(" %x ",pImage[xx]);
 		// }
- 		printf("\n2pImage %*\n",pImage);
+ 		printf("\n2pImage %p\n",pImage);
 		if(DPFPDD_SUCCESS != result){
 			print_error("dpfpdd_capture()", result);
 		}
 		else{ 
 			if(cresult.success){ 
-					
-				printf("\nDPFPDD_QUALITY %d",cresult.quality);
-				printf("\ncresult.score %d",cresult.score);
-				printf("\ncresult.size %d",cresult.size);
-				printf("\ncresult.info.width %d",cresult.info.width);
-				printf("\ncresult.info.height %d",cresult.info.height);
-				printf("\ncresult.info.res %d",cresult.info.res);
-				printf("\ncresult.info.bpp %d",cresult.info.bpp);
-				printf("\ncresult.info.size %d\n",cresult.info.size);
+				// for(int xx = 0;xx < nImageSize;xx++){
+				// 	printf(" %x ",ppImage[xx]);
+				// }
+				int comstart = dpfj_start_compression();
+				if(comstart != DPFJ_SUCCESS){
+					print_error("dpfpdd_capture()", comstart);
+				}else{
+					printf("\nstarted compression\n");
+				}
+				int setwsq = dpfj_set_wsq_bitrate(4.19,100);
+				if(setwsq != DPFJ_SUCCESS){
+					print_error("dpfpdd_capture()", setwsq);
+				}else{
+					printf("\nsuccess dpfj_set_wsq_bitrate\n");
+				}
+
+
+				// printf("\nDPFPDD_QUALITY %d",cresult.quality);
+				// printf("\ncresult.score %d",cresult.score);
+				// printf("\ncresult.size %d",cresult.size);
+				// printf("\ncresult.info.width %d",cresult.info.width);
+				// printf("\ncresult.info.height %d",cresult.info.height);
+				// printf("\ncresult.info.res %d",cresult.info.res);
+				// printf("\ncresult.info.bpp %d",cresult.info.bpp);
+				// printf("\ncresult.info.size %d\n",cresult.info.size);
  
  
 				unsigned int nFeaturesSize = MAX_FMD_SIZE;
@@ -179,6 +196,59 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 					result = ENOMEM;
 				}
 				else{  
+
+
+
+					int compressfid = dpfj_compress_fid(DPFJ_FID_ISO_19794_4_2005,pImage,nImageSize,DPFJ_COMPRESSION_WSQ_NIST);
+					while(1){	
+						printf("\dpfj_compress_fid loop\n");			
+						if(compressfid == DPFJ_SUCCESS){ 
+							break;
+						}else if(compressfid == DPFJ_E_COMPRESSION_NOT_STARTED){
+							printf("\nfail DPFJ_E_COMPRESSION_NOT_STARTED\n");
+						}else if(compressfid == DPFJ_E_COMPRESSION_INVALID_WSQ_PARAMETER){
+							printf("\nfail DPFJ_E_COMPRESSION_INVALID_WSQ_PARAMETER\n");
+						}else if(compressfid == DPFJ_E_COMPRESSION_WSQ_LIB_NOT_FOUND){
+							printf("\nfail DPFJ_E_COMPRESSION_WSQ_LIB_NOT_FOUND\n");
+						}else if(compressfid == DPFJ_E_COMPRESSION_WSQ_FAILURE){
+							printf("\nfail DPFJ_E_COMPRESSION_WSQ_FAILURE\n");
+						}else {
+							print_error("dpfj_compress_fid()", compressfid);
+						} 
+					}
+					// printf("\nsuccess dpfj_compress_fid\n");
+
+					unsigned char* pImage_  = (unsigned char*)malloc(nImageSize);
+					unsigned int nImageSize_ = nImageSize ;
+					int l = 0;
+					int getdata = dpfj_get_processed_data(pImage_,&nImageSize_);
+					while(1){
+						if(getdata != DPFJ_SUCCESS ){
+							print_error("dpfj_get_processed_data()", getdata); 
+						}else if(getdata == DPFJ_SUCCESS ){
+							printf("\ndpfj_get_processed_data pImage %* \n",pImage_);
+							printf("\ndpfj_get_processed_data nImageSize %* \n",nImageSize_);
+							break;
+						}
+						if(l == 1000){
+							break;
+						}
+						l++;
+					}
+					for(int xx = 0;xx < nImageSize_;xx++){
+						printf(" %x ",pImage_[xx]);
+					}
+					result = dpfj_create_fmd_from_fid(DPFJ_FID_ISO_19794_4_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
+ 					if(DPFJ_SUCCESS == result){ 
+						*ppFt = pFeatures;
+						*pFtSize = nFeaturesSize;
+						*ppImage = pImage;  
+						printf("\nFeaturesSize %d",nFeaturesSize); 
+						printf("\npImage %x\n",pImage); 
+					}else{
+						print_error("dpfj_create_fmd_from_fid()", result); 
+						free(pFeatures);
+					}
 					// result = dpfj_create_fmd_from_raw(pImage,cresult.info.size,cresult.info.width,cresult.info.height,dpi,DPFJ_POSITION_RTHUMB,51,nFtType,pFeatures,&nFeaturesSize);
  					// if(DPFJ_SUCCESS == result){ 
 					// 	*ppFt = pFeatures;
@@ -195,17 +265,8 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 					// printf("\npImage2 %s\n",pImage);// DPFJ_FID_ANSI_381_2004 DPFJ_FID_ISO_19794_4_2005
 					// printf("\n2nImageSize %d\n",nImageSize);
 					// printf("\npFeatures %*",pFeatures);
-					result = dpfj_create_fmd_from_fid(DPFJ_FID_ISO_19794_4_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
- 					if(DPFJ_SUCCESS == result){ 
-						*ppFt = pFeatures;
-						*pFtSize = nFeaturesSize;
-						*ppImage = pImage;  
-						printf("\nFeaturesSize %d",nFeaturesSize); 
-						printf("\npImage %*\n",pImage); 
-					}else{
-						print_error("dpfj_create_fmd_from_fid()", result); 
-						free(pFeatures);
-					}
+
+					dpfj_finish_compression();
 				}
 			}
 			else if(DPFPDD_QUALITY_CANCELED == cresult.quality){ 
