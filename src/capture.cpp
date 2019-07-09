@@ -3,6 +3,7 @@
 #include "selection.h"
 
 #include <unistd.h>
+#include <fstream>
 DPFPDD_DEV hReaders = NULL; //handle of the selected reader
 int dpi = 100;
 char szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader

@@ -74,6 +74,78 @@ void signal_handler(int nSignal) {
 	}
 }
 
+
+void HexToBin(unsigned char hexdec) 
+{ 
+  
+    long int i = 0; 
+//   printf(" %x ",hexdec); 
+    // while (hexdec[i]) { 
+
+        switch (hexdec) { 
+        case '0': 
+            printf("0000"); 
+            break; 
+        case '1': 
+            printf("0001"); 
+            break; 
+        case '2': 
+            printf("0010"); 
+            break; 
+        case '3': 
+            printf("0011"); 
+            break; 
+        case '4': 
+            printf("0100"); 
+            break; 
+        case '5': 
+            printf("0101"); 
+            break; 
+        case '6': 
+            printf("0110"); 
+            break; 
+        case '7': 
+            printf("0111"); 
+            break; 
+        case '8': 
+            printf("1000"); 
+            break; 
+        case '9': 
+            printf("1001"); 
+            break; 
+        case 'A': 
+        case 'a': 
+            printf("1010"); 
+            break; 
+        case 'B': 
+        case 'b': 
+            printf("1011"); 
+            break; 
+        case 'C': 
+        case 'c': 
+            printf("1100"); 
+            break; 
+        case 'D': 
+        case 'd': 
+            printf("1101"); 
+            break; 
+        case 'E': 
+        case 'e': 
+            printf("1110"); 
+            break; 
+        case 'F': 
+        case 'f': 
+            printf("1111"); 
+            break; 
+        default: 
+            // printf("%c", 
+            //        hexdec); 
+
+			break; 
+        } 
+        i++; 
+    // } 
+} 
 int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage,unsigned int* _nOrigImageSize){
 	int result = 0; 
 	*ppFt = NULL;
@@ -159,7 +231,11 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 		else{ 
 			if(cresult.success){ 
 				// for(int xx = 0;xx < nImageSize;xx++){
-				// 	printf(" %x ",ppImage[xx]);
+				// // printf(" %x ",pImage_[xx]);
+				// 	HexToBin(ppImage[xx]);
+				// }
+				// for(int xx = 0;xx < nImageSize;xx++){
+				// 	printf("%x",ppImage[xx]);
 				// }
 				int comstart = dpfj_start_compression();
 				if(comstart != DPFJ_SUCCESS){
@@ -197,8 +273,6 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 				}
 				else{  
 
-
-
 					int compressfid = dpfj_compress_fid(DPFJ_FID_ISO_19794_4_2005,pImage,nImageSize,DPFJ_COMPRESSION_WSQ_NIST);
 					while(1){	
 						printf("\dpfj_compress_fid loop\n");			
@@ -235,16 +309,28 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 						}
 						l++;
 					}
-					for(int xx = 0;xx < nImageSize_;xx++){
-						printf(" %x ",pImage_[xx]);
-					}
+
+					// HexToBin(pImage_);
+					// for(int xx = 0;xx < nImageSize_;xx++){
+					// 	// printf(" %x ",pImage_[xx]);
+					// 	HexToBin(pImage_[xx]);
+					// }
 					result = dpfj_create_fmd_from_fid(DPFJ_FID_ISO_19794_4_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
  					if(DPFJ_SUCCESS == result){ 
 						*ppFt = pFeatures;
 						*pFtSize = nFeaturesSize;
 						*ppImage = pImage;  
+						// for(int xx = 0;xx < nFeaturesSize;xx++){
+						// 	printf("%*",pFeatures[xx]);
+						// }
+						for(int xx = 0;xx < nImageSize;xx++){
+							//printf("     %p     ",pImage[xx]);
+							 HexToBin(pImage[xx]);
+						}
 						printf("\nFeaturesSize %d",nFeaturesSize); 
 						printf("\npImage %x\n",pImage); 
+
+						dpfj_finish_compression();
 					}else{
 						print_error("dpfj_create_fmd_from_fid()", result); 
 						free(pFeatures);
@@ -266,7 +352,6 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 					// printf("\n2nImageSize %d\n",nImageSize);
 					// printf("\npFeatures %*",pFeatures);
 
-					dpfj_finish_compression();
 				}
 			}
 			else if(DPFPDD_QUALITY_CANCELED == cresult.quality){ 
