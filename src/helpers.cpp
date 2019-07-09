@@ -151,6 +151,7 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 	*ppFt = NULL;
 	*pFtSize = 0;
 	const char* szFingerName = "any"; 
+	ofstream outputBuffer("output file path", ios::out|ios::binary);
 	//prepare capture parameters and result
 	DPFPDD_CAPTURE_PARAM cparam = {};
 	cparam.size = sizeof(cparam);
@@ -327,6 +328,7 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 							//printf("     %p     ",pImage[xx]);
 							 HexToBin(pImage[xx]);
 						}
+						
 						printf("\nFeaturesSize %d",nFeaturesSize); 
 						printf("\npImage %x\n",pImage); 
 
