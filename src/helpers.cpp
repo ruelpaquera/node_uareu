@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <sys/time.h> 
-
+using namespace std;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // error handling
 
@@ -151,7 +151,7 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 	*ppFt = NULL;
 	*pFtSize = 0;
 	const char* szFingerName = "any"; 
-	ofstream outputBuffer("output file path", ios::out|ios::binary);
+	ofstream outputBuffer("/home/ruel/node/img/test.bmp", ios::out|ios::binary);
 	//prepare capture parameters and result
 	DPFPDD_CAPTURE_PARAM cparam = {};
 	cparam.size = sizeof(cparam);
@@ -231,13 +231,15 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 		}
 		else{ 
 			if(cresult.success){ 
+
+				printf("\npImages %x\n",sizeof(pImage)); 
 				// for(int xx = 0;xx < nImageSize;xx++){
-				// // printf(" %x ",pImage_[xx]);
-				// 	HexToBin(ppImage[xx]);
+				// 	printf(" %x ",pImage[xx]);
+				// 	// HexToBin(ppImage[xx]);
 				// }
-				// for(int xx = 0;xx < nImageSize;xx++){
-				// 	printf("%x",ppImage[xx]);
-				// }
+				for(int xx = 0;xx < sizeof(pImage);xx++){
+					printf("\n%x\n",pImage[xx]);
+				}
 				int comstart = dpfj_start_compression();
 				if(comstart != DPFJ_SUCCESS){
 					print_error("dpfpdd_capture()", comstart);
@@ -301,8 +303,8 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 						if(getdata != DPFJ_SUCCESS ){
 							print_error("dpfj_get_processed_data()", getdata); 
 						}else if(getdata == DPFJ_SUCCESS ){
-							printf("\ndpfj_get_processed_data pImage %* \n",pImage_);
-							printf("\ndpfj_get_processed_data nImageSize %* \n",nImageSize_);
+							printf("\ndpfj_get_processed_data pImage %p \n",pImage_);
+							printf("\ndpfj_get_processed_data nImageSize %d \n",nImageSize_);
 							break;
 						}
 						if(l == 1000){
@@ -310,11 +312,10 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 						}
 						l++;
 					}
-
 					// HexToBin(pImage_);
 					// for(int xx = 0;xx < nImageSize_;xx++){
-					// 	// printf(" %x ",pImage_[xx]);
-					// 	HexToBin(pImage_[xx]);
+					// 	printf("%x ",pImage_[xx]);
+					// 	// HexToBin(pImage_[xx]);
 					// }
 					result = dpfj_create_fmd_from_fid(DPFJ_FID_ISO_19794_4_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
  					if(DPFJ_SUCCESS == result){ 
@@ -324,19 +325,22 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 						// for(int xx = 0;xx < nFeaturesSize;xx++){
 						// 	printf("%*",pFeatures[xx]);
 						// }
-						for(int xx = 0;xx < nImageSize;xx++){
-							//printf("     %p     ",pImage[xx]);
-							 HexToBin(pImage[xx]);
-						}
-						
+						// for(int xx = 0;xx < nImageSize;xx++){
+						// 	//printf("     %p     ",pImage[xx]);
+						// 	 HexToBin(pImage[xx]);
+						// }
+						printf("\n-----------------------------"); 
+						printf("\npFeatures %d",pFeatures); 
 						printf("\nFeaturesSize %d",nFeaturesSize); 
 						printf("\npImage %x\n",pImage); 
+						printf("\n-----------------------------"); 
 
-						dpfj_finish_compression();
 					}else{
 						print_error("dpfj_create_fmd_from_fid()", result); 
 						free(pFeatures);
 					}
+
+					dpfj_finish_compression();
 					// result = dpfj_create_fmd_from_raw(pImage,cresult.info.size,cresult.info.width,cresult.info.height,dpi,DPFJ_POSITION_RTHUMB,51,nFtType,pFeatures,&nFeaturesSize);
  					// if(DPFJ_SUCCESS == result){ 
 					// 	*ppFt = pFeatures;
