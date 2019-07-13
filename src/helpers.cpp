@@ -20,6 +20,10 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <sys/time.h> 
+
+#include <string.h>
+#include <iostream>
+#include <sstream>
 using namespace std;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // error handling
@@ -232,14 +236,15 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 		else{ 
 			if(cresult.success){ 
 
-				printf("\npImages %x\n",sizeof(pImage)); 
+				// printf("\nstrlen %d\n",strlen(pImage)); 
+				// printf("\npImages %x\n",sizeof(pImage)); 
 				// for(int xx = 0;xx < nImageSize;xx++){
 				// 	printf(" %x ",pImage[xx]);
 				// 	// HexToBin(ppImage[xx]);
 				// }
-				for(int xx = 0;xx < sizeof(pImage);xx++){
-					printf("\n%x\n",pImage[xx]);
-				}
+				// for(int xx = 0;xx < sizeof(pImage);xx++){
+				// 	printf("\n%x\n",pImage[xx]);
+				// }
 				int comstart = dpfj_start_compression();
 				if(comstart != DPFJ_SUCCESS){
 					print_error("dpfpdd_capture()", comstart);
@@ -278,19 +283,23 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 
 					int compressfid = dpfj_compress_fid(DPFJ_FID_ISO_19794_4_2005,pImage,nImageSize,DPFJ_COMPRESSION_WSQ_NIST);
 					while(1){	
-						printf("\dpfj_compress_fid loop\n");			
+						printf("\ndpfj_compress_fid loop\n");			
 						if(compressfid == DPFJ_SUCCESS){ 
 							break;
 						}else if(compressfid == DPFJ_E_COMPRESSION_NOT_STARTED){
 							printf("\nfail DPFJ_E_COMPRESSION_NOT_STARTED\n");
 						}else if(compressfid == DPFJ_E_COMPRESSION_INVALID_WSQ_PARAMETER){
 							printf("\nfail DPFJ_E_COMPRESSION_INVALID_WSQ_PARAMETER\n");
+							break;
 						}else if(compressfid == DPFJ_E_COMPRESSION_WSQ_LIB_NOT_FOUND){
 							printf("\nfail DPFJ_E_COMPRESSION_WSQ_LIB_NOT_FOUND\n");
+							break;
 						}else if(compressfid == DPFJ_E_COMPRESSION_WSQ_FAILURE){
 							printf("\nfail DPFJ_E_COMPRESSION_WSQ_FAILURE\n");
+							break;
 						}else {
 							print_error("dpfj_compress_fid()", compressfid);
+							break;
 						} 
 					}
 					// printf("\nsuccess dpfj_compress_fid\n");
@@ -312,22 +321,43 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 						}
 						l++;
 					}
+					std::string imgstr = "";
+					imgstr = base64_encode(reinterpret_cast<unsigned char* >(pImage_),nImageSize_);
+					printf("\n imgstr %s \n",imgstr.c_str());
 					// HexToBin(pImage_);
 					// for(int xx = 0;xx < nImageSize_;xx++){
 					// 	printf("%x ",pImage_[xx]);
 					// 	// HexToBin(pImage_[xx]);
 					// }
+					// cout << pImage[8];
+					char *fmr;
+					std::string fmr_ = "";
 					result = dpfj_create_fmd_from_fid(DPFJ_FID_ISO_19794_4_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
  					if(DPFJ_SUCCESS == result){ 
 						*ppFt = pFeatures;
 						*pFtSize = nFeaturesSize;
 						*ppImage = pImage;  
+						std::ostringstream ss;
+						std::string pfstr = "";
+						
+						pfstr = base64_encode(reinterpret_cast<unsigned char* >(pFeatures),nFeaturesSize);
+						
 						// for(int xx = 0;xx < nFeaturesSize;xx++){
-						// 	printf("%*",pFeatures[xx]);
+						// 	// printf("%p",pFeatures[xx]);
+
+						// 	ss << pFeatures[xx];
+						// 	// pfstr.append(ss.str());
+						// 	printf("%s",ss.str());
+
+						// 	// strcat(fmr_ , reinterpret_cast<char *>(pfstr));
+						// 	//strcat(fmr_ ,pfstr.c_str());
+						// 	// cout << pFeatures[xx];
 						// }
+						printf("\npfstr %s\n",pfstr.c_str());
 						// for(int xx = 0;xx < nImageSize;xx++){
-						// 	//printf("     %p     ",pImage[xx]);
-						// 	 HexToBin(pImage[xx]);
+						// 	printf(" %x ",pImage[xx]);
+							//cout << pImage[xx];
+							//  HexToBin(pImage[xx]);
 						// }
 						printf("\n-----------------------------"); 
 						printf("\npFeatures %d",pFeatures); 
