@@ -48,7 +48,7 @@ static void fpEnroll_start_cb(void *edata)
  
     // printf("\ncallback return %s",fpdata->pImage); 
     // printf("\ncallback return %s",fpdata->pFmd); 
-    printf("\ncallback return %d",fpdata->nFmdSize);  
+    // printf("\ncallback return %d",fpdata->nFmdSize);  
 
     Nan::Callback callback(Nan::New<Function>(fpdata->callback));
     Nan::AsyncResource asyncResource("verifyProgress");
@@ -62,8 +62,10 @@ static void fpEnroll_start_cb(void *edata)
     // std::string pImage =  Nan::NewBuffer((unsigned char*)fpdata->pImage, fpdata->pFmd);
     // std::string pImage = (char *)fpdata->pImage;
     // std::string pFmd = (char *)fpdata->pFmd;
-    std::string pImage = (char *)fpdata->pImage;
-    std::string pFmd = (char *)fpdata->pFmd;
+    // std::string pImage = (char *)fpdata->pImage;
+    std::string pImage = base64_encode(reinterpret_cast<unsigned char* >(fpdata->pImage),fpdata->pImageSize);
+    // std::string pFmd = (char *)fpdata->pFmd;
+    std::string pFmd = base64_encode(reinterpret_cast<unsigned char* >(fpdata->pFmd),fpdata->nFmdSize);
     // argv[3] = Nan::New(fingerprintimg.c_str()).ToLocalChecked();
     // std::string pImage = "fpdata->pImage";
     // std::string pFmd = "fpdata->pFmd";

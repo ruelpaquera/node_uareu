@@ -22,6 +22,7 @@ typedef struct __ENROLLFP_DATA__ {
     unsigned char *pImage;
     unsigned char *pFmd; 
 	unsigned int nFmdSize = 0;
+	unsigned int pImageSize = 0;
 } ENROLLFP_DATA;
 
 typedef struct __ENROLLFP_STOP__ {
