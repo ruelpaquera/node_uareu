@@ -235,14 +235,74 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 		}
 		else{ 
 			if(cresult.success){ 
- 
-				for(int xx = 0;xx < nImageSize;xx++){
-					// printf(" %p ",pImage[xx]);
-					cout << pImage[xx];
-					printf("\n");
-					sleep(1);
-					//  HexToBin(pImage[xx]);
+
+//------------------------compression------------------
+ 				int comstart = dpfj_start_compression();
+				if(comstart != DPFJ_SUCCESS){
+					print_error("dpfpdd_capture()", comstart);
+				}else{
+					printf("\nstarted compression\n");
 				}
+				int setwsq = dpfj_set_wsq_bitrate(90,0);
+				if(setwsq != DPFJ_SUCCESS){
+					print_error("dpfpdd_capture()", setwsq);
+				}else{
+					printf("\nsuccess dpfj_set_wsq_bitrate\n");
+				}
+
+				const unsigned char* raws = pImage;
+				unsigned int dpi_ = dpi;
+				int compressfidraw = dpfj_compress_raw(raws, nImageSize, cresult.info.width, cresult.info.height, dpi_, cresult.info.bpp, DPFJ_COMPRESSION_WSQ_NIST);
+				while(1){	
+					printf("\ndpfj_compress_raw loop\n");			
+					if(compressfidraw == DPFJ_SUCCESS){ 
+						break;
+					}else if(compressfidraw == DPFJ_E_COMPRESSION_NOT_STARTED){
+						printf("\nfail DPFJ_E_COMPRESSION_NOT_STARTED\n");
+					}else if(compressfidraw == DPFJ_E_COMPRESSION_INVALID_WSQ_PARAMETER){
+						printf("\nfail DPFJ_E_COMPRESSION_INVALID_WSQ_PARAMETER\n");
+						break;
+					}else if(compressfidraw == DPFJ_E_COMPRESSION_WSQ_LIB_NOT_FOUND){
+						printf("\nfail DPFJ_E_COMPRESSION_WSQ_LIB_NOT_FOUND\n");
+						break;
+					}else if(compressfidraw == DPFJ_E_COMPRESSION_WSQ_FAILURE){
+						printf("\nfail DPFJ_E_COMPRESSION_WSQ_FAILURE\n");
+						break;
+					}else {
+						print_error("dpfj_compress_raw()", compressfidraw);
+						break;
+					} 
+				}
+
+				unsigned char* pImage_  = (unsigned char*)malloc(nImageSize);
+				unsigned int nImageSize_ = nImageSize ;
+				int l = 0;
+				int getdata = dpfj_get_processed_data(pImage_,&nImageSize_);
+				while(1){
+					if(getdata != DPFJ_SUCCESS ){
+						print_error("dpfj_get_processed_data()", getdata); 
+					}else if(getdata == DPFJ_SUCCESS ){
+						printf("\ndpfj_get_processed_data pImage %p \n",pImage_);
+						printf("\ndpfj_get_processed_data nImageSize %d \n",nImageSize_);
+						break;
+					}
+					if(l == 1000){
+						break;
+					}
+					l++;
+				}
+
+				dpfj_finish_compression();
+//------------------------compression------------------
+
+
+				// for(int xx = 0;xx < nImageSize;xx++){
+				// 	// printf(" %p ",pImage[xx]);
+				// 	cout << pImage[xx];
+				// 	printf("\n");
+				// 	// sleep(1);
+				// 	//  HexToBin(pImage[xx]);
+				// }
 				// printf("\nDPFPDD_QUALITY %d",cresult.quality);
 				printf("\ncresult.score %d",cresult.score);
 				printf("\ncresult.size %d",cresult.size);
@@ -290,7 +350,7 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 						// 	// cout << pFeatures[xx];
 						// }
 						// printf("\npfstr %s\n",pfstr.c_str());
-						for(int xx = 3;xx < nImageSize;xx++){
+						for(int xx = 0;xx < nImageSize;xx++){
 							// printf(" %x ",pImage[xx]);
 							cout << pImage[xx];
 							//  HexToBin(pImage[xx]);
