@@ -51,7 +51,7 @@ int wsq_to_bmp(unsigned char* imageData,int width, int height){
 ///home/ruel/node/img/
     char* input_file_name = "./sample_image_1.wsq";
 
-    char* output_file_name = "/home/ruel/node/img/";
+    char* output_file_name = "/home/ruel/node/img/test";
     char* error = (char*) NULL;
 
     // int width = 0;
@@ -61,7 +61,7 @@ int wsq_to_bmp(unsigned char* imageData,int width, int height){
 
     if(handle == NULL)
     {
-        handle = dlopen("/home/ruel/node/mode_uareu/lib/libWSQ_library64.so", RTLD_LAZY); // open shared library;
+        handle = dlopen("/home/ruel/node/node_uareu/lib/libWSQ_library64.so", RTLD_LAZY); // open shared library;
         error = dlerror(); if(error){printf("%s\n", error); return 1;}
     }
 
@@ -96,8 +96,8 @@ int wsq_to_bmp(unsigned char* imageData,int width, int height){
         //  ReadImageFromFile(input_file_name, &width, &height, &imageData);
 
         //type = 1; //WSQ;
-        type = 2; //BMP;
-        //type = 3; //TIF;
+        //type = 2; //BMP;
+        type = 3; //TIF;
         //type = 4; //PNG;
         //type = 5; //JPG;
         //type = 6; //RGB;
