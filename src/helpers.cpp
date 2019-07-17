@@ -250,26 +250,60 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 					printf("\nsuccess dpfj_set_wsq_bitrate\n");
 				}
 
-				const unsigned char* raws = pImage;
-				unsigned int dpi_ = dpi;
-				int compressfidraw = dpfj_compress_raw(raws, nImageSize, cresult.info.width, cresult.info.height, dpi_, cresult.info.bpp, DPFJ_COMPRESSION_WSQ_NIST);
+				// const unsigned char* raws = (const unsigned char*)pImage; 
+				// unsigned int image_size = nImageSize;
+				// unsigned int image_width = cresult.info.width;
+				// unsigned int image_height = cresult.info.height;
+				// unsigned int image_dpi = dpi;
+				// unsigned int image_bpp = cresult.info.bpp;
+				// int compressfidraw = dpfj_compress_raw(
+				// 	raws, 
+				// 	image_size, 
+				// 	image_width, 
+				// 	image_height, 
+				// 	image_dpi, 
+				// 	image_bpp, 
+				// 	DPFJ_COMPRESSION_WSQ_AWARE);
+
+				// while(1){	
+				// 	printf("\ndpfj_compress_raw loop\n");			
+				// 	if(compressfidraw == DPFJ_SUCCESS){ 
+				// 		break;
+				// 	}else if(compressfidraw == DPFJ_E_COMPRESSION_NOT_STARTED){
+				// 		printf("\nfail DPFJ_E_COMPRESSION_NOT_STARTED\n");
+				// 	}else if(compressfidraw == DPFJ_E_COMPRESSION_INVALID_WSQ_PARAMETER){
+				// 		printf("\nfail DPFJ_E_COMPRESSION_INVALID_WSQ_PARAMETER\n");
+				// 		break;
+				// 	}else if(compressfidraw == DPFJ_E_COMPRESSION_WSQ_LIB_NOT_FOUND){
+				// 		printf("\nfail DPFJ_E_COMPRESSION_WSQ_LIB_NOT_FOUND\n");
+				// 		break;
+				// 	}else if(compressfidraw == DPFJ_E_COMPRESSION_WSQ_FAILURE){
+				// 		printf("\nfail DPFJ_E_COMPRESSION_WSQ_FAILURE\n");
+				// 		break;
+				// 	}else {
+				// 		print_error("dpfj_compress_raw()", compressfidraw);
+				// 		break;
+				// 	} 
+				// }
+
+				int compressfid = dpfj_compress_fid(DPFJ_FID_ISO_19794_4_2005,pImage,nImageSize,DPFJ_COMPRESSION_WSQ_NIST);
 				while(1){	
-					printf("\ndpfj_compress_raw loop\n");			
-					if(compressfidraw == DPFJ_SUCCESS){ 
+					printf("\ndpfj_compress_fid loop\n");			
+					if(compressfid == DPFJ_SUCCESS){ 
 						break;
-					}else if(compressfidraw == DPFJ_E_COMPRESSION_NOT_STARTED){
+					}else if(compressfid == DPFJ_E_COMPRESSION_NOT_STARTED){
 						printf("\nfail DPFJ_E_COMPRESSION_NOT_STARTED\n");
-					}else if(compressfidraw == DPFJ_E_COMPRESSION_INVALID_WSQ_PARAMETER){
+					}else if(compressfid == DPFJ_E_COMPRESSION_INVALID_WSQ_PARAMETER){
 						printf("\nfail DPFJ_E_COMPRESSION_INVALID_WSQ_PARAMETER\n");
 						break;
-					}else if(compressfidraw == DPFJ_E_COMPRESSION_WSQ_LIB_NOT_FOUND){
+					}else if(compressfid == DPFJ_E_COMPRESSION_WSQ_LIB_NOT_FOUND){
 						printf("\nfail DPFJ_E_COMPRESSION_WSQ_LIB_NOT_FOUND\n");
 						break;
-					}else if(compressfidraw == DPFJ_E_COMPRESSION_WSQ_FAILURE){
+					}else if(compressfid == DPFJ_E_COMPRESSION_WSQ_FAILURE){
 						printf("\nfail DPFJ_E_COMPRESSION_WSQ_FAILURE\n");
 						break;
 					}else {
-						print_error("dpfj_compress_raw()", compressfidraw);
+						print_error("dpfj_compress_fid()", compressfid);
 						break;
 					} 
 				}
@@ -292,6 +326,12 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 					l++;
 				}
 
+				for(int xx = 0;xx < (int )nImageSize_;xx++){
+					printf("%p ",pImage[xx]);
+					// cout << pImage_[xx];
+					sleep(0.7);
+					//  HexToBin(pImage[xx]);
+				}
 				dpfj_finish_compression();
 //------------------------compression------------------
 
@@ -350,11 +390,11 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 						// 	// cout << pFeatures[xx];
 						// }
 						// printf("\npfstr %s\n",pfstr.c_str());
-						for(int xx = 0;xx < nImageSize;xx++){
-							// printf(" %x ",pImage[xx]);
-							cout << pImage[xx];
-							//  HexToBin(pImage[xx]);
-						}
+						// for(int xx = 0;xx < nImageSize;xx++){
+						// 	// printf(" %x ",pImage[xx]);
+						// 	cout << pImage[xx];
+						// 	//  HexToBin(pImage[xx]);
+						// }
 						printf("\n-----------------------------"); 
 						printf("\npFeatures %p",pFeatures); 
 						printf("\nFeaturesSize %d",nFeaturesSize); 
