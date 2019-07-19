@@ -49,6 +49,13 @@ _UnlockWSQLibrary UnlockWSQLibrary = 0;
 
 int wsq_to_bmp(unsigned char* imageData,int width, int height){ 
 ///home/ruel/node/img/
+/*
+WriteWSQ_bitrate = 
+WriteWSQ_ppi = 
+*/
+
+    // WriteWSQ_bitrate(4.9);
+    // WriteWSQ_ppi(100);
     char* input_file_name = "./sample_image_1.wsq";
 
     char* output_file_name = "/home/ruel/node/img/test";
@@ -65,13 +72,11 @@ int wsq_to_bmp(unsigned char* imageData,int width, int height){
         error = dlerror(); if(error){printf("%s\n", error); return 1;}
     }
 
-
     if (!GenerateSerialNumber) 
     {
         GenerateSerialNumber = (_GenerateSerialNumber)dlsym(handle, "GenerateSerialNumber");
         error = dlerror(); if(error){printf("%s\n", error); return 1;}
     }
-
 
     if (!UnlockWSQLibrary) 
     {
@@ -79,13 +84,11 @@ int wsq_to_bmp(unsigned char* imageData,int width, int height){
         error = dlerror(); if(error){printf("%s\n", error); return 1;}
     }
 
-
     if (!ReadImageFromFile) 
     {
         ReadImageFromFile = (_ReadImageFromFile)dlsym(handle, "ReadImageFromFile");
         error = dlerror(); if(error){printf("%s\n", error); return 1;}
     }
-
 
     if (!SaveImageToFile) 
     {
@@ -96,7 +99,7 @@ int wsq_to_bmp(unsigned char* imageData,int width, int height){
         //  ReadImageFromFile(input_file_name, &width, &height, &imageData);
 
         //type = 1; //WSQ;
-        //type = 2; //BMP;
+        // type = 2; //BMP;
         type = 3; //TIF;
         //type = 4; //PNG;
         //type = 5; //JPG;
@@ -111,9 +114,9 @@ int wsq_to_bmp(unsigned char* imageData,int width, int height){
 
 
 //=============
-        if(imageData != (unsigned char*) NULL)
-        {free(imageData);}
-        imageData = (unsigned char*) NULL;
+        // if(imageData != (unsigned char*) NULL)
+        // {free(imageData);}
+        // imageData = (unsigned char*) NULL;
 //=============
 
 
