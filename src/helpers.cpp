@@ -80,8 +80,6 @@ void signal_handler(int nSignal) {
 		if(NULL != g_hReader) dpfpdd_cancel(g_hReader);
 	}
 }
-
-
 void HexToBin(unsigned char hexdec) 
 { 
   
@@ -157,10 +155,8 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 	int result = 0; 
 	*ppFt = NULL;
 	*pFtSize = 0;
-	const char* szFingerName = "any"; 
-	// ofstream outputBuffer("/home/ruel/node/img/test.raw", ios::out|ios::binary);
-	ofstream outputBuffer("/home/ruel/node/img/test.wsq",ios::out|ios::binary|ios::ate);
-	//prepare capture parameters and result
+	const char* szFingerName = "any";
+
 	DPFPDD_CAPTURE_PARAM cparam = {};
 	cparam.size = sizeof(cparam);
 	cparam.image_fmt = DPFPDD_IMG_FMT_ISOIEC19794;
@@ -199,8 +195,7 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 	sigaddset(&new_sigmask, SIGINT);
 	pthread_sigmask(SIG_UNBLOCK, &new_sigmask, &old_sigmask);
 
-	while(1){ 
-		//wait until ready
+	while(1){  
 		int is_ready = 0;
 		unsigned int nImageSize = nOrigImageSize;
 		while(1){
@@ -222,197 +217,17 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 				break;
 			}
 		}
-		if(!is_ready) break;
+		if(!is_ready) break; 
 
-		//capture fingerprint 
-		printf("\nloop Put %s on the reader, or press Ctrl-C to cancel...\r\n", szFingerName);
-		printf("\n1pImage %p\n",pImage);
-		// printf("\n1nImageSize %d\n",nImageSize);
-		result = dpfpdd_capture(hReader, &cparam, -1, &cresult, &nImageSize, pImage); 
-		// for(int xx = 0;xx < nImageSize;xx++){
-		// 	printf(" %x ",pImage[xx]);
-		// }
- 		printf("\n2pImage %p\n",pImage);
+		result = dpfpdd_capture(hReader, &cparam, -1, &cresult, &nImageSize, pImage);  
+
 		if(DPFPDD_SUCCESS != result){
 			print_error("dpfpdd_capture()", result);
 		}
 		else{ 
-			if(cresult.success){  
-				
-				// unsigned char* pImage_2;//= (unsigned char*)malloc(nOrigImageSize);
-				// pImage_2 = pImage;
-				// wsq_to_bmp(pImage_2,cresult.info.width, cresult.info.height);
-				// time_t now = time(0);
-				// // convert now to string form
-				// char* dt = ctime(&now);
-				// std::string dt_ (dt); 
-				// std::string path;
-				// std::string path_("/home/ruel/node/img/");
-				// std::string ext_("test.wsq");
-				// path.append(path_);
-				// path.append(dt_);
-				// path.append(ext_);
-				// cout << path; 
-				// ofstream outputBuffer(path,ios::out|ios::binary|ios::ate);
-				// free(pImage_2);
-
-//------------------------compression------------------
- 				// int comstart = dpfj_start_compression();
-				// if(comstart != DPFJ_SUCCESS){
-				// 	print_error("dpfpdd_capture()", comstart);
-				// }else{
-				// 	printf("\nstarted compression\n");
-				// }
-				// int setwsq = dpfj_set_wsq_bitrate(4.19,1);
-				// if(setwsq != DPFJ_SUCCESS){
-				// 	print_error("dpfj_set_wsq_bitrate()", setwsq);
-				// }else{
-				// 	printf("\nsuccess dpfj_set_wsq_bitrate\n");
-				// }
-
-				printf("\ncresult.score %d",cresult.score);
-				printf("\ncresult.size %d",cresult.size);
-				printf("\ncresult.info.width %d",cresult.info.width);
-				printf("\ncresult.info.height %d",cresult.info.height);
-				printf("\ncresult.info.res %d",cresult.info.res);
-				printf("\ncresult.info.bpp %d",cresult.info.bpp);
-				printf("\ncresult.info.size %d\n",cresult.info.size);
-
-				// int setwsqsize = dpfj_set_wsq_size(cresult.info.size,1);
-				// if(setwsqsize != DPFJ_SUCCESS){
-				// 	print_error("dpfj_set_wsq_size()", setwsqsize);
-				// }else{
-				// 	printf("\nsuccess dpfj_set_wsq_size\n");
-				// }
-
-				// const unsigned char* raws = (const unsigned char*)pImage; 
-				// unsigned int image_size = nImageSize;
-				// unsigned int image_width = cresult.info.width;
-				// unsigned int image_height = cresult.info.height;
-				// unsigned int image_dpi = dpi;
-				// unsigned int image_bpp = cresult.info.bpp;
-				// int compressfidraw = dpfj_compress_raw(
-				// 	raws, 
-				// 	image_size, 
-				// 	image_width, 
-				// 	image_height, 
-				// 	image_dpi, 
-				// 	image_bpp, 
-				// 	DPFJ_COMPRESSION_WSQ_AWARE);
-
-				// while(1){	
-				// 	printf("\ndpfj_compress_raw loop\n");			
-				// 	if(compressfidraw == DPFJ_SUCCESS){ 
-				// 		break;
-				// 	}else if(compressfidraw == DPFJ_E_COMPRESSION_NOT_STARTED){
-				// 		printf("\nfail DPFJ_E_COMPRESSION_NOT_STARTED\n");
-				// 	}else if(compressfidraw == DPFJ_E_COMPRESSION_INVALID_WSQ_PARAMETER){
-				// 		printf("\nfail DPFJ_E_COMPRESSION_INVALID_WSQ_PARAMETER\n");
-				// 		break;
-				// 	}else if(compressfidraw == DPFJ_E_COMPRESSION_WSQ_LIB_NOT_FOUND){
-				// 		printf("\nfail DPFJ_E_COMPRESSION_WSQ_LIB_NOT_FOUND\n");
-				// 		break;
-				// 	}else if(compressfidraw == DPFJ_E_COMPRESSION_WSQ_FAILURE){
-				// 		printf("\nfail DPFJ_E_COMPRESSION_WSQ_FAILURE\n");
-				// 		break;
-				// 	}else {
-				// 		print_error("dpfj_compress_raw()", compressfidraw);
-				// 		break;
-				// 	} 
-				// }
-
-
-				// int compressfid = dpfj_compress_fid(DPFJ_FID_ISO_19794_4_2005,pImage,nImageSize,DPFJ_COMPRESSION_WSQ_NIST);
-				// while(1){	
-				// 	printf("\ndpfj_compress_fid loop\n");			
-				// 	if(compressfid == DPFJ_SUCCESS){ 
-				// 		break;
-				// 	}else if(compressfid == DPFJ_E_COMPRESSION_NOT_STARTED){
-				// 		printf("\nfail DPFJ_E_COMPRESSION_NOT_STARTED\n");
-				// 	}else if(compressfid == DPFJ_E_COMPRESSION_INVALID_WSQ_PARAMETER){
-				// 		printf("\nfail DPFJ_E_COMPRESSION_INVALID_WSQ_PARAMETER\n");
-				// 		break;
-				// 	}else if(compressfid == DPFJ_E_COMPRESSION_WSQ_LIB_NOT_FOUND){
-				// 		printf("\nfail DPFJ_E_COMPRESSION_WSQ_LIB_NOT_FOUND\n");
-				// 		break;
-				// 	}else if(compressfid == DPFJ_E_COMPRESSION_WSQ_FAILURE){
-				// 		printf("\nfail DPFJ_E_COMPRESSION_WSQ_FAILURE\n");
-				// 		break;
-				// 	}else {
-				// 		print_error("dpfj_compress_fid()", compressfid);
-				// 		break;
-				// 	} 
-				// }
-
-				
-				// unsigned char* pImage_  = (unsigned char*)malloc(nImageSize);
-				// unsigned int nImageSize_ = nImageSize ;
-				// int l = 0;
-				// int getdata = dpfj_get_processed_data(pImage_,&nImageSize_);
-				// while(l < 1000){
-				// 	if(getdata != DPFJ_SUCCESS ){
-				// 		print_error("dpfj_get_processed_data()", getdata); 
-				// 	}else if(getdata == DPFJ_SUCCESS ){
-				// 		printf("\ndpfj_get_processed_data pImage %p \n",pImage_);
-				// 		printf("\ndpfj_get_processed_data nImageSize %d \n",nImageSize_);
-				// 		break;
-				// 	} 
-				// 	l++;
-				// }
-
-
-				// dpfj_finish_compression();
-
-				wsq_to_bmp(pImage,cresult.info.width, cresult.info.height);
-				// if (outputBuffer.is_open())
-				// {
-				// 	outputBuffer.write((const char*)pImage, nImageSize);
-				// 	// outputBuffer << pImage_;
-				// 	outputBuffer.close();
-				// 	printf("\ndone  outputBuffer");
-				// } else {
-				// 	printf("\nerror  outputBuffer");
-				// }
-
-				// wsq_to_bmp(pImage_,cresult.info.width, cresult.info.height);
-				// for(int xx = 0;xx < (int )nImageSize_;xx++){
-				// 	printf("%p ",pImage[xx]);
-				// 	// cout << pImage_[xx];
-				// 	sleep(0.7);
-				// 	//  HexToBin(pImage[xx]);
-				// }
-				// outputBuffer.write(pImage_, sizeof (nImageSize_));
-				
-
-				//unsigned char* imageData,int width, int height
-//------------------------compression------------------
-
-
-
-				// std::ostringstream ss;
-				// for(int xx = 0;xx < nImageSize_;xx++){
-				// 	// printf("%p",pFeatures[xx]);
-
-				// 	ss << pImage_[xx];
-				// 	// pfstr.append(ss.str());
-				// 	printf("%s",ss.str());
-
-				// 	// strcat(fmr_ , reinterpret_cast<char *>(pfstr));
-				// 	//strcat(fmr_ ,pfstr.c_str());
-				// 	// cout << pFeatures[xx];
-				// }
-
-
-				// for(int xx = 0;xx < nImageSize;xx++){
-				// 	// printf(" %p ",pImage[xx]);
-				// 	cout << pImage[xx];
-				// 	printf("\n");
-				// 	// sleep(1);
-				// 	//  HexToBin(pImage[xx]);
-				// }
-				// printf("\nDPFPDD_QUALITY %d",cresult.quality);
-
+			if(cresult.success){   
  
+				wsq_to_bmp(pImage,cresult.info.width, cresult.info.height); 
  
 				unsigned int nFeaturesSize = MAX_FMD_SIZE;
 				unsigned char* pFeatures = (unsigned char*)malloc(nFeaturesSize);
@@ -421,9 +236,7 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 				if(NULL == pFeatures){
 					print_error("malloc()", ENOMEM); 
 					result = ENOMEM;
-				}
-				else{  
-
+				} else { 
 				    
 					result = dpfj_create_fmd_from_fid(DPFJ_FID_ISO_19794_4_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
  					if(DPFJ_SUCCESS == result){
@@ -433,64 +246,16 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 						*pFtSize = nFeaturesSize;
 						*ppImage = pImage;  
 
-						// *ppFt = pfstr;
-						// *pFtSize = nFeaturesSize;
-						// *ppImage = imgstr;
-
-						// printf("\npfstr %s\n",pfstr.c_str());
-
-						// for(int xx = 0;xx < nFeaturesSize;xx++){
-						// 	// printf("%p",pFeatures[xx]);
-
-						// 	ss << pFeatures[xx];
-						// 	// pfstr.append(ss.str());
-						// 	printf("%s",ss.str());
-
-						// 	// strcat(fmr_ , reinterpret_cast<char *>(pfstr));
-						// 	//strcat(fmr_ ,pfstr.c_str());
-						// 	// cout << pFeatures[xx];
-						// }
-						// printf("\npfstr %s\n",pfstr.c_str());
-						// for(int xx = 0;xx < nImageSize;xx++){
-						// 	// printf(" %x ",pImage[xx]);
-						// 	cout << pImage[xx];
-						// 	//  HexToBin(pImage[xx]);
-						// }
 						printf("\n-----------------------------"); 
 						printf("\npFeatures %p",pFeatures); 
 						printf("\nFeaturesSize %d",nFeaturesSize); 
 						printf("\npImage %p\n",pImage); 
 						printf("\n-----------------------------"); 
 
-					}else{
+					} else {
 						print_error("dpfj_create_fmd_from_fid()", result); 
 						free(pFeatures);
-					} 
-					// result = dpfj_create_fmd_from_raw(pImage,cresult.info.size,cresult.info.width,cresult.info.height,dpi,DPFJ_POSITION_RTHUMB,51,nFtType,pFeatures,&nFeaturesSize);
- 					// if(DPFJ_SUCCESS == result){ 
-					// 	// *ppFt = pFeatures;
-					// 	// *pFtSize = nFeaturesSize;
-					// 	// *ppImage = pImage;  
-					// 	*_nOrigImageSize = nOrigImageSize;
-					// 	*ppFt = pFeatures;
-					// 	*pFtSize = nFeaturesSize;
-					// 	*ppImage = pImage; 
-						
-					// 	printf("\n-----------------------------"); 
-					// 	printf("\npFeatures %p",pFeatures); 
-					// 	printf("\nFeaturesSize %d",nFeaturesSize); 
-					// 	printf("\npImage %p\n",pImage); 
-					// 	printf("\n-----------------------------"); 
-					// }else{
-					// 	print_error("dpfj_create_fmd_from_raw()", result); 
-					// 	free(pFeatures);
-					// }
-
-					// *ppImage = pImage;
-					// printf("\npImage2 %s\n",pImage);// DPFJ_FID_ANSI_381_2004 DPFJ_FID_ISO_19794_4_2005
-					// printf("\n2nImageSize %d\n",nImageSize);
-					// printf("\npFeatures %*",pFeatures);
-
+					}
 				}
 			}
 			else if(DPFPDD_QUALITY_CANCELED == cresult.quality){ 
@@ -539,4 +304,29 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 		printf("\npImage free\n");
 	}
 	return result;
+}
+
+int verify( unsigned char* ppFt1, unsigned char* ppFt2) {
+	unsigned int falsematch_rate;
+	unsigned int fmd1_size = 0;
+	int status = 0;
+	int stat = dpfj_compare(
+		DPFJ_FID_ISO_19794_4_2005,
+		ppFt1,
+		fmd1_size,
+		0,
+		DPFJ_FID_ISO_19794_4_2005,
+		ppFt2,
+		fmd1_size,
+		0,
+		&falsematch_rate
+	);
+	if (stat == DPFPDD_SUCCESS) {
+		status = 1;
+	}
+	return stat;
+/*
+	int result = dpfj_compare(DPFJ_FMD_ISO_19794_2_2005, pFeatures1, nFeatures1Size, 0, 
+		DPFJ_FMD_ISO_19794_2_2005, pFeatures2, nFeatures2Size, 0, &falsematch_rate);
+*/
 }

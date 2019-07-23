@@ -1,20 +1,27 @@
 #include "helpers.h"
 #include "identify.h"
 
-#include <unistd.h>
-//#include <io.h>
+#include "helpers.h"
+#include "capture.h"
+#include "base64.h"
+ 
+#include <dpfpdd.h>
+#include <dpfj.h>
+#include <dpfj_compression.h>
+#include <dpfj_quality.h>
 
-// using namespace v8;
-// using v8::FunctionTemplate;
+#include <stdlib.h>
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+#include <signal.h>
+#include <locale.h>
+#include <sys/time.h>
 
-// typedef struct __IDENTIFY_DATA__ {
-//     uv_async_t async;
-//     Nan::Persistent<Function> callback; 
-//     int result;
-//     unsigned char *pImage;
-//     unsigned char *pFmd; 
-// 	unsigned int nFmdSize = 0;
-// } IDENTIFY_DATA;
+using namespace v8;
+using v8::FunctionTemplate; 
+
+int max_finger = 3; 
 
 void Identification(DPFPDD_DEV hReaders, int dpi){ 
 	const int nFingerCnt = 5;

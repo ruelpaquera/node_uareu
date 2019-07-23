@@ -21,8 +21,6 @@ int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata){
 	ENROLLFP_DATA *fpdata = (ENROLLFP_DATA*)FPdata; 
 	int bStop = 0;
 
-
-	// unsigned char pImage  ;
 	unsigned int nImageSize ;
 	
 	while(!bStop){   

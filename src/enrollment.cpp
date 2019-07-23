@@ -91,7 +91,7 @@ NAN_METHOD(startEnroll)
     
     if(!FPdata) goto error;
 
-        printf("\n-----------------------------------------------------\n"); 
+        // printf("\n-----------------------------------------------------\n"); 
         FPdata->pImage = NULL;
         FPdata->pFmd = NULL;
         FPdata->nFmdSize = 0;
@@ -101,7 +101,6 @@ NAN_METHOD(startEnroll)
  
         fingerCapture(&finger,fpEnroll_start_cb,(void*)FPdata);
         
-
     ret = true;
 error:
     info.GetReturnValue().Set(Nan::New(ret));

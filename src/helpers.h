@@ -35,7 +35,22 @@ typedef struct __ENROLLFP_STOP__ {
 // char szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader
 // int result,unsigned char *pImage,unsigned char *pFmd,unsigned int nFmdSize
 typedef void (*fpEnroll_start_cb_)(void *edata);
- 
+
+typedef struct __VERIFYFD_DATA__ {
+    uv_async_t async;
+    Nan::Persistent<Function> callback; 
+    int result; // noting = 0, process = 1, complete = 2
+    unsigned char *pFmd1; 
+    unsigned char *pFmd2;
+} VERIFYFD_DATA;
+
+typedef struct __VERIFYFD_STOP__ {
+    
+    uv_async_t async;
+    Nan::Persistent<Function> callback;
+
+} VERIFYFD_STOP;
+
 
 #define container_of(ptr, type, member) ({			\
 	const typeof( ((type *)0)->member ) *__mptr = (ptr);	\
@@ -43,6 +58,8 @@ typedef void (*fpEnroll_start_cb_)(void *edata);
 
 //error handling
 void print_error(const char* szFunctionName, int nError);
+
+// int verify(unsigned char* ppFt1, unsigned char* ppFt2);
 
 //returns 0 if captured, otherwise an error code
 int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage,unsigned int* _nOrigImageSize);
