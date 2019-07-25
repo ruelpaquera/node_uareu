@@ -51,7 +51,6 @@ typedef struct __VERIFYFD_STOP__ {
 
 } VERIFYFD_STOP;
 
-
 #define container_of(ptr, type, member) ({			\
 	const typeof( ((type *)0)->member ) *__mptr = (ptr);	\
 	(type *)( (char *)__mptr - offsetof(type,member) );})
@@ -59,7 +58,7 @@ typedef struct __VERIFYFD_STOP__ {
 //error handling
 void print_error(const char* szFunctionName, int nError);
 
-// int verify(unsigned char* ppFt1, unsigned char* ppFt2);
+int verify(unsigned char* ppFt1, unsigned char* ppFt2);
 
 //returns 0 if captured, otherwise an error code
 int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage,unsigned int* _nOrigImageSize);

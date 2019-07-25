@@ -323,6 +323,9 @@ int verify( unsigned char* ppFt1, unsigned char* ppFt2) {
 	);
 	if (stat == DPFPDD_SUCCESS) {
 		status = 1;
+		printf("\nDPFPDD_SUCCESS\n");
+	} else {
+		printf("\nerror\n");
 	}
 	return stat;
 /*

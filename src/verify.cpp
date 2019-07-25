@@ -10,6 +10,8 @@
 #include <dpfj_quality.h>
 
 #include <stdlib.h>
+#include <iostream>
+#include <unistd.h>
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
@@ -19,6 +21,7 @@
 
 
 using namespace v8;
+using namespace std;
 using v8::FunctionTemplate; 
 
 void verifyfp_after(uv_handle_t* handle)
@@ -93,28 +96,39 @@ static void fpVerify_start_cb(void *edata)
 }
 
 NAN_METHOD(startVerify)
-{
-    int finger = 1;
+{ 
+    char* fmt;
+    string fmt_ = "tae";
+    int fingers = 1;
     bool ret = false;
     VERIFYFD_DATA *FPdata;
-
+    std::string s;
     FPdata = new VERIFYFD_DATA;
-    
+    printf("\ncall\n");
     if(!FPdata) goto error;
 
         printf("\n-----------------------------------------------------\n"); 
         FPdata->pFmd1 = NULL;
-        FPdata->pFmd2 = NULL; 
+        FPdata->pFmd2 = NULL;
         FPdata->result = -1;
-
-        finger = Nan::To<v8::Number>(info[0]).ToLocalChecked()->Value();
-        
+        //fmt = Nan::Local<v8::String> Nan::New<String::ExternalStringResource * info[0]>;
+        // Nan::MaybeLoca=l<v8::String> Nan::New<T>(char * fmt_);
+        // std::string fmd(v8::Value(info[0]->ToString()));
+        // Local<String> ss_prop = Nan::New<String>(info[0]).ToLocalChecked();
+        // cout << ss_prop;
+        // fmt = *(v8::String::Utf8Value(info[0]->ToString()));
+        // Nan::To<v8::Number>(info[0]).ToLocalChecked()->Value();
+        // fmt = Nan::To<v8::Object>(info[0]).ToLocalChecked()->ToObject();
+        // v8::String::Utf8Value arg(info[0]->ToString());
+        // fmt_ = Nan::To<v8::String>(info[0]);
+        fmt = (char*) Nan::To<v8::Object>(info[0]).ToLocalChecked()->ToObject();
+        printf("\n %s \n",fmt);
         FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
- 
-        fingerCapture(&finger,fpVerify_start_cb,(void*)FPdata);
+
+        fingerCapture(&fingers,fpVerify_start_cb,(void*)FPdata);
         
     ret = true;
 error:
     info.GetReturnValue().Set(Nan::New(ret));
     return;
-}
+}       
