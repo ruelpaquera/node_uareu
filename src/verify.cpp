@@ -97,6 +97,16 @@ static void fpVerify_start_cb(void *edata)
 
 NAN_METHOD(startVerify)
 { 
+    std::string bar = "";
+    v8::Local<v8::Object> jsonObj = info[0]->ToObject();
+    v8::Local<v8::String> barProp = Nan::New("fmt").ToLocalChecked();
+ 
+    if (Nan::HasOwnProperty(jsonObj, barProp).FromJust()) {
+        v8::Local<v8::Value> barValue = Nan::Get(jsonObj, barProp).ToLocalChecked();
+        bar = std::string(*Nan::Utf8String(barValue));
+    }
+
+    std::cout << base64_decode(bar);
     char* fmt;
     string fmt_ = "tae";
     int fingers = 1;
@@ -106,9 +116,9 @@ NAN_METHOD(startVerify)
     FPdata = new VERIFYFD_DATA;
     printf("\ncall\n");
     if(!FPdata) goto error;
-
+        // auto fmt_ = base64_decode(bar).c_str();
         printf("\n-----------------------------------------------------\n"); 
-        FPdata->pFmd1 = NULL;
+        FPdata->pFmd1 = (unsigned char*)base64_decode(bar).c_str();
         FPdata->pFmd2 = NULL;
         FPdata->result = -1;
         //fmt = Nan::Local<v8::String> Nan::New<String::ExternalStringResource * info[0]>;
@@ -121,8 +131,16 @@ NAN_METHOD(startVerify)
         // fmt = Nan::To<v8::Object>(info[0]).ToLocalChecked()->ToObject();
         // v8::String::Utf8Value arg(info[0]->ToString());
         // fmt_ = Nan::To<v8::String>(info[0]);
-        fmt = (char*) Nan::To<v8::Object>(info[0]).ToLocalChecked()->ToObject();
-        printf("\n %s \n",fmt);
+        // Nan::Utf8String teststr = Nan::New<String::ExternalStringResource * info[0]>;
+        // fmt = (char *)v8::Local<v8::Object>::Cast(info[0]);
+        // fmt = static_cast<char *>(info[0]);
+        // v8::String::Utf8Value param1(info[0]);
+        // v8::Local<v8::Value> p(info[0]);
+        // cout << p;
+        // Local<string> tests = info[0]->ToString();
+        // printf("\n %p \n",p);
+        
+
         FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
 
         fingerCapture(&fingers,fpVerify_start_cb,(void*)FPdata);
