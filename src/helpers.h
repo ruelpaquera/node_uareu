@@ -42,6 +42,8 @@ typedef struct __VERIFYFD_DATA__ {
     int result; // noting = 0, process = 1, complete = 2
     unsigned char *pFmd1; 
     unsigned char *pFmd2;
+	unsigned int nFmdSize1 = 0;
+	unsigned int nFmdSize2 = 0;
 } VERIFYFD_DATA;
 
 typedef struct __VERIFYFD_STOP__ {
@@ -58,7 +60,7 @@ typedef struct __VERIFYFD_STOP__ {
 //error handling
 void print_error(const char* szFunctionName, int nError);
 
-int verify(unsigned char* ppFt1, unsigned char* ppFt2);
+int verifyFP(unsigned char* ppFt1, unsigned char* ppFt2,unsigned int nFmdSize1,unsigned int nFmdSize2);
 
 //returns 0 if captured, otherwise an error code
 int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage,unsigned int* _nOrigImageSize);

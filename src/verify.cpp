@@ -65,13 +65,16 @@ static void fpVerify_start_cb(void *edata)
     argv[1] = Nan::Null();
     argv[2] = Nan::Null();
     
-    printf("\nverify fail\n");
     // start verification / checking fingers
     
-    int result = verify(
+    int result = verifyFP(
         fpdata->pFmd1,
-        fpdata->pFmd2
+        fpdata->pFmd2,
+        fpdata->nFmdSize1,
+        fpdata->nFmdSize1
     );
+
+
     if(!result){
         return;
     }
@@ -105,39 +108,22 @@ NAN_METHOD(startVerify)
         v8::Local<v8::Value> barValue = Nan::Get(jsonObj, barProp).ToLocalChecked();
         bar = std::string(*Nan::Utf8String(barValue));
     }
-
-    std::cout << base64_decode(bar);
+    // std::cout << base64_decode(bar);
     char* fmt;
-    string fmt_ = "tae";
-    int fingers = 1;
+    string fmt_ = "";
+    int fingers = 2;
     bool ret = false;
     VERIFYFD_DATA *FPdata;
     std::string s;
-    FPdata = new VERIFYFD_DATA;
-    printf("\ncall\n");
-    if(!FPdata) goto error;
-        // auto fmt_ = base64_decode(bar).c_str();
+    FPdata = new VERIFYFD_DATA; 
+
+    if(!FPdata) goto error; 
+
         printf("\n-----------------------------------------------------\n"); 
         FPdata->pFmd1 = (unsigned char*)base64_decode(bar).c_str();
         FPdata->pFmd2 = NULL;
-        FPdata->result = -1;
-        //fmt = Nan::Local<v8::String> Nan::New<String::ExternalStringResource * info[0]>;
-        // Nan::MaybeLoca=l<v8::String> Nan::New<T>(char * fmt_);
-        // std::string fmd(v8::Value(info[0]->ToString()));
-        // Local<String> ss_prop = Nan::New<String>(info[0]).ToLocalChecked();
-        // cout << ss_prop;
-        // fmt = *(v8::String::Utf8Value(info[0]->ToString()));
-        // Nan::To<v8::Number>(info[0]).ToLocalChecked()->Value();
-        // fmt = Nan::To<v8::Object>(info[0]).ToLocalChecked()->ToObject();
-        // v8::String::Utf8Value arg(info[0]->ToString());
-        // fmt_ = Nan::To<v8::String>(info[0]);
-        // Nan::Utf8String teststr = Nan::New<String::ExternalStringResource * info[0]>;
-        // fmt = (char *)v8::Local<v8::Object>::Cast(info[0]);
-        // fmt = static_cast<char *>(info[0]);
-        // v8::String::Utf8Value param1(info[0]);
-        // v8::Local<v8::Value> p(info[0]);
-        // cout << p;
-        // Local<string> tests = info[0]->ToString();
+        FPdata->nFmdSize1 = 0;
+        FPdata->nFmdSize2 = 0; 
         // printf("\n %p \n",p);
         
 

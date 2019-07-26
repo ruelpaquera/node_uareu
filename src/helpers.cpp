@@ -306,26 +306,32 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 	return result;
 }
 
-int verify( unsigned char* ppFt1, unsigned char* ppFt2) {
+int verifyFP( unsigned char* ppFt1, unsigned char* ppFt2,unsigned int nFmdSize1,unsigned int nFmdSize2) {
 	unsigned int falsematch_rate;
 	unsigned int fmd1_size = 0;
 	int status = 0;
 	int stat = dpfj_compare(
 		DPFJ_FID_ISO_19794_4_2005,
 		ppFt1,
-		fmd1_size,
+		nFmdSize1,
 		0,
 		DPFJ_FID_ISO_19794_4_2005,
 		ppFt2,
-		fmd1_size,
+		nFmdSize1,
 		0,
 		&falsematch_rate
 	);
+
+	printf("\n %s \n",ppFt1);
+	printf("\n %s \n",ppFt2);
+	printf("\n %d \n",nFmdSize1);
+
+
 	if (stat == DPFPDD_SUCCESS) {
 		status = 1;
-		printf("\nDPFPDD_SUCCESS\n");
+		printf("\n verifyFP DPFPDD_SUCCESS\n");
 	} else {
-		printf("\nerror\n");
+		printf("\n verifyFP error\n");
 	}
 	return stat;
 /*
