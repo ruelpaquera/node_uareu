@@ -31,8 +31,8 @@ void verifyfp_after(uv_handle_t* handle)
     if(!FPdata)
         return;
 
-    if(FPdata->pFmd1)
-        free(FPdata->pFmd1);
+    // if(FPdata->pFmd1)
+    //     free(FPdata->pFmd1);
     if(FPdata->pFmd2)
         free(FPdata->pFmd2);
  
@@ -70,7 +70,7 @@ static void fpVerify_start_cb(void *edata)
     int result = verifyFP(
         fpdata->pFmd1,
         fpdata->pFmd2,
-        fpdata->nFmdSize1,
+        (unsigned int )434,
         fpdata->nFmdSize1
     );
 
@@ -89,18 +89,23 @@ static void fpVerify_start_cb(void *edata)
     // // argv[3] = Nan::New(fingerprintimg.c_str()).ToLocalChecked();
     // // std::string pImage = "fpdata->pImage";
     // // std::string pFmd = "fpdata->pFmd";
-
+    printf("\nfpdata->pFmd1 %p\n",fpdata->pFmd1);
+    printf("\nfpdata->pFmd2 %p\n",fpdata->pFmd2);
 
     // argv[1] = Nan::New(pImage.c_str()).ToLocalChecked();
     // argv[2] = Nan::New(pFmd.c_str()).ToLocalChecked();
 
     callback.Call(3, argv, &asyncResource); 
+
+    // if(fpdata->pFmd1 != NULL)
+    //     free(fpdata->pFmd2);
     printf("\n-----------------------------------------------------\n"); 
 }
 
 NAN_METHOD(startVerify)
 { 
     std::string bar = "";
+    std::string bar_base64_decode = "";
     v8::Local<v8::Object> jsonObj = info[0]->ToObject();
     v8::Local<v8::String> barProp = Nan::New("fmt").ToLocalChecked();
  
@@ -109,27 +114,27 @@ NAN_METHOD(startVerify)
         bar = std::string(*Nan::Utf8String(barValue));
     }
     // std::cout << base64_decode(bar);
-    char* fmt;
-    string fmt_ = "";
-    int fingers = 2;
+    int fingers = 1;
     bool ret = false;
-    VERIFYFD_DATA *FPdata;
-    std::string s;
+    VERIFYFD_DATA *FPdata; 
     FPdata = new VERIFYFD_DATA; 
 
     if(!FPdata) goto error; 
-
+        bar_base64_decode = base64_decode(bar);
         printf("\n-----------------------------------------------------\n"); 
-        FPdata->pFmd1 = (unsigned char*)base64_decode(bar).c_str();
-        FPdata->pFmd2 = NULL;
+        FPdata->pFmd1 = (unsigned char*)malloc(bar_base64_decode.size());
+        // FPdata->pFmd1 = (unsigned char*)base64_decode(bar).c_str();
+        memcpy(FPdata->pFmd1 , bar_base64_decode.c_str(), bar_base64_decode.size());
+        FPdata->pFmd2 = (unsigned char*)NULL;
         FPdata->nFmdSize1 = 0;
         FPdata->nFmdSize2 = 0; 
-        // printf("\n %p \n",p);
-        
+        // printf("\n size of  FPdata->pFmd1  %d \n",FPdata->pFmd1);
+        // std::cout << FPdata->pFmd1;
+        // std::cout << (unsigned char*)base64_decode(bar).c_str();
 
         FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
 
-        fingerCapture(&fingers,fpVerify_start_cb,(void*)FPdata);
+        CaptureVerify(&fingers,fpVerify_start_cb,(void*)FPdata);
         
     ret = true;
 error:

@@ -56,9 +56,9 @@ WriteWSQ_ppi =
 
     // WriteWSQ_bitrate(4.9);
     // WriteWSQ_ppi(100);
-    char* input_file_name = "./sample_image_1.wsq";
+    // char* input_file_name = "./sample_image_1.wsq";
 
-    char* output_file_name = "/home/ruel/node/img/test";
+    char* output_file_name = (char *)"/home/ruel/node/img/test";
     char* error = (char*) NULL;
 
     // int width = 0;

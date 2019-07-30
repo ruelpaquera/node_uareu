@@ -35,7 +35,7 @@ typedef struct __ENROLLFP_STOP__ {
 // char szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader
 // int result,unsigned char *pImage,unsigned char *pFmd,unsigned int nFmdSize
 typedef void (*fpEnroll_start_cb_)(void *edata);
-
+typedef void (*fpVerify_start_cb_)(void *edata);
 typedef struct __VERIFYFD_DATA__ {
     uv_async_t async;
     Nan::Persistent<Function> callback; 
@@ -44,6 +44,8 @@ typedef struct __VERIFYFD_DATA__ {
     unsigned char *pFmd2;
 	unsigned int nFmdSize1 = 0;
 	unsigned int nFmdSize2 = 0;
+    unsigned char *pImage;
+	unsigned int pImageSize = 0;
 } VERIFYFD_DATA;
 
 typedef struct __VERIFYFD_STOP__ {
@@ -64,4 +66,5 @@ int verifyFP(unsigned char* ppFt1, unsigned char* ppFt2,unsigned int nFmdSize1,u
 
 //returns 0 if captured, otherwise an error code
 int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage,unsigned int* _nOrigImageSize);
+int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage,unsigned int* _nOrigImageSize);
 //const char* szFingerName, 
