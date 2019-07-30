@@ -72,7 +72,7 @@ int CaptureVerify(int *finger,fpVerify_start_cb_ func,void *FPdata){
 			bStop = 1;
 			break;
 		}
-		bStop = CaptureFinger(hReaders, dpi, DPFJ_FMD_ANSI_378_2004, &vFmd, &vFmdSize,&ppImage,&nImageSize);
+		bStop = CaptureFinger(hReaders, dpi, DPFJ_FMD_ISO_19794_2_2005, &vFmd, &vFmdSize,&ppImage,&nImageSize);
 		if(!bStop){
 			printf("\n CaptureVerify %p \n",fpdata->pFmd1);
 			fpdata->pFmd2 = vFmd;

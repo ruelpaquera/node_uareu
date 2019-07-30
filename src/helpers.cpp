@@ -458,11 +458,22 @@ int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigne
 	return result;
 }
 int verifyFP( unsigned char* ppFt1, unsigned char* ppFt2,unsigned int nFmdSize1,unsigned int nFmdSize2) {
-	unsigned int falsematch_rate;
+	unsigned int falsematch_rate = 0;
 	// unsigned int fmd1_size = 0;
-	// int status = 0;
+	int status = 0;
 	const unsigned int target_falsematch_rate = DPFJ_PROBABILITY_ONE / 100000; 
-	int stat = dpfj_compare(DPFJ_FMD_ISO_19794_2_2005, ppFt2, nFmdSize2, 0, DPFJ_FID_ISO_19794_4_2005, ppFt2, nFmdSize2, 0, &falsematch_rate );
+
+	int stat = dpfj_compare(
+		DPFJ_FID_ISO_19794_4_2005, 
+		ppFt2, 
+		nFmdSize2, 
+		0, 
+		DPFJ_FID_ISO_19794_4_2005, 
+		ppFt2, 
+		nFmdSize2, 
+		0, 
+		&falsematch_rate );
+
 	printf("\n ppFt1 %s \n",ppFt1);
 	printf("\n ppFt2 %s \n",ppFt2);
 
@@ -474,13 +485,13 @@ int verifyFP( unsigned char* ppFt1, unsigned char* ppFt2,unsigned int nFmdSize1,
 
 
 	if (stat == DPFPDD_SUCCESS) {
-		// status = 1;
+		status = 1;
 		printf("\n verifyFP DPFPDD_SUCCESS\n");
 	} else {
 		print_error("dpfj_compare()", stat);
 		printf("\n verifyFP error\n");
 	}
-	return stat;
+	return status;
 /*
 	int result = dpfj_compare(DPFJ_FMD_ISO_19794_2_2005, pFeatures1, nFeatures1Size, 0, 
 		DPFJ_FMD_ISO_19794_2_2005, pFeatures2, nFeatures2Size, 0, &falsematch_rate);
