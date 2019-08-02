@@ -379,7 +379,7 @@ int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigne
 		else{ 
 			if(cresult.success){   
  
-				wsq_to_bmp(pImage,cresult.info.width, cresult.info.height); 
+				// wsq_to_bmp(pImage,cresult.info.width, cresult.info.height); 
  
 				unsigned int nFeaturesSize = MAX_FMD_SIZE;
 				unsigned char* pFeatures = (unsigned char*)malloc(nFeaturesSize);
@@ -393,10 +393,10 @@ int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigne
 				// 	result = dpfj_create_fmd_from_fid(DPFJ_FID_ISO_19794_4_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
  				// 	if(DPFJ_SUCCESS == result){
 						 
-				// 		*_nOrigImageSize = nOrigImageSize;
-				// 		*ppFt = pFeatures;
-				// 		*pFtSize = nFeaturesSize;
-				// 		*ppImage = pImage;  
+						*_nOrigImageSize = nOrigImageSize;
+						*ppFt = pImage;
+						*pFtSize = nImageSize;
+						*ppImage = pImage;  
 
 				// 		printf("\n-----------------------------"); 
 				// 		printf("\npFeatures %p",pFeatures); 
@@ -458,31 +458,22 @@ int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigne
 	return result;
 }
 int verifyFP( unsigned char* ppFt1, unsigned char* ppFt2,unsigned int nFmdSize1,unsigned int nFmdSize2) {
-	unsigned int falsematch_rate = 0;
+	unsigned int falsematch_rate;
 	// unsigned int fmd1_size = 0;
 	int status = 0;
 	const unsigned int target_falsematch_rate = DPFJ_PROBABILITY_ONE / 100000; 
 
-	int stat = dpfj_compare(
-		DPFJ_FID_ISO_19794_4_2005, 
-		ppFt2, 
-		nFmdSize2, 
-		0, 
-		DPFJ_FID_ISO_19794_4_2005, 
-		ppFt2, 
-		nFmdSize2, 
-		0, 
-		&falsematch_rate );
+	int stat = dpfj_compare(DPFJ_FID_ISO_19794_4_2005, ppFt2, nFmdSize2, 0, DPFJ_FID_ISO_19794_4_2005, ppFt2, nFmdSize2, 0, &falsematch_rate );
 
-	printf("\n ppFt1 %s \n",ppFt1);
-	printf("\n ppFt2 %s \n",ppFt2);
+		printf("\n ppFt1 %s \n",ppFt1);
+		printf("\n ppFt2 %s \n",ppFt2);
 
-	printf("\n %d \n",nFmdSize1);
-	printf("\n %d \n",nFmdSize2);
-	printf("\n false match_rate 0x%x \n",falsematch_rate);
-	printf("\n false match rate: %e.\n\n\n", (double)(falsematch_rate / DPFJ_PROBABILITY_ONE));
-	printf("\n stat %d \n",stat);
-
+		printf("\n %d \n",nFmdSize1);
+		printf("\n %d \n",nFmdSize2);
+		printf("\n false match_rate 0x%x \n",falsematch_rate);
+		printf("\n false match rate: %e.\n\n\n", (double)(falsematch_rate / DPFJ_PROBABILITY_ONE));
+		printf("\n target false match_rate 0x%x \n",target_falsematch_rate);
+		printf("\n stat %d \n",stat);
 
 	if (stat == DPFPDD_SUCCESS) {
 		status = 1;

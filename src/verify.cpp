@@ -67,17 +67,17 @@ static void fpVerify_start_cb(void *edata)
     
     // start verification / checking fingers
     
-    int result = verifyFP(
-        fpdata->pFmd1,
-        fpdata->pFmd2,
-        (unsigned int )434,
-        fpdata->nFmdSize1
-    );
+    // int result = verifyFP(
+    //     fpdata->pFmd1,
+    //     fpdata->pFmd2,
+    //     (unsigned int )434,
+    //     fpdata->nFmdSize1
+    // );
 
 
-    if(!result){
-        return;
-    }
+    // if(!result){
+    //     return;
+    // }
     
     // // std::string pImage =  Nan::NewBuffer((unsigned char*)fpdata->pImage, fpdata->pFmd);
     // // std::string pImage = (char *)fpdata->pImage;
