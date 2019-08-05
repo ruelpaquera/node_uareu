@@ -89,8 +89,8 @@ static void fpVerify_start_cb(void *edata)
     // // argv[3] = Nan::New(fingerprintimg.c_str()).ToLocalChecked();
     // // std::string pImage = "fpdata->pImage";
     // // std::string pFmd = "fpdata->pFmd";
-    printf("\nfpdata->pFmd1 %p\n",fpdata->pFmd1);
-    printf("\nfpdata->pFmd2 %p\n",fpdata->pFmd2);
+    // printf("\nfpdata->pFmd1 %p\n",fpdata->pFmd1);
+    // printf("\nfpdata->pFmd2 %p\n",fpdata->pFmd2);
 
     // argv[1] = Nan::New(pImage.c_str()).ToLocalChecked();
     // argv[2] = Nan::New(pFmd.c_str()).ToLocalChecked();

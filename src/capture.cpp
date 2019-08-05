@@ -73,49 +73,44 @@ int CaptureVerify(int *finger,fpVerify_start_cb_ func,void *FPdata){
 			break;
 		}
 		bStop = CaptureFinger_(hReaders, dpi, DPFJ_FMD_ISO_19794_2_2005, &vFmd, &vFmdSize,&ppImage,&nImageSize);
-		if(0 == bStop)  bStop = CaptureFinger_(hReaders, dpi, DPFJ_FMD_ISO_19794_2_2005, &vFmd, &vFmdSize,&ppImage,&nImageSize);
-		if(0 == bStop) {
+		// if(0 == bStop)  bStop = CaptureFinger_(hReaders, dpi, DPFJ_FMD_ISO_19794_2_2005, &vFmd, &vFmdSize,&ppImage,&nImageSize);
+		// if(0 == bStop) {
+		// 	printf("\n CaptureVerify %p \n",fpdata->pFmd1);
+		// 	fpdata->pFmd2 = vFmd;
+		// 	fpdata->nFmdSize1 = vFmdSize;
+		// 	fpdata->pImage = ppImage;
+		// 	fpdata->pImageSize = nImageSize;
+
+		// 	int result = verifyFP(
+		// 		vFmd,
+		// 		vFmd,
+		// 		fpdata->nFmdSize1,
+		// 		fpdata->nFmdSize1
+		// 	);
+			
+		// 	func(fpdata);
+		// 	if(NULL != vFmd) free(vFmd);
+		// 	ppImage = NULL; 
+		// 	vFmd = NULL;
+		// 	vFmdSize = 0;
+		// 	i++;
+		// }else
+		// 	bStop = 1;
+		if(!bStop){
 			printf("\n CaptureVerify %p \n",fpdata->pFmd1);
 			fpdata->pFmd2 = vFmd;
 			fpdata->nFmdSize1 = vFmdSize;
 			fpdata->pImage = ppImage;
 			fpdata->pImageSize = nImageSize;
 
-			int result = verifyFP(
-				vFmd,
-				vFmd,
-				fpdata->nFmdSize1,
-				fpdata->nFmdSize1
-			);
+	
 			
 			func(fpdata);
-			if(NULL != vFmd) free(vFmd);
+			// if(NULL != vFmd) free(vFmd);
 			ppImage = NULL; 
 			vFmd = NULL;
 			vFmdSize = 0;
 			i++;
-		}else
-			bStop = 1;
-		if(!bStop){
-			// printf("\n CaptureVerify %p \n",fpdata->pFmd1);
-			// fpdata->pFmd2 = vFmd;
-			// fpdata->nFmdSize1 = vFmdSize;
-			// fpdata->pImage = ppImage;
-			// fpdata->pImageSize = nImageSize;
-
-			// int result = verifyFP(
-			// 	vFmd,
-			// 	vFmd,
-			// 	fpdata->nFmdSize1,
-			// 	fpdata->nFmdSize1
-			// );
-			
-			// func(fpdata);
-			// if(NULL != vFmd) free(vFmd);
-			// ppImage = NULL; 
-			// vFmd = NULL;
-			// vFmdSize = 0;
-			// i++;
 		}
 	}
 	printf("\n------CaptureVerify close-----\n");

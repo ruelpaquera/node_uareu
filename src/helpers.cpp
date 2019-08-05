@@ -297,10 +297,7 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 	sigaction (SIGINT, &old_action, NULL);
 	g_hReader = NULL;
 
-	if(NULL != pImage){
-		free(pImage);
-		printf("\npImage free\n");
-	}
+	if(NULL != pImage)free(pImage);
 	return result;
 }
 int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage,unsigned int* _nOrigImageSize){
@@ -312,7 +309,7 @@ int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigne
 	DPFPDD_CAPTURE_PARAM cparam = {};
 	cparam.size = sizeof(cparam);
 	cparam.image_fmt = DPFPDD_IMG_FMT_ISOIEC19794;
-	cparam.image_proc = DPFPDD_IMG_PROC_DEFAULT;
+	cparam.image_proc = DPFPDD_IMG_PROC_NONE;
 	cparam.image_res = dpi;
 	
 	DPFPDD_CAPTURE_RESULT cresult = {};
@@ -378,31 +375,66 @@ int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigne
 		}
 		else{ 
 			if(cresult.success){   
+ /*********************************************************************************************************/
+
+				unsigned int falsematch_rate;
+				// unsigned int fmd1_size = 0; 
+				const unsigned int target_falsematch_rate = DPFJ_PROBABILITY_ONE / 100000; 
+
+				int stat = dpfj_compare(DPFJ_FMD_ISO_19794_2_2005, pImage, nImageSize, 0, DPFJ_FMD_ISO_19794_2_2005, pImage, nImageSize, 0, &falsematch_rate );
+
+					printf("\n ppFt1 %s \n",pImage);
+					printf("\n ppFt2 %s \n",pImage);
+					
+					printf("\nfpdata->pFmd1 %p\n",pImage);
+					printf("\nfpdata->pFmd2 %p\n",pImage);
+
+					printf("\n %d \n",nImageSize);
+					printf("\n %d \n",nImageSize);
+					printf("\n false match_rate 0x%x \n",falsematch_rate);
+					printf("\n false match rate: %e.\n\n\n", (double)(falsematch_rate / DPFJ_PROBABILITY_ONE));
+					printf("\n target false match_rate 0x%x \n",target_falsematch_rate);
+					printf("\n stat %d \n",stat);
+
+				if (stat == DPFPDD_SUCCESS) { 
+					printf("\nverifyFP DPFPDD_SUCCESS\n");
+				} else { 
+					print_error("dpfj_compare()", stat);
+					printf("\nverifyFP error\n");
+				}
+
+/*********************************************************************************************************/
+				// // wsq_to_bmp(pImage,cresult.info.width, cresult.info.height); 
  
-				// wsq_to_bmp(pImage,cresult.info.width, cresult.info.height); 
+				// unsigned int nFeaturesSize = MAX_FMD_SIZE;
+				// unsigned char* pFeatures = (unsigned char*)malloc(nFeaturesSize);
  
-				unsigned int nFeaturesSize = MAX_FMD_SIZE;
-				unsigned char* pFeatures = (unsigned char*)malloc(nFeaturesSize);
- 
-				// printf("\nnFeaturesSize %d\n",nFeaturesSize);
+				// // printf("\nnFeaturesSize %d\n",nFeaturesSize);
 				// if(NULL == pFeatures){
 				// 	print_error("malloc()", ENOMEM); 
 				// 	result = ENOMEM;
 				// } else { 
 				    
-				// 	result = dpfj_create_fmd_from_fid(DPFJ_FID_ISO_19794_4_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
+				// 	result = dpfj_create_fmd_from_fid(DPFJ_FMD_ISO_19794_2_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
  				// 	if(DPFJ_SUCCESS == result){
 						 
-						*_nOrigImageSize = nOrigImageSize;
-						*ppFt = pImage;
-						*pFtSize = nImageSize;
-						*ppImage = pImage;  
+				// 		*_nOrigImageSize = nOrigImageSize;
+				// 		*ppFt = pImage;
+				// 		*pFtSize = nImageSize;
+				// 		*ppImage = pImage;  
 
-				// 		printf("\n-----------------------------"); 
-				// 		printf("\npFeatures %p",pFeatures); 
-				// 		printf("\nFeaturesSize %d",nFeaturesSize); 
-				// 		printf("\npImage %p\n",pImage); 
-				// 		printf("\n-----------------------------"); 
+
+				// 		// verifyFP(
+				// 		// 	pFeatures,
+				// 		// 	pFeatures,
+				// 		// 	nFeaturesSize,
+				// 		// 	nFeaturesSize
+				// 		// );
+				// 		// printf("\n-----------------------------"); 
+				// 		// printf("\npFeatures %p",pFeatures); 
+				// 		// printf("\nFeaturesSize %d",nFeaturesSize); 
+				// 		// printf("\npImage %p\n",pImage); 
+				// 		// printf("\n-----------------------------"); 
 
 				// 	} else {
 				// 		print_error("dpfj_create_fmd_from_fid()", result); 
@@ -463,10 +495,13 @@ int verifyFP( unsigned char* ppFt1, unsigned char* ppFt2,unsigned int nFmdSize1,
 	int status = 0;
 	const unsigned int target_falsematch_rate = DPFJ_PROBABILITY_ONE / 100000; 
 
-	int stat = dpfj_compare(DPFJ_FID_ISO_19794_4_2005, ppFt2, nFmdSize2, 0, DPFJ_FID_ISO_19794_4_2005, ppFt2, nFmdSize2, 0, &falsematch_rate );
+	int stat = dpfj_compare(DPFJ_FID_ISO_19794_4_2005, ppFt1, nFmdSize1, 0, DPFJ_FID_ISO_19794_4_2005, ppFt2, nFmdSize2, 0, &falsematch_rate );
 
 		printf("\n ppFt1 %s \n",ppFt1);
 		printf("\n ppFt2 %s \n",ppFt2);
+		
+		printf("\nfpdata->pFmd1 %p\n",ppFt1);
+    	printf("\nfpdata->pFmd2 %p\n",ppFt1);
 
 		printf("\n %d \n",nFmdSize1);
 		printf("\n %d \n",nFmdSize2);
@@ -483,8 +518,5 @@ int verifyFP( unsigned char* ppFt1, unsigned char* ppFt2,unsigned int nFmdSize1,
 		printf("\n verifyFP error\n");
 	}
 	return status;
-/*
-	int result = dpfj_compare(DPFJ_FMD_ISO_19794_2_2005, pFeatures1, nFeatures1Size, 0, 
-		DPFJ_FMD_ISO_19794_2_2005, pFeatures2, nFeatures2Size, 0, &falsematch_rate);
-*/
+
 }
