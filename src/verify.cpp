@@ -67,13 +67,17 @@ static void fpVerify_start_cb(void *edata)
     
     // start verification / checking fingers
     
-    // int result = verifyFP(
-    //     fpdata->pFmd1,
-    //     fpdata->pFmd2,
-    //     (unsigned int )434,
-    //     fpdata->nFmdSize1
-    // );
+    printf("\nfpdata->pFmd1 %p\n",fpdata->pFmd1);
+    printf("\nfpdata->pFmd2 %p\n",fpdata->pFmd2);
 
+    verifyFP(
+        fpdata->pFmd1,
+        fpdata->pFmd2,
+        (unsigned int )115246,
+        fpdata->nFmdSize2
+    );
+    // 115246
+    // 1769473
 
     // if(!result){
     //     return;
@@ -99,7 +103,7 @@ static void fpVerify_start_cb(void *edata)
 
     // if(fpdata->pFmd1 != NULL)
     //     free(fpdata->pFmd2);
-    printf("\n-----------------------------------------------------\n"); 
+    // printf("\n-----------------------------------------------------\n"); 
 }
 
 NAN_METHOD(startVerify)

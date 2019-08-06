@@ -29,7 +29,7 @@ int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata){
 			bStop = 1;
 			break;
 		}
-		bStop = CaptureFinger(hReaders, dpi, DPFJ_FMD_ANSI_378_2004, &vFmd, &vFmdSize,&ppImage,&nImageSize);
+		bStop = CaptureFinger(hReaders, dpi, DPFJ_FMD_ISO_19794_2_2005, &vFmd, &vFmdSize,&ppImage,&nImageSize);
 		
 		if(!bStop){
 			fpdata->pFmd = vFmd;
@@ -37,6 +37,8 @@ int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata){
 			fpdata->pImage = ppImage;
 			fpdata->pImageSize = nImageSize;
 			fpdata->finger = i;
+
+    		printf("\n size %d \n",nImageSize);
 
 			func(fpdata);
 			if(NULL != vFmd) free(vFmd);
@@ -67,7 +69,7 @@ int CaptureVerify(int *finger,fpVerify_start_cb_ func,void *FPdata){
 	unsigned int nImageSize ;
 
 	while(!bStop){
-		printf("\n------CaptureVerify-----\n");
+		// printf("\n------CaptureVerify-----\n");
 		if(i == nFingerCnt){
 			bStop = 1;
 			break;
@@ -81,13 +83,6 @@ int CaptureVerify(int *finger,fpVerify_start_cb_ func,void *FPdata){
 		// 	fpdata->pImage = ppImage;
 		// 	fpdata->pImageSize = nImageSize;
 
-		// 	int result = verifyFP(
-		// 		vFmd,
-		// 		vFmd,
-		// 		fpdata->nFmdSize1,
-		// 		fpdata->nFmdSize1
-		// 	);
-			
 		// 	func(fpdata);
 		// 	if(NULL != vFmd) free(vFmd);
 		// 	ppImage = NULL; 
@@ -97,13 +92,20 @@ int CaptureVerify(int *finger,fpVerify_start_cb_ func,void *FPdata){
 		// }else
 		// 	bStop = 1;
 		if(!bStop){
-			printf("\n CaptureVerify %p \n",fpdata->pFmd1);
-			fpdata->pFmd2 = vFmd;
-			fpdata->nFmdSize1 = vFmdSize;
-			fpdata->pImage = ppImage;
-			fpdata->pImageSize = nImageSize;
+			// printf("\n ---------------tawing-------------------------- \n");
+			// verifyFP(
+			// 	vFmd,
+			// 	vFmd,
+			// 	vFmdSize,
+			// 	vFmdSize
+			// );
+			// printf("\n ---------------/tawing------------------------- \n");
 
-	
+			// printf("\n CaptureVerify %p \n",fpdata->pFmd1);
+			fpdata->pFmd2 = vFmd;
+			fpdata->nFmdSize2 = vFmdSize;
+			fpdata->pImage = ppImage;
+			fpdata->pImageSize = nImageSize;	
 			
 			func(fpdata);
 			// if(NULL != vFmd) free(vFmd);
@@ -113,7 +115,7 @@ int CaptureVerify(int *finger,fpVerify_start_cb_ func,void *FPdata){
 			i++;
 		}
 	}
-	printf("\n------CaptureVerify close-----\n");
+	// printf("\n------CaptureVerify close-----\n");
 	dpfpdd_close(hReaders);
 	return bStop;
 }

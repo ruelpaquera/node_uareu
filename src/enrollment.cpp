@@ -69,8 +69,6 @@ static void fpEnroll_start_cb(void *edata)
     // argv[3] = Nan::New(fingerprintimg.c_str()).ToLocalChecked();
     // std::string pImage = "fpdata->pImage";
     // std::string pFmd = "fpdata->pFmd";
-
-
     argv[1] = Nan::New(pImage.c_str()).ToLocalChecked();
     argv[2] = Nan::New(pFmd.c_str()).ToLocalChecked();
 
