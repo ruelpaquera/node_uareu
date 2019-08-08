@@ -73,7 +73,7 @@ static void fpVerify_start_cb(void *edata)
     verifyFP(
         fpdata->pFmd1,
         fpdata->pFmd2,
-        (unsigned int )115246,
+        (unsigned int )1769473,
         fpdata->nFmdSize2
     );
     // 115246
@@ -130,9 +130,9 @@ NAN_METHOD(startVerify)
         // FPdata->pFmd1 = (unsigned char*)base64_decode(bar).c_str();
         memcpy(FPdata->pFmd1 , bar_base64_decode.c_str(), bar_base64_decode.size());
         FPdata->pFmd2 = (unsigned char*)NULL;
-        FPdata->nFmdSize1 = 0;
+        FPdata->nFmdSize1 = bar_base64_decode.size();
         FPdata->nFmdSize2 = 0; 
-        // printf("\n size of  FPdata->pFmd1  %d \n",FPdata->pFmd1);
+        // printf("\n size of  FPdata->pFmd1  %d \n", bar_base64_decode.size());
         // std::cout << FPdata->pFmd1;
         // std::cout << (unsigned char*)base64_decode(bar).c_str();
 

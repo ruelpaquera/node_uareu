@@ -382,8 +382,18 @@ int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigne
 					print_error("malloc()", ENOMEM); 
 					result = ENOMEM;
 				} else { 
-				    
+				    //DPFJ_FID_ISO_19794_4_2005
+					//DPFJ_FID_ANSI_381_2004
 					result = dpfj_create_fmd_from_fid(DPFJ_FID_ISO_19794_4_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
+					// result = dpfj_create_fmd_from_raw(
+					// 	pImage,
+					// 	nImageSize,
+					// 	cresult.info.width, 
+					// 	cresult.info.height,
+					// 	dpi,
+					// 	DPFJ_POSITION_RTHUMB,
+
+					// );
  					if(DPFJ_SUCCESS == result){
 						 
 						*_nOrigImageSize = nOrigImageSize;
@@ -486,7 +496,7 @@ int verifyFP( unsigned char* ppFt1, unsigned char* ppFt2,unsigned int nFmdSize1,
 	unsigned int falsematch_rate;
 	const unsigned int target_falsematch_rate = DPFJ_PROBABILITY_ONE / 100000; 
 
-	int stat = dpfj_compare(DPFJ_FMD_ISO_19794_2_2005, ppFt1, nFmdSize1, 0, DPFJ_FMD_ISO_19794_2_2005, ppFt2, nFmdSize2, 0, &falsematch_rate );
+	int stat = dpfj_compare(DPFJ_FMD_ANSI_378_2004, ppFt1, nFmdSize1, 0, DPFJ_FMD_ANSI_378_2004, ppFt2, nFmdSize2, 0, &falsematch_rate );
 
 	printf("\n ppFt1 %s \n",ppFt1);
 	printf("\n ppFt2 %s \n",ppFt2);
