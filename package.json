@@ -21,8 +21,10 @@
   "dependencies": {
     "bindings": "^1.5.0",
     "buffer-image-size": "^0.6.4",
+    "fast-xml-parser": "^3.12.19",
     "file-uri-to-path": "^1.0.0",
     "nan": "^2.14.0",
+    "xml2js": "^0.4.19",
     "zlib": "^1.0.5"
   },
   "repository": {

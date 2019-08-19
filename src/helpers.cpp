@@ -371,8 +371,7 @@ int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigne
 		}
 		else{ 
 			if(cresult.success){   
-
-				// wsq_to_bmp(pImage,cresult.info.width, cresult.info.height); 
+ 
  
 				unsigned int nFeaturesSize = MAX_FMD_SIZE;
 				unsigned char* pFeatures = (unsigned char*)malloc(nFeaturesSize);
@@ -385,6 +384,8 @@ int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigne
 				    //DPFJ_FID_ISO_19794_4_2005
 					//DPFJ_FID_ANSI_381_2004
 					result = dpfj_create_fmd_from_fid(DPFJ_FID_ISO_19794_4_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
+
+				// wsq_to_bmp(pImage,cresult.info.width, cresult.info.height);
 					// result = dpfj_create_fmd_from_raw(
 					// 	pImage,
 					// 	nImageSize,
@@ -498,30 +499,44 @@ int verifyFP( unsigned char* ppFt1, unsigned char* ppFt2,unsigned int nFmdSize1,
 
 	int stat = dpfj_compare(DPFJ_FMD_ANSI_378_2004, ppFt1, nFmdSize1, 0, DPFJ_FMD_ANSI_378_2004, ppFt2, nFmdSize2, 0, &falsematch_rate );
 
-	printf("\n ppFt1 %s \n",ppFt1);
-	printf("\n ppFt2 %s \n",ppFt2);
+	// printf("\n ppFt1 %s \n",ppFt1);
+	// printf("\n ppFt2 %s \n",ppFt2);
 
-	printf("\n %d \n",nFmdSize1);
-	printf("\n %d \n",nFmdSize2);
+	// printf("\n %d \n",nFmdSize1);
+	// printf("\n %d \n",nFmdSize2);
 
-	printf("\n false match_rate %d \n",falsematch_rate);
-	printf("\n false match_rate 0x%x \n",falsematch_rate);
-	printf("\n false match rate: %e. \n\n\n", (double)(falsematch_rate / DPFJ_PROBABILITY_ONE));
-	printf("\n target false match_rate 0x%x \n",target_falsematch_rate);
-	printf("\n stat %d \n",stat);
+	// printf("\n false match_rate %d \n",falsematch_rate);
+	// printf("\n false match_rate 0x%x \n",falsematch_rate);
+	// printf("\n DPFJ_PROBABILITY_ONE match_rate 0x%x \n",DPFJ_PROBABILITY_ONE);
+	// printf("\n false match rate: %e. \n\n\n", (double)(falsematch_rate / DPFJ_PROBABILITY_ONE));
+	// printf("\n target false match_rate 0x%x \n",target_falsematch_rate);
+	// printf("\n target false match_rate %d \n",target_falsematch_rate);
+	// printf("\n stat %d \n",stat);
 
 	if (stat == DPFPDD_SUCCESS) { 
-		printf("\n verifyFP DPFPDD_SUCCESS\n");
+		// printf("\n verifyFP DPFPDD_SUCCESS\n");  
+		if(falsematch_rate < target_falsematch_rate){
+			printf("\n Match! \n");
+			stat = 1;
+		} else {
+			printf("\n Match Not Found \n");
+			stat = 0;
+		}
 	} else { 
-		print_error("dpfj_compare()", stat);
-		printf("\n verifyFP error\n");
+		stat = 0;
+		// printf("\n verifyFP error\n");
 	}
+
 	return stat;
 
 }
 
 	/*******/
-
+		// if(falsematch_rate == DPFJ_PROBABILITY_ONE){
+		// 	return 0;
+		// } else {
+		// 	return stat;
+		// }
 	// unsigned int falsematch_rate;
 	// // unsigned int fmd1_size = 0;
 	// int status = 0;

@@ -61,21 +61,25 @@ static void fpVerify_start_cb(void *edata)
     Local<Value> argv[3];
 
     //return to middleware result of verification
-    argv[0] = Nan::New(fpdata->result);
-    argv[1] = Nan::Null();
-    argv[2] = Nan::Null();
+    argv[0] = Nan::Null();
+    argv[1] = Nan::Null(); 
     
     // start verification / checking fingers
     
-    printf("\nfpdata->pFmd1 %p\n",fpdata->pFmd1);
-    printf("\nfpdata->pFmd2 %p\n",fpdata->pFmd2);
+    // printf("\nfpdata->pFmd1 %p\n",fpdata->pFmd1);
+    // printf("\nfpdata->pFmd2 %p\n",fpdata->pFmd2);
+    // std::string pImage = base64_encode(reinterpret_cast<unsigned char* >(fpdata->pImage),fpdata->pImageSize);
 
-    verifyFP(
+    int result = verifyFP(
         fpdata->pFmd1,
         fpdata->pFmd2,
         (unsigned int )1769473,
         fpdata->nFmdSize2
     );
+
+    argv[0] = Nan::New(result);
+    // argv[1] = Nan::New(pImage.c_str()).ToLocalChecked();
+
     // 115246
     // 1769473
 
@@ -99,7 +103,7 @@ static void fpVerify_start_cb(void *edata)
     // argv[1] = Nan::New(pImage.c_str()).ToLocalChecked();
     // argv[2] = Nan::New(pFmd.c_str()).ToLocalChecked();
 
-    callback.Call(3, argv, &asyncResource); 
+    callback.Call(2, argv, &asyncResource); 
 
     // if(fpdata->pFmd1 != NULL)
     //     free(fpdata->pFmd2);
