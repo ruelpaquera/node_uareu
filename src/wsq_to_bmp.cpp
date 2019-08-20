@@ -106,7 +106,7 @@ WriteWSQ_ppi =
         //type = 6; //RGB;
         //type = 7; //TGA;
 
-
+        printf("wsq");
         SaveImageToFile(output_file_name, type, width, height, imageData);
 
 

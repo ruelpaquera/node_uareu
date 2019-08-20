@@ -372,7 +372,6 @@ int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigne
 		else{ 
 			if(cresult.success){   
  
- 
 				unsigned int nFeaturesSize = MAX_FMD_SIZE;
 				unsigned char* pFeatures = (unsigned char*)malloc(nFeaturesSize);
  
@@ -384,7 +383,9 @@ int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigne
 				    //DPFJ_FID_ISO_19794_4_2005
 					//DPFJ_FID_ANSI_381_2004
 					result = dpfj_create_fmd_from_fid(DPFJ_FID_ISO_19794_4_2005, pImage, nImageSize, nFtType, pFeatures, &nFeaturesSize);
-
+					// unsigned char* pImage_ = (unsigned char*)malloc(nImageSize);
+					unsigned char* pImage_ = pImage;
+					// wsq_to_bmp(pImage_,cresult.info.width, cresult.info.height);
 				// wsq_to_bmp(pImage,cresult.info.width, cresult.info.height);
 					// result = dpfj_create_fmd_from_raw(
 					// 	pImage,
@@ -400,7 +401,7 @@ int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigne
 						*_nOrigImageSize = nOrigImageSize;
 						*ppFt = pFeatures;
 						*pFtSize = nImageSize;
-						*ppImage = pImage;  
+						*ppImage = pImage_;  
 
  /*********************************************************************************************************/
 
