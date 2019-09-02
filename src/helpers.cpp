@@ -144,7 +144,9 @@ void HexToBin(unsigned char hexdec)
         } 
         i++;
 }
-
+void dispose(){
+	dpfpdd_close(g_hReader);
+}
 int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage,unsigned int* _nOrigImageSize){
 	int result = 0; 
 	*ppFt = NULL;

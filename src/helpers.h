@@ -61,7 +61,7 @@ typedef struct __VERIFYFD_STOP__ {
 
 //error handling
 void print_error(const char* szFunctionName, int nError);
-
+void dispose();
 int verifyFP(unsigned char* ppFt1, unsigned char* ppFt2,unsigned int nFmdSize1,unsigned int nFmdSize2);
 
 //returns 0 if captured, otherwise an error code

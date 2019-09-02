@@ -105,8 +105,10 @@ static void fpVerify_start_cb(void *edata)
 
     callback.Call(2, argv, &asyncResource); 
 
-    // if(fpdata->pFmd1 != NULL)
-    //     free(fpdata->pFmd2);
+    if(fpdata->pFmd1 != NULL)
+        free(fpdata->pFmd1);
+    if(fpdata->pFmd2 != NULL)
+        free(fpdata->pFmd2);
     // printf("\n-----------------------------------------------------\n"); 
 }
 

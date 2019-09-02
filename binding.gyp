@@ -1,6 +1,6 @@
 {
     "targets": [{
-        "target_name": "uareuprint",
+        "target_name": "biometric",
 		"sources": [ "src/verify.cpp", "src/wsq_to_bmp.cpp", "src/base64.cpp", "src/main.cpp"  , "src/selection.cpp" , "src/helpers.cpp" , "src/enrollment.cpp" , "src/capture.cpp" ],
         "conditions": [
             ["OS in \"linux\"",{                

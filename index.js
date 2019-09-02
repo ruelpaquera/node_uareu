@@ -1,3 +1,3 @@
-var uareuprint = require("bindings")("uareuprint");
+var biometric = require("bindings")("biometric");
 
-module.exports = uareuprint;
+module.exports = biometric;
