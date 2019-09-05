@@ -31,15 +31,14 @@ void verifyfp_after(uv_handle_t* handle)
     if(!FPdata)
         return;
 
-    // if(FPdata->pFmd1)
-    //     free(FPdata->pFmd1);
+    if(FPdata->pFmd1)
+        free(FPdata->pFmd1);
     if(FPdata->pFmd2)
         free(FPdata->pFmd2);
  
     FPdata->result = 0; 
     delete FPdata;
-}
-//,int result,unsigned char *pImage,unsigned char *pFmd,unsigned int nFmdSize
+} 
 static void fpVerify_start_cb(void *edata)
 {
     VERIFYFD_DATA *fpdata = (VERIFYFD_DATA*)edata; 
@@ -111,7 +110,6 @@ static void fpVerify_start_cb(void *edata)
         free(fpdata->pFmd2);
     // printf("\n-----------------------------------------------------\n"); 
 }
-
 NAN_METHOD(startVerify)
 { 
     std::string bar = "";
