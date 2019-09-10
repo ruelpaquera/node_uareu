@@ -1,7 +1,7 @@
-var uareuprint = require("../index"); 
+var biometric = require("../index"); 
 var parseString = require('xml2js').parseString;
 
-var inits = uareuprint.init(); 
+var inits = biometric.init(); 
 if(inits){ 
     // uareuprint.startEnroll(1,function(status,fimage,fid){
     //     // console.log("\n\ntest status startEnroll ",status);
@@ -15,7 +15,7 @@ if(inits){
     parseString(FID_DATA, {trim: true},function (err, result) { 
         result_FID = result.Fid.Bytes[0];
     });
-    uareuprint.startVerify({fmt: result_FID,stat:1},function(status,fimage){
+    biometric.startVerify({fmt: result_FID,stat:1},function(status,fimage){
         console.log("\n\ntest status startEnroll ",status);
         console.log("\ntest fimage startEnroll ",fimage); 
     });    
