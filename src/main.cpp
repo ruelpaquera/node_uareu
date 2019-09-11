@@ -60,6 +60,7 @@ NAN_MODULE_INIT(module_init){
     NAN_EXPORT(target, CloseVerify);
     NAN_EXPORT(target, startEnroll);
     NAN_EXPORT(target, startVerify);
+    NAN_EXPORT(target, stopVerify);
     NAN_EXPORT(target, getReader);
 }
 

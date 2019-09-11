@@ -76,12 +76,16 @@ static void fpVerify_start_cb(void *edata)
     // // std::string pImage = (char *)fpdata->pImage;
     // // std::string pFmd = (char *)fpdata->pFmd;
     // // std::string pImage = (char *)fpdata->pImage;
+    
     // std::string pImage = base64_encode(reinterpret_cast<unsigned char* >(fpdata->pImage),fpdata->pImageSize);
     // // std::string pFmd = (char *)fpdata->pFmd;
+
     // std::string pFmd = base64_encode(reinterpret_cast<unsigned char* >(fpdata->pFmd),fpdata->nFmdSize);
     // // argv[3] = Nan::New(fingerprintimg.c_str()).ToLocalChecked();
+
     // // std::string pImage = "fpdata->pImage";
     // // std::string pFmd = "fpdata->pFmd";
+
     // printf("\nfpdata->pFmd1 %p\n",fpdata->pFmd1);
     // printf("\nfpdata->pFmd2 %p\n",fpdata->pFmd2);
 
@@ -112,18 +116,19 @@ NAN_METHOD(startVerify)
     FPdata = new VERIFYFD_DATA; 
 
     if(!FPdata) goto error; 
-        bar_base64_decode = base64_decode(bar);
-        printf("\n-----------------------------------------------------\n"); 
-        FPdata->pFmd1 = (unsigned char*)malloc(bar_base64_decode.size());
-        memcpy(FPdata->pFmd1 , bar_base64_decode.c_str(), bar_base64_decode.size());
-        FPdata->pFmd2 = (unsigned char*)NULL;
-        FPdata->nFmdSize1 = bar_base64_decode.size();
-        FPdata->nFmdSize2 = 0;
+    
+    bar_base64_decode = base64_decode(bar);
+    printf("\n-----------------------------------------------------\n"); 
+    FPdata->pFmd1 = (unsigned char*)malloc(bar_base64_decode.size());
+    memcpy(FPdata->pFmd1 , bar_base64_decode.c_str(), bar_base64_decode.size());
+    FPdata->pFmd2 = (unsigned char*)NULL;
+    FPdata->nFmdSize1 = bar_base64_decode.size();
+    FPdata->nFmdSize2 = 0;
 
-        FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
+    FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
 
-        CaptureVerify(&fingers,fpVerify_start_cb,(void*)FPdata);
-        
+    CaptureVerify(&fingers,fpVerify_start_cb,(void*)FPdata);
+    
     ret = true;
 error:
     info.GetReturnValue().Set(Nan::New(ret));
@@ -133,49 +138,40 @@ error:
 /********************************************************************/
 
 
-// void verify_stop_after(uv_handle_t* handle)
-// {
-//     VERIFYFD_STOP *data = container_of((uv_async_t *)handle, VERIFYFD_STOP, async);
+void verify_stop_after(uv_handle_t* handle)
+{
+    VERIFYFD_STOP *data = container_of((uv_async_t *)handle, VERIFYFD_STOP, async);
 
-//     if(!data)
-//         return;
+    if(!data)
+        return;
 
-//     delete data;
-// }
+    delete data;
+}
+void report_verify_stop(uv_async_t *handle)
+{
+    VERIFYFD_DATA *data = container_of((uv_async_t *)handle, VERIFYFD_DATA, async);
+    Nan::HandleScope scope;
 
-// #ifndef OLD_UV_RUN_SIGNATURE
-// void report_verify_stop(uv_async_t *handle)
-// #else
-// void report_verify_stop(uv_async_t *handle, int status)
-// #endif
-// {
-//     VERIFYFD_STOP *data = container_of(handle, VERIFY_STOP, async);
-//     Nan::HandleScope scope;
+    if(!data)
+        return;
 
-//     if(!data)
-//         return;
+    Nan::Callback callback(Nan::New<Function>(data->callback));
+    Nan::AsyncResource asyncResource("verifyStopped");
+    callback.Call(0, NULL, &asyncResource);
+    uv_close((uv_handle_t*)&data->async, verify_stop_after);
+}
+static void verify_stop_cb(void *user_data)
+{
+    VERIFYFD_STOP *data = (VERIFYFD_STOP*)user_data;
 
-//     Nan::Callback callback(Nan::New<Function>(data->callback));
-//     Nan::AsyncResource asyncResource("verifyStopped");
-//     callback.Call(0, NULL, &asyncResource);
-//     uv_close((uv_handle_t*)&data->async, verify_stop_after);
-// }
+    if(!data)
+        return;
 
-// static void verify_stop_cb(struct fp_dev *dev, void *user_data)
-// {
-//     VERIFYFD_STOP *data = (VERIFYFD_STOP*)user_data;
-
-//     if(!data)
-//         return;
-
-//     uv_async_send(&data->async);
-// }
-
-
+    uv_async_send(&data->async);
+}
 NAN_METHOD(stopVerify) {
-    bool ret = false;
-    struct fp_dev *dev;
-    VERIFYFD_STOP *FPdata;
+    bool ret = false; 
+    VERIFYFD_STOP *data;
 
     if(info.Length() < 2)
         goto error;
@@ -184,10 +180,13 @@ NAN_METHOD(stopVerify) {
     // if(initalized != 0 || dev == NULL)
     //     goto error;
 
-    // data = new VERIFY_STOP;
-    // data->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
-    // uv_async_init(uv_default_loop(), &data->async, report_verify_stop);
-    // ret = fp_async_verify_stop(dev, verify_stop_cb, data) == 0;
+    data = new VERIFYFD_STOP;
+    data->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
+    uv_async_init(uv_default_loop(), &data->async, report_verify_stop);
+    ret = CaptureStop(verify_stop_cb, (void*)data) == 0;
+        // CaptureVerify(&fingers,fpVerify_start_cb,(void*)FPdata);
+    // verify_stop_cb(g_hReader,data)
+    // dpfpdd_close(hReaders);
 
 error:
     info.GetReturnValue().Set(Nan::New(ret));
