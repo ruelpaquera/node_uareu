@@ -316,6 +316,7 @@ int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigne
 	
 	//get size of the image
 	unsigned int nOrigImageSize = 0;
+	printf("\ntae\n");
 	result = dpfpdd_capture(hReader, &cparam, 0, &cresult, &nOrigImageSize, NULL);
 	if(DPFPDD_E_MORE_DATA != result){
 		print_error("dpfpdd_capture()", result);

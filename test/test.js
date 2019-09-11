@@ -16,12 +16,12 @@ if(inits){
         result_FID = result.Fid.Bytes[0];
     });
     biometric.startVerify({fmt: result_FID,stat:1},function(status,fimage){
-        console.log("\ntest status startEnroll ",status);
-        console.log("\ntest fimage startEnroll ",fimage); 
-
-        biometric.stopVerify(function(){
-            console.log("\ntest status stoptEnroll ");
-            console.log("\ntest fimage stoptEnroll "); 
-        });   
+        console.log("\ntest status startEnroll 2",status);
+        console.log("\ntest fimage startEnroll 2",fimage); 
+        // biometric.stopVerify(inits,function(){
+        //     console.log("\ntest status stoptEnroll ");
+        //     console.log("\ntest fimage stoptEnroll "); 
+        // });   
     });    
+  
 }

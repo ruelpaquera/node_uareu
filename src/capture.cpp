@@ -119,9 +119,12 @@ int CaptureVerify(int *finger,fpVerify_start_cb_ func,void *FPdata){
 	}
 	// printf("\n------CaptureVerify close-----\n");
 	dpfpdd_close(hReaders);
+	dpfpdd_cancel(hReaders);
 	return bStop;
 }
-int CaptureStop(int *finger,fpVerify_start_cb_ func,void *FPdata){
+int CaptureStop(fpVerify_start_cb_ func,void *FPdata){
+
+	printf("close");
 	if(hReaders == NULL) 
 		hReaders = GetReader(szReader, sizeof(szReader),&dpi);
 	dpfpdd_close(hReaders);

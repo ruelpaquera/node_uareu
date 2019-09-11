@@ -116,7 +116,7 @@ NAN_METHOD(startVerify)
     FPdata = new VERIFYFD_DATA; 
 
     if(!FPdata) goto error; 
-    
+
     bar_base64_decode = base64_decode(bar);
     printf("\n-----------------------------------------------------\n"); 
     FPdata->pFmd1 = (unsigned char*)malloc(bar_base64_decode.size());
@@ -170,24 +170,25 @@ static void verify_stop_cb(void *user_data)
     uv_async_send(&data->async);
 }
 NAN_METHOD(stopVerify) {
+    printf("\nclose1\n");
     bool ret = false; 
     VERIFYFD_STOP *data;
 
+    printf("\nclose2\n");
+    printf("\ninfo.Length() %d\n" , info.Length() );
     if(info.Length() < 2)
         goto error;
 
-    // dev = toFPDev(Nan::To<v8::Number>(info[0]).ToLocalChecked()->Value());
-    // if(initalized != 0 || dev == NULL)
-    //     goto error;
+    printf("\nclose3\n");
 
     data = new VERIFYFD_STOP;
-    data->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
-    uv_async_init(uv_default_loop(), &data->async, report_verify_stop);
-    ret = CaptureStop(verify_stop_cb, (void*)data) == 0;
-        // CaptureVerify(&fingers,fpVerify_start_cb,(void*)FPdata);
-    // verify_stop_cb(g_hReader,data)
-    // dpfpdd_close(hReaders);
 
+    printf("\nclose4\n");
+    data->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
+    printf("\nclose5\n");
+    uv_async_init(uv_default_loop(), &data->async, report_verify_stop);
+    printf("\nclose6\n");
+    ret = CaptureStop(verify_stop_cb, (void*)data) == 0; 
 error:
     info.GetReturnValue().Set(Nan::New(ret));
 }
