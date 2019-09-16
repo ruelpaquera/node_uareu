@@ -152,8 +152,10 @@ void report_verify_stop(uv_async_t *handle)
     VERIFYFD_DATA *data = container_of((uv_async_t *)handle, VERIFYFD_DATA, async);
     Nan::HandleScope scope;
 
+
     if(!data)
         return;
+
 
     Nan::Callback callback(Nan::New<Function>(data->callback));
     Nan::AsyncResource asyncResource("verifyStopped");
@@ -164,31 +166,25 @@ static void verify_stop_cb(void *user_data)
 {
     VERIFYFD_STOP *data = (VERIFYFD_STOP*)user_data;
 
+
     if(!data)
         return;
-
+        
     uv_async_send(&data->async);
 }
 NAN_METHOD(stopVerify) {
-    printf("\nclose1\n");
     bool ret = false; 
     VERIFYFD_STOP *data;
 
-    printf("\nclose2\n");
-    printf("\ninfo.Length() %d\n" , info.Length() );
+    // printf("\ninfo.Length() %d\n" , info.Length() );
     if(info.Length() < 2)
         goto error;
 
-    printf("\nclose3\n");
-
     data = new VERIFYFD_STOP;
 
-    printf("\nclose4\n");
     data->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
-    printf("\nclose5\n");
     uv_async_init(uv_default_loop(), &data->async, report_verify_stop);
-    printf("\nclose6\n");
-    ret = CaptureStop(verify_stop_cb, (void*)data) == 0; 
+    ret = CaptureStop(verify_stop_cb,(void*)data) == 0; 
 error:
     info.GetReturnValue().Set(Nan::New(ret));
 }

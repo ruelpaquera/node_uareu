@@ -68,65 +68,38 @@ int CaptureVerify(int *finger,fpVerify_start_cb_ func,void *FPdata){
 
 	unsigned int nImageSize ;
 
-	while(!bStop){
-		// printf("\n------CaptureVerify-----\n");
+	while(!bStop){ 
 		if(i == nFingerCnt){
 			bStop = 1;
 			break;
-		}
-		//DPFJ_FMD_ISO_19794_2_2005
-		//DPFJ_FMD_ANSI_378_2004
+		} 
 		bStop = CaptureFinger_(hReaders, dpi, DPFJ_FMD_ANSI_378_2004, &vFmd, &vFmdSize,&ppImage,&nImageSize);
-		// if(0 == bStop)  bStop = CaptureFinger_(hReaders, dpi, DPFJ_FMD_ISO_19794_2_2005, &vFmd, &vFmdSize,&ppImage,&nImageSize);
-		// if(0 == bStop) {
-		// 	printf("\n CaptureVerify %p \n",fpdata->pFmd1);
-		// 	fpdata->pFmd2 = vFmd;
-		// 	fpdata->nFmdSize1 = vFmdSize;
-		// 	fpdata->pImage = ppImage;
-		// 	fpdata->pImageSize = nImageSize;
-
-		// 	func(fpdata);
-		// 	if(NULL != vFmd) free(vFmd);
-		// 	ppImage = NULL; 
-		// 	vFmd = NULL;
-		// 	vFmdSize = 0;
-		// 	i++;
-		// }else
-		// 	bStop = 1;
-		if(!bStop){
-			// printf("\n ---------------tawing-------------------------- \n");
-			// verifyFP(
-			// 	vFmd,
-			// 	vFmd,
-			// 	vFmdSize,
-			// 	vFmdSize
-			// );
-			// printf("\n ---------------/tawing------------------------- \n");
-
-			// printf("\n CaptureVerify %p \n",fpdata->pFmd1);
+ 
+		if(!bStop){ 
 			fpdata->pFmd2 = vFmd;
 			fpdata->nFmdSize2 = vFmdSize;
 			fpdata->pImage = ppImage;
 			fpdata->pImageSize = nImageSize;	
 			
-			func(fpdata);
-			// if(NULL != vFmd) free(vFmd);
+			func(fpdata); 
 			ppImage = NULL; 
 			vFmd = NULL;
 			vFmdSize = 0;
 			i++;
 		}
-	}
-	// printf("\n------CaptureVerify close-----\n");
+	} 
 	dpfpdd_close(hReaders);
-	dpfpdd_cancel(hReaders);
+	hReaders = NULL;
 	return bStop;
 }
 int CaptureStop(fpVerify_start_cb_ func,void *FPdata){
 
-	printf("close");
+	VERIFYFD_STOP *fpdata = (VERIFYFD_STOP*)FPdata; 
 	if(hReaders == NULL) 
 		hReaders = GetReader(szReader, sizeof(szReader),&dpi);
+	
+	func(fpdata);
 	dpfpdd_close(hReaders);
+	dpfpdd_exit();
 	return 0;
 }
