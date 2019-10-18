@@ -315,19 +315,22 @@ int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigne
 	cresult.info.size = sizeof(cresult.info);
 	 
 	unsigned int nOrigImageSize = 0; 
+	printf("dpfpdd_capture1\n");
 	result = dpfpdd_capture(hReader, &cparam, 0, &cresult, &nOrigImageSize, NULL);
+	printf("dpfpdd_capture11\n");
 	if(DPFPDD_E_MORE_DATA != result){
 		print_error("dpfpdd_capture()", result);
 		return result;
 	}
+	printf("dpfpdd_capture111\n");
 	unsigned char* pImage = (unsigned char*)malloc(nOrigImageSize);
 	if(NULL == pImage){
 		print_error("malloc()", ENOMEM); 
 		return ENOMEM;
 	}
-		 
+	printf("dpfpdd_capture111\n");	 
 	g_hReader = hReader;
- 
+	printf("dpfpdd_capture111\n");
 
 	while(1){  
 		int is_ready = 0;
@@ -352,7 +355,7 @@ int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigne
 			}
 		}
 		if(!is_ready) break; 
-
+		printf("dpfpdd_capture2\n");
 		result = dpfpdd_capture(hReader, &cparam, -1, &cresult, &nImageSize, pImage);  
 
 		if(DPFPDD_SUCCESS != result){
