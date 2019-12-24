@@ -1,20 +1,28 @@
 {
     "targets": [{
         "target_name": "biometric",
-		"sources": [ "src/verify.cpp", "src/wsq_to_bmp.cpp", "src/base64.cpp", "src/main.cpp"  , "src/selection.cpp" , "src/helpers.cpp" , "src/enrollment.cpp" , "src/capture.cpp" ],
+		"sources": [ 
+            "src/verify.cpp", 
+            "src/wsq_to_bmp.cpp", 
+            "src/base64.cpp", 
+            "src/main.cpp", 
+            "src/selection.cpp", 
+            "src/helpers.cpp", 
+            "src/enrollment.cpp", 
+            "src/capture.cpp" ],
         "conditions": [
-            ["OS in \"linux\"",{                
+            ["OS in \"linux\"",{   
                 "include_dirs": [
-                    "<!(node -e \"require('nan')\")",
-                    "<!(node -e \"require('zlib')\")", 
-                    "/opt/Crossmatch/urusdk-linux/Include"
+                    "<!(node -e \"require('nan')\")", 
+                    "<(module_root_dir)/Include", 
                 ],
-                "libraries": [
-                "<!(node -e \"require('zlib')\")",  
-                    "/usr/lib/libdpfpdd.so",
-                    "/usr/lib/libdpfj.so",
-                    "/usr/lib/libtfm.so",
-                    "./../lib/libWSQ_library64.so"
+                "libraries": [ 
+                    "-L<(module_root_dir)/Include",
+                    "-L<(module_root_dir)/lib",
+                    "<(module_root_dir)/lib/libdpfpdd.so",
+                    "<(module_root_dir)/lib/libdpfj.so",
+                    "<(module_root_dir)/lib/libtfm.so",
+                    "<(module_root_dir)/lib/libWSQ_library64.so"
                 ]
             }], 
             ["OS in \"win\"",{                

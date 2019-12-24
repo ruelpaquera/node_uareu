@@ -4,11 +4,11 @@
   "description": "biometric for Node modules.",
   "main": "index.js",
   "scripts": {
-    "build": "node-gyp rebuild",
-    "test": "node ./test/test.js",
-    "reinstall": "node-gyp rebuild",
-    "install": "node-gyp rebuild",
-    "retest": "node-gyp rebuild npm run test"
+    "build": "sudo uareulib/install.sh && node-gyp rebuild",
+    "test": "node test/test.js",
+    "rebuild": "node-gyp rebuild",  
+    "uareu_uninstall": "sudo uareulib/uninstall",
+    "uareu_install": "sudo uareulib/install.sh"
   },
   "keywords": [
     "uareu fingerprint"

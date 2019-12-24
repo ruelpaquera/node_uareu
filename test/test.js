@@ -18,10 +18,10 @@ if(inits){
     biometric.startVerify({fmt: result_FID,stat:1},function(status,fimage){
         console.log("\ntest status startEnroll 2",status);
         console.log("\ntest fimage startEnroll 2",fimage); 
-        biometric.stopVerify(inits,function(){
-            console.log("\ntest status stoptEnroll ");
-            console.log("\ntest fimage stoptEnroll "); 
-        });   
+        // biometric.stopVerify(inits,function(){
+        //     console.log("\ntest status stoptEnroll ");
+        //     console.log("\ntest fimage stoptEnroll "); 
+        // });   
     });    
   
 }
