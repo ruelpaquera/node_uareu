@@ -25,7 +25,7 @@
                     "<(module_root_dir)/lib/libWSQ_library64.so"
                 ]
             }], 
-            ["OS in \"win\"",{                
+            ['OS in "win"',{                
                 "include_dirs": [
                     "<!(node -e \"require('nan')\")",
                     "<!(node -e \"require('zlib')\")", 
