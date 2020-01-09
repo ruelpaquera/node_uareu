@@ -2,14 +2,12 @@
     "targets": [{
         "target_name": "biometric",
 		"sources": [ 
-            "src/verify.cpp", 
-            "src/wsq_to_bmp.cpp", 
-            "src/base64.cpp", 
-            "src/main.cpp", 
-            "src/selection.cpp", 
-            "src/helpers.cpp", 
-            "src/enrollment.cpp", 
-            "src/capture.cpp" ],
+            "src/new/verify.cpp",  
+            "src/new/base64.cpp", 
+            "src/new/main.cpp",
+            "src/new/capture.cpp",
+            "src/new/selection.cpp", 
+            "src/new/helpers.cpp"],
         "conditions": [
             ["OS in \"linux\"",{   
                 "include_dirs": [

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "sudo uareulib/install.sh && node-gyp rebuild",
+    "pack": "npm pack",
     "test": "node test/test.js",
     "rebuild": "node-gyp rebuild",  
     "uareu_uninstall": "sudo uareulib/uninstall",
