@@ -2,6 +2,7 @@ var biometric = require("../index");
 var parseString = require('xml2js').parseString;
 
 var inits = biometric.init(); 
+ 
 if(inits){ 
      let FID_DATA = '<?xml version="1.0" encoding="UTF-8"?><Fid><Bytes>Rk1SACAyMAABKAAz/v8AAAFlAYgAxQDFAQAAAFYsgGMAplRigEsA11xgQBoAsWJfQH4A/EdegKAAy0ldQOcBMkFbgGgBBJ5YgGIAvlJYgG0BQEFTgD8AQ0pSQOsBGz9SQMsA/phRgLYBI0FRgMwBQUZRQDoA4XFQQNcA6JlQQPEBJp9QgCgAalhQQKsBSKdPgFEBGplOQEEBG5dOQFgBYj9OQJIAxqdNgEABQphMQDoAhFVKQBUAl1pJgB0AalZEgFwBSJlCgDUAP6RCgFABAJ5BQBsASE1BQBkAVlJBgPEBTUtAQNYAn0k+gN4BU2A6QNIBTVI3QMYBXg02AK0BaUgzAEYA+IswAP8BHD0uAE0A/KAuAKYBckgsAFsBcZ4rAA8ArGAoAAA=</Bytes><Format>1769473</Format><Version>1.0.0</Version></Fid>'
     // let fmt = "11"; 115246 1562
@@ -14,11 +15,11 @@ if(inits){
         console.log("\ntest status startEnroll 2",status);
     });
     
-    setTimeout(()=>{
-        console.log("\nTimeout 1 ");
-        biometric.stopVerify(inits,function(){            
-            console.log("\nStopTimeout"); 
-        });   
-    },5000);    
+    // setTimeout(()=>{
+    //     console.log("\nTimeout 1 ");
+    //     biometric.stopVerify(inits,function(){            
+    //         console.log("\nStopTimeout"); 
+    //     });   
+    // },5000);   
   
 }

@@ -100,7 +100,7 @@ int CaptureStop(fpVerify_start_cb_ func,void *FPdata){
 	
 	func(fpdata);
 	if(NULL != hReaders) dpfpdd_cancel(hReaders);
-	// dpfpdd_close(hReaders);
-	// dpfpdd_exit();
+	dpfpdd_close(hReaders);
+	dpfpdd_exit();
 	return 0;
 }

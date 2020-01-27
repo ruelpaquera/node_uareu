@@ -1,5 +1,6 @@
 {
   "name": "bio-npm",
+  "private": true,
   "version": "0.1.0",
   "description": "biometric for Node modules.",
   "main": "index.js",
@@ -11,13 +12,6 @@
     "uareu_uninstall": "sudo uareulib/uninstall",
     "uareu_install": "sudo uareulib/install.sh"
   },
-  "keywords": [
-    "uareu fingerprint"
-  ],
-  "_requiredBy": [
-    "#USER",
-    "/"
-  ],
   "author": "Rongky P. Rongcales, Ruel Paquera Jr.",
   "license": "ISC",
   "dependencies": {
@@ -33,5 +27,8 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/ruelpaquera/node_uareu.git#commit-ish"
-  }
+  },
+  "keywords": [
+    "uareu fingerprint"
+  ]
 }
