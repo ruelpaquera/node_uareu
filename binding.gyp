@@ -12,14 +12,14 @@
             ["OS in \"linux\"",{   
                 "include_dirs": [
                     "<!(node -e \"require('nan')\")", 
-                    "<(module_root_dir)/Include", 
+                    "/opt/Crossmatch/urusdk-linux/Include", 
                 ],
                 "libraries": [ 
                     "-L<(module_root_dir)/Include",
                     "-L<(module_root_dir)/lib",
-                    "<(module_root_dir)/lib/libdpfpdd.so",
-                    "<(module_root_dir)/lib/libdpfj.so",
-                    "<(module_root_dir)/lib/libtfm.so",
+                    "/usr/lib/libdpfpdd.so",
+                    "/usr/lib/libdpfj.so",
+                    "/usr/lib/libtfm.so",
                     "<(module_root_dir)/lib/libWSQ_library64.so"
                 ]
             }], 

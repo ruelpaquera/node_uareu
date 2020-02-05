@@ -21,7 +21,7 @@ using v8::FunctionTemplate;
 NAN_METHOD(init)
 { 
     initalized  = dpfpdd_init();
-    if(DPFPDD_SUCCESS != initalized) print_error("dpfpdd_init()", initalized);
+    if(DPFPDD_SUCCESS != initalized) print_error("dpfpdd_init() 1", initalized);
     info.GetReturnValue().Set(initalized == 0);
     return;
 }

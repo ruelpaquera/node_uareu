@@ -65,7 +65,7 @@ static void fpVerify_start_cb(void *edata)
         free(fpdata->pFmd2); 
 }
 NAN_METHOD(startVerify)
-{ 
+{  
     std::string bar = "";
     std::string bar_base64_decode = "";
     v8::Local<v8::Object> jsonObj = info[0]->ToObject();
@@ -78,10 +78,8 @@ NAN_METHOD(startVerify)
     int fingers = 1;
     bool ret = false;
     VERIFYFD_DATA *FPdata; 
-    FPdata = new VERIFYFD_DATA; 
-
-    if(!FPdata) goto error; 
-
+    FPdata = new VERIFYFD_DATA;  
+    if(!FPdata) goto error;  
     bar_base64_decode = base64_decode(bar); 
 
     FPdata->pFmd1 = (unsigned char*)malloc(bar_base64_decode.size());
@@ -91,7 +89,6 @@ NAN_METHOD(startVerify)
     FPdata->nFmdSize2 = 0;
 
     FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
-
     CaptureVerify(&fingers,fpVerify_start_cb,(void*)FPdata);
     
     ret = true;
@@ -140,6 +137,7 @@ static void verify_stop_cb(void *user_data)
     uv_async_send(&data->async);
 }
 NAN_METHOD(stopVerify) {
+    printf("staaaaap\n"); 
     bool ret = false; 
     VERIFYFD_STOP *data;
 
