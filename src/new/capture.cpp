@@ -60,8 +60,13 @@ int CaptureVerify(int *finger,fpVerify_start_cb_ func,void *FPdata){
 	unsigned int vFmdSize; 
 	unsigned char* ppImage;
 	int i = 0; 
-	if(hReaders == NULL) 
+	if(hReaders == NULL) {
 		hReaders = GetReader(szReader, sizeof(szReader),&dpi);
+	} else {
+		dpfpdd_init();
+		hReaders = GetReader(szReader, sizeof(szReader),&dpi);
+	}
+		
 	
 	VERIFYFD_DATA *fpdata = (VERIFYFD_DATA*)FPdata; 
 	int bStop = 0; 
@@ -98,8 +103,12 @@ int CaptureStop(fpVerify_start_cb_ func,void *FPdata){
 		hReaders = GetReader(szReader, sizeof(szReader),&dpi);
 	
 	func(fpdata);
-	if(NULL != hReaders) dpfpdd_cancel(hReaders);
-	dpfpdd_close(hReaders);
-	dpfpdd_exit();
+	if(NULL != hReaders) {
+		dpfpdd_cancel(hReaders);
+		dpfpdd_close(hReaders);
+		dpfpdd_exit();
+		// dpfpdd_init();
+	}
+	
 	return 0;
 }

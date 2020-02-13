@@ -300,27 +300,27 @@ int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigne
 	*ppFt = NULL;
 	*pFtSize = 0;
 	// const char* szFingerName = "any";
-printf("11\n"); 
+// printf("11\n"); 
 	DPFPDD_CAPTURE_PARAM cparam = {};
 	cparam.size = sizeof(cparam);
 	cparam.image_fmt = DPFPDD_IMG_FMT_ISOIEC19794;
 	cparam.image_proc = DPFPDD_IMG_PROC_NONE;
 	cparam.image_res = dpi;
-	printf("12\n"); 
+	// printf("12\n"); 
 	DPFPDD_CAPTURE_RESULT cresult = {};
 	cresult.size = sizeof(cresult);
 	cresult.info.size = sizeof(cresult.info);
-	 printf("13\n"); 
+	//  printf("13\n"); 
 	unsigned int nOrigImageSize = 0; 
 	// printf("dpfpdd_capture1\n");
 	result = dpfpdd_capture(hReader, &cparam, 0, &cresult, &nOrigImageSize, NULL);
 	// printf("dpfpdd_capture11\n");
-	printf("14\n"); 
+	// printf("14\n"); 
 	if(DPFPDD_E_MORE_DATA != result){
 		print_error("dpfpdd_capture()", result);
 		return result;
 	}
-	printf("15\n"); 
+	// printf("15\n"); 
 	// printf("dpfpdd_capture111\n");
 	unsigned char* pImage = (unsigned char*)malloc(nOrigImageSize);
 	if(NULL == pImage){

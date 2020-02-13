@@ -16,10 +16,11 @@ if(inits){
     let result_FID = [];
     for(x = 0; x < FID_DATA.length; x++){
         parseString(FID_DATA[x], {trim: true},function (err, result) { 
+            // console.log("\n\n\n",result.Fid.Bytes[0])
             result_FID[x] = result.Fid.Bytes[0];
         });    
     }
-
+    // console.log(result_FID); 
     biometric.startVerify({fmt: result_FID,stat:1},function(status,fimage){
         console.log("\ntest status startEnroll 2",status);
     });

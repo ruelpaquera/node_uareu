@@ -39,6 +39,7 @@ typedef struct __VERIFYFD_DATA__ {
     int result; // noting = 0, process = 1, complete = 2
     unsigned char *pFmd1; 
     unsigned char *pFmd2;
+    Local<Array> pFmd3 = Nan::New<Array>();
 	unsigned int nFmdSize1 = 0;
 	unsigned int nFmdSize2 = 0;
     unsigned char *pImage;
