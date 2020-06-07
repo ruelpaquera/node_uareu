@@ -113,6 +113,6 @@ int CaptureStop(fpVerify_start_cb_ func,void *FPdata){
 	return 0;
 }
 
-int CaptureDevice() {
+// int CaptureDevice() {
 	
-}
+// }

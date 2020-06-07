@@ -238,8 +238,8 @@ NAN_METHOD(Verify)
     FPdata->nFmdSize1 = bar_base64_decode.size(); 
 
     FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
-    // CaptureVerify(&fingers,fpVerify_start_cb,(void*)FPdata);
-    func(FPdata);
+    CaptureVerify(&fingers,fpVerify_start_cb,(void*)FPdata);
+    // func(FPdata);
     
     ret = true;
 error:
