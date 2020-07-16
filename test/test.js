@@ -21,8 +21,9 @@ if(inits){
         });    
     }
     // console.log(result_FID); 
-    biometric.startVerify({fmt: result_FID,stat:1},function(status,fimage){
-        console.log("\ntest status startEnroll 2",status);
+    biometric.startVerify({fmt: result_FID},function(status,fimage){
+        console.log("\ntest status startEnroll ",status);
+        console.log("\ntest status startEnroll image",fimage);
     });
     
     // setTimeout(()=>{
