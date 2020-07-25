@@ -64,7 +64,11 @@ static void fpVerify_start_cb(void *edata)
                 fpdata->nFmdSize2
             );
             if(result == 1) {
-            
+                // Nan::MaybeLocal<v8::Object> mybuffer = Nan::NewBuffer(fpdata->pImage,1025);
+                argv[0] = Nan::New(result);
+                // argv[1] = Nan::Buffer(fpdata->pImage).ToLocalChecked()
+                // argv[1] = fpdata->pImage;
+                // printf("\n false match_rate %s \n",fpdata->pImage);
                 break;
             }
             if(pFmd != NULL) {
@@ -79,7 +83,7 @@ static void fpVerify_start_cb(void *edata)
         //     (unsigned int )1769473,
         //     fpdata->nFmdSize2
         // );
-    argv[0] = Nan::New(result);
+
 
     callback.Call(2, argv, &asyncResource); 
 

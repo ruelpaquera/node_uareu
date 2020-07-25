@@ -83,7 +83,14 @@ int CaptureVerify(int *finger,fpVerify_start_cb_ func,void *FPdata){
 			fpdata->nFmdSize2 = vFmdSize;
 			fpdata->pImage = ppImage;
 			fpdata->pImageSize = nImageSize;	
-			 
+	
+			// printf("\n-----------------------------"); 
+			// printf("\npFeatures %x",vFmd); 
+			// printf("\nFeaturesSize %d",nImageSize); 
+			// printf("\npImage %u \n",ppImage); 
+			// printf("\npImage %c \n",ppImage); 
+			// printf("\n-----------------------------"); 
+
 			func(fpdata); 
 			ppImage = NULL; 
 			vFmd = NULL;
