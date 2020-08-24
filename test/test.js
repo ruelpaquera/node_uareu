@@ -21,10 +21,16 @@ if(inits){
         });    
     }
     // console.log(result_FID); 
-    biometric.startVerify({fmt: result_FID},function(status,fimage){
-        console.log("\ntest status startEnroll ",status);
-        console.log("\ntest status startEnroll image",fimage);
-    });
+    // let loop = setInterval(() => {        
+        // biometric.startVerify({fmt: result_FID},function(status,fimage){
+        //     console.log("\ntest status startEnroll ",status);
+        //     console.log("\ntest status startEnroll image",fimage);
+        // });
+        biometric.startVerifyMulti({fmt: result_FID,stat:1},function(f1,f2,f3,f4,f5){
+            console.log("\ntest status very 2",f1,f2,f3,f4,f5);
+            // callback(f1,f2,f3,f4,f5);
+        }); 
+    // }, 2000);
     
     // setTimeout(()=>{
     //     console.log("\nTimeout 1 ");

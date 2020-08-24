@@ -30,6 +30,7 @@ NAN_METHOD(init)
 NAN_MODULE_INIT(module_init){
     NAN_EXPORT(target, init);
     NAN_EXPORT(target, startVerify);
+    NAN_EXPORT(target, startVerifyMulti);
     NAN_EXPORT(target, stopVerify);
 }
 NODE_MODULE(fingerprint, module_init)

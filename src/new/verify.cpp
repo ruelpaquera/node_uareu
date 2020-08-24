@@ -66,6 +66,7 @@ static void fpVerify_start_cb(void *edata)
             if(result == 1) {
                 // Nan::MaybeLocal<v8::Object> mybuffer = Nan::NewBuffer(fpdata->pImage,1025);
                 argv[0] = Nan::New(result);
+                argv[1] = Nan::New(i);
                 // argv[1] = Nan::Buffer(fpdata->pImage).ToLocalChecked()
                 // argv[1] = fpdata->pImage;
                 // printf("\n false match_rate %s \n",fpdata->pImage);
@@ -89,6 +90,60 @@ static void fpVerify_start_cb(void *edata)
 
     // if(fpdata->pFmd1 != NULL)
     //     free(fpdata->pFmd1);
+    if(fpdata->pFmd2 != NULL)
+        free(fpdata->pFmd2); 
+}
+
+static void fpVerify_start_cb2(void *edata)
+{
+    VERIFYFD_DATA *fpdata = (VERIFYFD_DATA*)edata; 
+
+    if(!fpdata && fpdata->pFmd1 == NULL)
+        return;
+
+        
+    if(!fpdata && fpdata->pFmd2 == NULL)
+        return;
+        
+
+    Nan::Callback callback(Nan::New<Function>(fpdata->callback));
+    Nan::AsyncResource asyncResource("verifyProgress");
+    Local<Value> argv[6]; 
+    
+    
+    argv[0] = Nan::Null();
+    argv[1] = Nan::Null(); 
+    argv[2] = Nan::Null(); 
+    argv[3] = Nan::Null(); 
+    argv[4] = Nan::Null();
+    argv[5] = Nan::Null();
+    int result = 0;
+    
+    for (unsigned int i = 0; i < fpdata->pFmd3->Length(); i++) {  
+        
+        std::string bar_base64_decode = base64_decode(string(*String::Utf8Value(fpdata->pFmd3->Get(i)))); 
+        unsigned char *pFmd = (unsigned char*)malloc(bar_base64_decode.size());
+        memcpy(pFmd, bar_base64_decode.c_str(), bar_base64_decode.size());  
+
+        result = verifyFP(
+            pFmd,
+            fpdata->pFmd2,
+            (unsigned int )1769473,
+            fpdata->nFmdSize2
+        );
+
+        if(pFmd != NULL) {
+            free(pFmd);
+        }
+
+        if (result == 1) {  
+            argv[i] = Nan::New(result);
+        } else { 
+            argv[i] = Nan::New(result);
+        }
+         
+    }  
+    callback.Call(5, argv, &asyncResource);  
     if(fpdata->pFmd2 != NULL)
         free(fpdata->pFmd2); 
 }
@@ -155,6 +210,42 @@ error:
     return;
 }       
 
+
+NAN_METHOD(startVerifyMulti)
+{  
+    std::string bar = ""; 
+    Local<Array> bar2 = Nan::New<Array>();
+
+    std::string bar_base64_decode = "";
+    v8::Local<v8::Object> jsonObj = info[0]->ToObject();
+    v8::Local<v8::String> barProp = Nan::New("fmt").ToLocalChecked();
+
+    if (Nan::HasOwnProperty(jsonObj, barProp).FromJust()) {
+        v8::Local<v8::Value> barValue = Nan::Get(jsonObj, barProp).ToLocalChecked(); 
+        bar2 = Local<Array>::Cast(barValue); 
+        bar = std::string(*Nan::Utf8String(barValue));
+    }
+
+    int fingers = 1;
+    bool ret = false;
+    VERIFYFD_DATA *FPdata; 
+    FPdata = new VERIFYFD_DATA;  
+    if(!FPdata) goto error;
+
+    FPdata->pFmd3 = Local<Array>::Cast(bar2); 
+
+    FPdata->pFmd2 = (unsigned char*)NULL;
+    FPdata->nFmdSize1 = bar_base64_decode.size();
+    FPdata->nFmdSize2 = 0;
+
+    FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
+    CaptureVerify(&fingers,fpVerify_start_cb2,(void*)FPdata);
+    
+    ret = true;
+error:
+    info.GetReturnValue().Set(Nan::New(ret));
+    return;
+}       
 
 
 /********************************************************************/
