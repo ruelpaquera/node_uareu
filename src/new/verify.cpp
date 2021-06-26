@@ -155,7 +155,9 @@ NAN_METHOD(startVerify)
     std::string bar_base64_decode = "";
     v8::Local<v8::Object> jsonObj = info[0]->ToObject();
     v8::Local<v8::String> barProp = Nan::New("fmt").ToLocalChecked();
- 
+    // unsigned int timeout_ = info[1]->ToObject();
+    int timeout_ = Nan::To<v8::Number>(info[1]).ToLocalChecked()->Value(); 
+    // printf("%d %d \n" , timeout_, info->Length);
     // Local<Array> array = Local<Array>::Cast(barProp);
 
     if (Nan::HasOwnProperty(jsonObj, barProp).FromJust()) {
@@ -177,11 +179,12 @@ NAN_METHOD(startVerify)
     }
 
     int fingers = 1;
+    // int timeout = 10000;
     bool ret = false;
     VERIFYFD_DATA *FPdata; 
     FPdata = new VERIFYFD_DATA;  
     if(!FPdata) goto error;  
-
+    if(timeout_ < 0) goto error;
     // bar_base64_decode = base64_decode(bar);  
     
     // FPdata->pFmd1 = (unsigned char*)malloc(bar_base64_decode.size());
@@ -201,8 +204,8 @@ NAN_METHOD(startVerify)
     FPdata->nFmdSize1 = bar_base64_decode.size();
     FPdata->nFmdSize2 = 0;
 
-    FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
-    CaptureVerify(&fingers,fpVerify_start_cb,(void*)FPdata);
+    FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[2]));
+    CaptureVerify(&fingers,fpVerify_start_cb,(void*)FPdata,timeout_);
     
     ret = true;
 error:
@@ -215,7 +218,7 @@ NAN_METHOD(startVerifyMulti)
 {  
     std::string bar = ""; 
     Local<Array> bar2 = Nan::New<Array>();
-
+    int timeout_ = Nan::To<v8::Number>(info[1]).ToLocalChecked()->Value(); 
     std::string bar_base64_decode = "";
     v8::Local<v8::Object> jsonObj = info[0]->ToObject();
     v8::Local<v8::String> barProp = Nan::New("fmt").ToLocalChecked();
@@ -223,23 +226,25 @@ NAN_METHOD(startVerifyMulti)
     if (Nan::HasOwnProperty(jsonObj, barProp).FromJust()) {
         v8::Local<v8::Value> barValue = Nan::Get(jsonObj, barProp).ToLocalChecked(); 
         bar2 = Local<Array>::Cast(barValue); 
-        bar = std::string(*Nan::Utf8String(barValue));
+        // bar = std::string(*Nan::Utf8String(barValue));
     }
 
     int fingers = 1;
+    // int timeout = 10000;
     bool ret = false;
     VERIFYFD_DATA *FPdata; 
     FPdata = new VERIFYFD_DATA;  
     if(!FPdata) goto error;
+    if(timeout_ < 0) goto error;
 
     FPdata->pFmd3 = Local<Array>::Cast(bar2); 
 
     FPdata->pFmd2 = (unsigned char*)NULL;
     FPdata->nFmdSize1 = bar_base64_decode.size();
-    FPdata->nFmdSize2 = 0;
+    FPdata->nFmdSize2 = 0; 
 
-    FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
-    CaptureVerify(&fingers,fpVerify_start_cb2,(void*)FPdata);
+    FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[2]));
+    CaptureVerify(&fingers,fpVerify_start_cb2,(void*)FPdata,timeout_);
     
     ret = true;
 error:
@@ -322,6 +327,7 @@ NAN_METHOD(Verify)
     }
 
     int fingers = 1;
+    int timeout = 1000;
     bool ret = false;
     VERIFYFD_DATA *FPdata; 
     FPdata = new VERIFYFD_DATA;  
@@ -333,7 +339,7 @@ NAN_METHOD(Verify)
     FPdata->nFmdSize1 = bar_base64_decode.size(); 
 
     FPdata->callback.Reset(v8::Local<v8::Function>::Cast(info[1]));
-    CaptureVerify(&fingers,fpVerify_start_cb,(void*)FPdata);
+    CaptureVerify(&fingers,fpVerify_start_cb,(void*)FPdata,timeout);
     // func(FPdata);
     
     ret = true;

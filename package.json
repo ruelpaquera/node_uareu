@@ -1,14 +1,15 @@
 {
   "name": "bio-npm",
   "private": true,
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "biometric for Node modules.",
   "main": "index.js",
   "scripts": {
     "build": "sudo uareulib/install.sh && node-gyp rebuild",
     "pack": "npm pack",
     "test": "node test/test.js",
-    "rebuild": "node-gyp rebuild",  
+    "rebuild": "node-gyp rebuild",
+    "rebuild-test": "node-gyp rebuild && node test/test.js",  
     "uareu_uninstall": "sudo uareulib/uninstall",
     "uareu_install": "sudo uareulib/install.sh"
   },
