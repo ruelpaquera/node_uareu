@@ -5,6 +5,7 @@
   "description": "biometric for Node modules.",
   "main": "index.js",
   "scripts": {
+    "install":"install -d $(pwd)",
     "build": "sudo uareulib/install.sh && node-gyp rebuild",
     "pack": "npm pack",
     "test": "node test/test.js",
