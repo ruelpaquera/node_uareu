@@ -7,8 +7,13 @@ DEFS_Debug := \
 	'-DUSING_UV_SHARED=1' \
 	'-DUSING_V8_SHARED=1' \
 	'-DV8_DEPRECATION_WARNINGS=1' \
+	'-DV8_DEPRECATION_WARNINGS' \
+	'-DV8_IMMINENT_DEPRECATION_WARNINGS' \
 	'-D_LARGEFILE_SOURCE' \
 	'-D_FILE_OFFSET_BITS=64' \
+	'-D__STDC_FORMAT_MACROS' \
+	'-DOPENSSL_NO_PINSHARED' \
+	'-DOPENSSL_THREADS' \
 	'-DBUILDING_NODE_EXTENSION' \
 	'-DOLD_UV_RUN_SIGNATURE' \
 	'-DDEBUG' \
@@ -33,16 +38,16 @@ CFLAGS_C_Debug :=
 CFLAGS_CC_Debug := \
 	-fno-rtti \
 	-fno-exceptions \
-	-std=gnu++0x
+	-std=gnu++1y
 
 INCS_Debug := \
-	-I/home/ruel/.cache/node-gyp/8.17.0/include/node \
-	-I/home/ruel/.cache/node-gyp/8.17.0/src \
-	-I/home/ruel/.cache/node-gyp/8.17.0/deps/openssl/config \
-	-I/home/ruel/.cache/node-gyp/8.17.0/deps/openssl/openssl/include \
-	-I/home/ruel/.cache/node-gyp/8.17.0/deps/uv/include \
-	-I/home/ruel/.cache/node-gyp/8.17.0/deps/zlib \
-	-I/home/ruel/.cache/node-gyp/8.17.0/deps/v8/include \
+	-I/home/ruel/.cache/node-gyp/12.16.3/include/node \
+	-I/home/ruel/.cache/node-gyp/12.16.3/src \
+	-I/home/ruel/.cache/node-gyp/12.16.3/deps/openssl/config \
+	-I/home/ruel/.cache/node-gyp/12.16.3/deps/openssl/openssl/include \
+	-I/home/ruel/.cache/node-gyp/12.16.3/deps/uv/include \
+	-I/home/ruel/.cache/node-gyp/12.16.3/deps/zlib \
+	-I/home/ruel/.cache/node-gyp/12.16.3/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I/opt/Crossmatch/urusdk-linux/Include
 
@@ -51,8 +56,13 @@ DEFS_Release := \
 	'-DUSING_UV_SHARED=1' \
 	'-DUSING_V8_SHARED=1' \
 	'-DV8_DEPRECATION_WARNINGS=1' \
+	'-DV8_DEPRECATION_WARNINGS' \
+	'-DV8_IMMINENT_DEPRECATION_WARNINGS' \
 	'-D_LARGEFILE_SOURCE' \
 	'-D_FILE_OFFSET_BITS=64' \
+	'-D__STDC_FORMAT_MACROS' \
+	'-DOPENSSL_NO_PINSHARED' \
+	'-DOPENSSL_THREADS' \
 	'-DBUILDING_NODE_EXTENSION' \
 	'-DOLD_UV_RUN_SIGNATURE'
 
@@ -74,16 +84,16 @@ CFLAGS_C_Release :=
 CFLAGS_CC_Release := \
 	-fno-rtti \
 	-fno-exceptions \
-	-std=gnu++0x
+	-std=gnu++1y
 
 INCS_Release := \
-	-I/home/ruel/.cache/node-gyp/8.17.0/include/node \
-	-I/home/ruel/.cache/node-gyp/8.17.0/src \
-	-I/home/ruel/.cache/node-gyp/8.17.0/deps/openssl/config \
-	-I/home/ruel/.cache/node-gyp/8.17.0/deps/openssl/openssl/include \
-	-I/home/ruel/.cache/node-gyp/8.17.0/deps/uv/include \
-	-I/home/ruel/.cache/node-gyp/8.17.0/deps/zlib \
-	-I/home/ruel/.cache/node-gyp/8.17.0/deps/v8/include \
+	-I/home/ruel/.cache/node-gyp/12.16.3/include/node \
+	-I/home/ruel/.cache/node-gyp/12.16.3/src \
+	-I/home/ruel/.cache/node-gyp/12.16.3/deps/openssl/config \
+	-I/home/ruel/.cache/node-gyp/12.16.3/deps/openssl/openssl/include \
+	-I/home/ruel/.cache/node-gyp/12.16.3/deps/uv/include \
+	-I/home/ruel/.cache/node-gyp/12.16.3/deps/zlib \
+	-I/home/ruel/.cache/node-gyp/12.16.3/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I/opt/Crossmatch/urusdk-linux/Include
 
