@@ -7,23 +7,23 @@
             "src/new/main.cpp",
             "src/new/capture.cpp",
             "src/new/selection.cpp", 
-            "src/new/helpers.cpp",
-            "Include/dpfj_compression.h",
-            "Include/dpfj_quality.h",
-            "Include/dpfj.h",
-            "Include/dpfpdd.h"],
+            "src/new/helpers.cpp"],
         "conditions": [
-            ['OS=="linux"',{   
+            ["OS in \"linux\"",{   
                 "include_dirs": [
                     "<!(node -e \"require('nan')\")", 
-                    "Include",
-                    "lib"
+                    "/opt/Crossmatch/urusdk-linux/Include", 
                 ],
-                "libraries": [
-                    "<(module_root_dir)/lib/*",
+                "libraries": [ 
+                    "-L<(module_root_dir)/Include",
+                    "-L<(module_root_dir)/lib",
+                    "/usr/lib/libdpfpdd.so",
+                    "/usr/lib/libdpfj.so",
+                    "/usr/lib/libtfm.so",
+                    "<(module_root_dir)/lib/libWSQ_library64.so"
                 ]
             }], 
-            ['OS=="win"',{                
+            ['OS in "win"',{                
                 "include_dirs": [
                     "<!(node -e \"require('nan')\")",
                     "<!(node -e \"require('zlib')\")", 
@@ -32,7 +32,8 @@
                 ],         
                 "libraries": [
                     "<!(node -e \"require('zlib')\")",  
-                    "<(module_root_dir)/lib/*",
+                    "-l/Include",
+                    "-l/lib"
                 ]
             }]
         ],
