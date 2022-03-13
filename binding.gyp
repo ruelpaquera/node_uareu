@@ -15,44 +15,44 @@
         "conditions": [
             ['OS=="linux"',{   
                 "copies": [{
-                    "destination": "<(module_root_dir)/build/Release/lib",
+                    "destination": "<(module_root_dir)/build/Release",
                     "files": [
-                        "<(module_root_dir)/lib/libdpfpdd.so",
-                        "<(module_root_dir)/lib/libdpfj.so",
-                        "<(module_root_dir)/lib/libtfm.so",
-                        "<(module_root_dir)/lib/libWSQ_library64.so",
-                        "<(module_root_dir)/lib/libdpfpdd_4k.so.5.0.0",
-                        "<(module_root_dir)/lib/libdpfpdd_ptapi.so.1.0.0",
-                        "<(module_root_dir)/lib/libdpfpdd5000.so.3.1.1",
-                        "<(module_root_dir)/lib/libdpfr6.so.3.0.0",
-                        "<(module_root_dir)/lib/libdpfr7.so.3.0.0",
-                        "<(module_root_dir)/lib/libdpuareu_jni.so.3.0.0",
-                        "<(module_root_dir)/lib/libdpuvc.so.3.1.1",
+                        "<(module_root_dir)/Include",
+                        "<(module_root_dir)/lib",
                     ]
                 }],
                 "include_dirs": [
-                    "<!(node -e \"require('nan')\")", 
-                    "<(module_root_dir)/Include",
-                    "<(module_root_dir)/lib"
+                    "<!(node -e \"require('nan')\")",  
+                    "<(module_root_dir)/Include", 
                 ],
-                "libraries": [
-                    "-Llib",  
-                    "-Wl,-rpath=./lib"
+                "libraries": [ 
+                    "<(module_root_dir)/lib/libdpfpdd.so",
+                    "<(module_root_dir)/lib/libdpfj.so",
+                    "<(module_root_dir)/lib/libtfm.so",
+                    "<(module_root_dir)/lib/libWSQ_library64.so",
                 ],
                 "cflags!": [ "-fno-exceptions" ],
                 "cflags_cc!": [ "-fno-exceptions" ],
             }], 
-            ['OS=="win"',{                
+            ['OS=="win"',{ 
+                "copies": [{
+                    "destination": "<(module_root_dir)/build/Release",
+                    "files": [
+                        "<(module_root_dir)/Include",
+                        "<(module_root_dir)/lib",
+                    ]
+                }],             
                 "include_dirs": [
                     "<!(node -e \"require('nan')\")",
-                    "<!(node -e \"require('zlib')\")", 
-                    "./Include",
-                    "./lib"
+                    "<!(node -e \"require('zlib')\")",
+                    "<(module_root_dir)/Include", 
                 ],         
                 "libraries": [
-                    "<!(node -e \"require('zlib')\")",  
-                    "-l/Include",
-                    "-l/lib"
+                    "<!(node -e \"require('zlib')\")",
+                    "<(module_root_dir)/lib/libdpfpdd.so",
+                    "<(module_root_dir)/lib/libdpfj.so",
+                    "<(module_root_dir)/lib/libtfm.so",
+                    "<(module_root_dir)/lib/libWSQ_library64.so",
                 ]
             }]
         ],

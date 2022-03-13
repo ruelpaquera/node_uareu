@@ -26,7 +26,7 @@ if(inits){
         //     console.log("\ntest status startEnroll ",status);
         //     console.log("\ntest status startEnroll image",fimage);
         // });
-        biometric.startVerifyMulti({fmt: result_FID},2000,function(f1,f2,f3,f4,f5){
+        biometric.startVerifyMulti({fmt: result_FID},5000,function(f1,f2,f3,f4,f5){
             console.log("\ntest status very 2",f1,f2,f3,f4,f5);
             // callback(f1,f2,f3,f4,f5);
         }); 

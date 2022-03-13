@@ -1,0 +1,4 @@
+# DigitalPersona 4000B/4500 readers
+DRIVERS=="usb", ATTRS{idVendor}=="05ba", ATTRS{idProduct}=="0008", MODE="0666"
+DRIVERS=="usb", ATTRS{idVendor}=="05ba", ATTRS{idProduct}=="0009", MODE="0666"
+DRIVERS=="usb", ATTRS{idVendor}=="05ba", ATTRS{idProduct}=="000a", MODE="0666"
