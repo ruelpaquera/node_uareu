@@ -1,0 +1,1 @@
+cmd_/home/ruel/Project/node/node_uareu/build/Release/lib := rm -rf "/home/ruel/Project/node/node_uareu/build/Release/lib" && cp -af "/home/ruel/Project/node/node_uareu/lib" "/home/ruel/Project/node/node_uareu/build/Release/lib"

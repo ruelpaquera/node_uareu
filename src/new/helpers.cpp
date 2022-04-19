@@ -148,7 +148,8 @@ void dispose(){
 	dpfpdd_close(g_hReader);
 }
 int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage,unsigned int* _nOrigImageSize){
-	int result = 0; 
+	int result = 0;
+	int timeout = 3; 
 	*ppFt = NULL;
 	*pFtSize = 0;
 
@@ -164,7 +165,7 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 	
 	//get size of the image
 	unsigned int nOrigImageSize = 0;
-	result = dpfpdd_capture(hReader, &cparam, 0, &cresult, &nOrigImageSize, NULL);
+	result = dpfpdd_capture(hReader, &cparam, timeout, &cresult, &nOrigImageSize, NULL);
 	if(DPFPDD_E_MORE_DATA != result){
 		print_error("dpfpdd_capture()", result);
 		return result;
@@ -214,7 +215,7 @@ int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned
 		}
 		if(!is_ready) break; 
 
-		result = dpfpdd_capture(hReader, &cparam, -1, &cresult, &nImageSize, pImage);  
+		result = dpfpdd_capture(hReader, &cparam, timeout, &cresult, &nImageSize, pImage);  
 
 		if(DPFPDD_SUCCESS != result){
 			print_error("dpfpdd_capture()", result);
@@ -447,9 +448,10 @@ int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigne
 	return result;
 }
 
-int CaptureFinger_2(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage,unsigned int* _nOrigImageSize){
-	unsigned int cnt = 0;
-	bool isSecs = false;
+int CaptureFinger_2(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage,unsigned int* _nOrigImageSize,int timeout){
+	// unsigned int cnt = 0;
+	// int timeout = 3000; 
+	// bool isSecs = false;
 	int result = 0; 
 	*ppFt = NULL;
 	*pFtSize = 0;
@@ -500,7 +502,7 @@ int CaptureFinger_2(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsign
 	while(1){  
 		int is_ready = 0;
 		unsigned int nImageSize = nOrigImageSize;
-		while(1){
+		while(1){ 
 			DPFPDD_DEV_STATUS ds;
 			ds.size = sizeof(DPFPDD_DEV_STATUS);
 			result = dpfpdd_get_device_status(hReader, &ds);
@@ -520,7 +522,7 @@ int CaptureFinger_2(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsign
 		}
 		if(!is_ready) break; 
 		// printf("dpfpdd_capture2\n");
-		result = dpfpdd_capture(hReader, &cparam, -1, &cresult, &nImageSize, pImage);  
+		result = dpfpdd_capture(hReader, &cparam, timeout, &cresult, &nImageSize, pImage);  
 
 		if(DPFPDD_SUCCESS != result){
 			print_error("dpfpdd_capture()", result);
@@ -553,6 +555,10 @@ int CaptureFinger_2(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsign
 				}
 			}
 			else if(DPFPDD_QUALITY_CANCELED == cresult.quality){ 
+				result = EINTR;
+			}
+			else if(DPFPDD_QUALITY_TIMED_OUT == cresult.quality){ 
+				break;
 				result = EINTR;
 			}
 			else{

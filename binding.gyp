@@ -1,4 +1,4 @@
-{
+    {
     "targets": [{
         "target_name": "biometric",
 		"sources": [ 
@@ -7,33 +7,52 @@
             "src/new/main.cpp",
             "src/new/capture.cpp",
             "src/new/selection.cpp", 
-            "src/new/helpers.cpp"],
+            "src/new/helpers.cpp",
+            "Include/dpfj_compression.h",
+            "Include/dpfj_quality.h",
+            "Include/dpfj.h",
+            "Include/dpfpdd.h"],
         "conditions": [
-            ["OS in \"linux\"",{   
+            ['OS=="linux"',{   
+                "copies": [{
+                    "destination": "<(module_root_dir)/build/Release",
+                    "files": [
+                        "<(module_root_dir)/Include",
+                        "<(module_root_dir)/lib",
+                    ]
+                }],
                 "include_dirs": [
-                    "<!(node -e \"require('nan')\")", 
-                    "/opt/Crossmatch/urusdk-linux/Include", 
+                    "<!(node -e \"require('nan')\")",  
+                    "<(module_root_dir)/Include", 
                 ],
                 "libraries": [ 
-                    "-L<(module_root_dir)/Include",
-                    "-L<(module_root_dir)/lib",
-                    "/usr/lib/libdpfpdd.so",
-                    "/usr/lib/libdpfj.so",
-                    "/usr/lib/libtfm.so",
-                    "<(module_root_dir)/lib/libWSQ_library64.so"
-                ]
+                    "<(module_root_dir)/lib/libdpfpdd.so",
+                    "<(module_root_dir)/lib/libdpfj.so",
+                    "<(module_root_dir)/lib/libtfm.so",
+                    "<(module_root_dir)/lib/libWSQ_library64.so",
+                ],
+                "cflags!": [ "-fno-exceptions" ],
+                "cflags_cc!": [ "-fno-exceptions" ],
             }], 
-            ['OS in "win"',{                
+            ['OS=="win"',{ 
+                "copies": [{
+                    "destination": "<(module_root_dir)/build/Release",
+                    "files": [
+                        "<(module_root_dir)/Include",
+                        "<(module_root_dir)/lib",
+                    ]
+                }],             
                 "include_dirs": [
                     "<!(node -e \"require('nan')\")",
-                    "<!(node -e \"require('zlib')\")", 
-                    "./Include",
-                    "./lib"
+                    "<!(node -e \"require('zlib')\")",
+                    "<(module_root_dir)/Include", 
                 ],         
                 "libraries": [
-                    "<!(node -e \"require('zlib')\")",  
-                    "-l/Include",
-                    "-l/lib"
+                    "<!(node -e \"require('zlib')\")",
+                    "<(module_root_dir)/lib/libdpfpdd.so",
+                    "<(module_root_dir)/lib/libdpfj.so",
+                    "<(module_root_dir)/lib/libtfm.so",
+                    "<(module_root_dir)/lib/libWSQ_library64.so",
                 ]
             }]
         ],

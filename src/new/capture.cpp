@@ -54,7 +54,7 @@ int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata){
 	dpfpdd_close(hReaders);
 	return bStop;
 }
-int CaptureVerify(int *finger,fpVerify_start_cb_ func,void *FPdata){ 
+int CaptureVerify(int *finger,fpVerify_start_cb_ func,void *FPdata, int timeout){ 
 	const int nFingerCnt = *finger;
 	unsigned char* vFmd;
 	unsigned int vFmdSize; 
@@ -76,7 +76,7 @@ int CaptureVerify(int *finger,fpVerify_start_cb_ func,void *FPdata){
 			bStop = 1;
 			break;
 		} 
-		bStop = CaptureFinger_2(hReaders, dpi, DPFJ_FMD_ANSI_378_2004, &vFmd, &vFmdSize,&ppImage,&nImageSize);
+		bStop = CaptureFinger_2(hReaders, dpi, DPFJ_FMD_ANSI_378_2004, &vFmd, &vFmdSize,&ppImage,&nImageSize,timeout);
  
 		if(!bStop){ 
 			fpdata->pFmd2 = vFmd;

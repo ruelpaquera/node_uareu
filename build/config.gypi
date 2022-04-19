@@ -145,7 +145,7 @@
     "maxsockets": "50",
     "offline": "",
     "sso_poll_frequency": "500",
-    "umask": "0022",
+    "umask": "0002",
     "fund": "true",
     "fetch_retry_maxtimeout": "60000",
     "logs_max": "10",

@@ -4,7 +4,7 @@
 #include <dpfpdd.h>
 
 int fingerCapture(int *finger,fpEnroll_start_cb_ func,void *FPdata);//,void*FPdata
-int CaptureVerify(int *finger,fpVerify_start_cb_ func,void *FPdata);//,void*FPdata
+int CaptureVerify(int *finger,fpVerify_start_cb_ func,void *FPdata,int timeout);//,void*FPdata
 int CaptureStop(fpVerify_start_cb_ func,void *FPdata);//,void*FPdata
 
 //int fingerCapture(DPFPDD_DEV hReaders, int dpi,void(void *edata,int result,unsigned char *pImage,unsigned char *pFmd,unsigned int nFmdSize));

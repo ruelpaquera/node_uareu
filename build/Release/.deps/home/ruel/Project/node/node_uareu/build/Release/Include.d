@@ -1,0 +1,1 @@
+cmd_/home/ruel/Project/node/node_uareu/build/Release/Include := rm -rf "/home/ruel/Project/node/node_uareu/build/Release/Include" && cp -af "/home/ruel/Project/node/node_uareu/Include" "/home/ruel/Project/node/node_uareu/build/Release/Include"
