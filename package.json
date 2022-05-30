@@ -9,8 +9,11 @@
     "build": "sudo uareulib/install.sh && node-gyp rebuild",
     "pack": "npm pack",
     "test": "node test/test.js",
+    "test2": "node test/test2.js",
     "rebuild": "node-gyp rebuild",
     "rebuild-test": "node-gyp rebuild && node test/test.js",
+    "rebuild-test2": "node-gyp rebuild && node test/test2.js",
+    "rebuild-test_emitter": "node-gyp rebuild && node test/test_emitter.js",
     "uareu_uninstall": "sudo uareulib/uninstall",
     "uareu_install": "sudo uareulib/install.sh"
   },
@@ -19,6 +22,7 @@
   "dependencies": {
     "bindings": "^1.5.0",
     "buffer-image-size": "^0.6.4",
+    "event": "^1.0.0",
     "fast-xml-parser": "^3.12.19",
     "file-uri-to-path": "^1.0.0",
     "nan": "^2.14.0",

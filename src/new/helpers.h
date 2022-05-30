@@ -30,9 +30,21 @@ typedef struct __ENROLLFP_STOP__ {
     Nan::Persistent<Function> callback;
 } ENROLLFP_STOP;
 
+typedef struct __SCAN_HANDLE__ {
+    uv_async_t async;
+    Nan::Persistent<Function> callback;
+    int result;
+    unsigned char *pFmd;
+	unsigned int nFmdSize = 0;
+    unsigned char *pImage;
+	unsigned int pImageSize = 0;
+} SCANING_HANDLER;
+
 
 typedef void (*fpEnroll_start_cb_)(void *edata);
 typedef void (*fpVerify_start_cb_)(void *edata);
+typedef void (*fpScanning_cb_)(void *edata);
+
 typedef struct __VERIFYFD_DATA__ {
     uv_async_t async;
     Nan::Persistent<Function> callback; 
@@ -64,3 +76,4 @@ int verifyFP(unsigned char* ppFt1, unsigned char* ppFt2,unsigned int nFmdSize1,u
 int CaptureFinger(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage,unsigned int* _nOrigImageSize);
 int CaptureFinger_(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage,unsigned int* _nOrigImageSize);
 int CaptureFinger_2(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage,unsigned int* _nOrigImageSize,int timeout);
+int CaptureScan(DPFPDD_DEV hReader, int dpi, DPFJ_FMD_FORMAT nFtType, unsigned char** ppFt, unsigned int* pFtSize,unsigned char **ppImage,unsigned int* _nOrigImageSize,int timeout);

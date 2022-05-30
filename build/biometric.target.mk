@@ -104,7 +104,8 @@ OBJS := \
 	$(obj).target/$(TARGET)/src/new/main.o \
 	$(obj).target/$(TARGET)/src/new/capture.o \
 	$(obj).target/$(TARGET)/src/new/selection.o \
-	$(obj).target/$(TARGET)/src/new/helpers.o
+	$(obj).target/$(TARGET)/src/new/helpers.o \
+	$(obj).target/$(TARGET)/src/new/scann.o
 
 # Add to the list of files we specially track dependencies for.
 all_deps += $(OBJS)

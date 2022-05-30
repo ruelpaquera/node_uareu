@@ -33,7 +33,7 @@ Release/obj.target/biometric/src/new/main.o: ../src/new/main.cpp \
  /home/ruel/Project/node/node_uareu/Include/dpfj.h \
  /home/ruel/Project/node/node_uareu/Include/dpfj_compression.h \
  /home/ruel/Project/node/node_uareu/Include/dpfj_quality.h \
- ../src/new/verify.h
+ ../src/new/verify.h ../src/new/scann.h
 ../src/new/main.cpp:
 ../src/new/main.h:
 ../node_modules/nan/nan.h:
@@ -72,3 +72,4 @@ Release/obj.target/biometric/src/new/main.o: ../src/new/main.cpp \
 /home/ruel/Project/node/node_uareu/Include/dpfj_compression.h:
 /home/ruel/Project/node/node_uareu/Include/dpfj_quality.h:
 ../src/new/verify.h:
+../src/new/scann.h:

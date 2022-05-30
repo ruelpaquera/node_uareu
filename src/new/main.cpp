@@ -1,6 +1,7 @@
 #include "main.h"
 #include "helpers.h"
 #include "verify.h"
+#include "scann.h"
 
 #include <dpfpdd.h>
 #include <dpfj.h>
@@ -32,5 +33,6 @@ NAN_MODULE_INIT(module_init){
     NAN_EXPORT(target, startVerify);
     NAN_EXPORT(target, startVerifyMulti);
     NAN_EXPORT(target, stopVerify);
+    NAN_EXPORT(target, scanning);
 }
 NODE_MODULE(fingerprint, module_init)

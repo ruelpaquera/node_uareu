@@ -8,6 +8,7 @@
             "src/new/capture.cpp",
             "src/new/selection.cpp", 
             "src/new/helpers.cpp",
+            "src/new/scann.cpp",
             "Include/dpfj_compression.h",
             "Include/dpfj_quality.h",
             "Include/dpfj.h",
